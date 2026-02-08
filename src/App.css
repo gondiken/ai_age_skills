@@ -1,0 +1,664 @@
+/* ===== App Shell ===== */
+.app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ===== Home Screen ===== */
+.home {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.home-header {
+  text-align: center;
+  padding: 20px 0 10px;
+}
+
+.home-header h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--yellow), var(--orange), var(--pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.home-header .subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.stars-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0;
+  font-size: 1.3rem;
+  color: var(--yellow);
+}
+
+.stars-bar .star-count {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* ===== Game Grid ===== */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 10px 0 30px;
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.game-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid rgba(255,255,255,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.game-card .card-icon {
+  font-size: 3rem;
+  line-height: 1;
+  animation: float 3s ease-in-out infinite;
+}
+
+.game-card .card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.game-card .card-stars {
+  font-size: 0.8rem;
+  color: var(--yellow);
+}
+
+.game-card .card-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 1.2rem;
+}
+
+/* Card color accents */
+.game-card[data-color="pink"] { border-color: var(--pink); }
+.game-card[data-color="purple"] { border-color: var(--purple); }
+.game-card[data-color="blue"] { border-color: var(--blue); }
+.game-card[data-color="green"] { border-color: var(--green); }
+.game-card[data-color="orange"] { border-color: var(--orange); }
+.game-card[data-color="yellow"] { border-color: var(--yellow); }
+
+/* ===== Game Screen Layout ===== */
+.game-screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.game-topbar {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 12px;
+  background: rgba(0,0,0,0.2);
+  flex-shrink: 0;
+}
+
+.back-btn {
+  background: rgba(255,255,255,0.15);
+  color: white;
+  font-size: 1.5rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-topbar .game-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  flex: 1;
+}
+
+.game-topbar .game-stars {
+  font-size: 1.2rem;
+  color: var(--yellow);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.game-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+  gap: 20px;
+}
+
+/* ===== Speak Button ===== */
+.speak-btn {
+  background: rgba(255,255,255,0.15);
+  color: white;
+  font-size: 1.5rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ===== Common Game Elements ===== */
+.question-text {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.4;
+  max-width: 400px;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.option-btn {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border: 3px solid rgba(255,255,255,0.15);
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 2.5rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.15s, border-color 0.15s;
+}
+
+.option-btn:hover {
+  border-color: rgba(255,255,255,0.4);
+  transform: scale(1.05);
+}
+
+.option-btn.correct {
+  border-color: var(--green);
+  background: rgba(74, 222, 128, 0.2);
+  animation: celebrate 0.5s ease;
+}
+
+.option-btn.wrong {
+  border-color: var(--red);
+  background: rgba(248, 113, 113, 0.2);
+  animation: shake 0.4s ease;
+}
+
+.option-btn .option-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* ===== Next / Action Buttons ===== */
+.action-btn {
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 14px 36px;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(192, 132, 252, 0.4);
+  transition: transform 0.15s;
+}
+
+.action-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ===== Feedback Overlay ===== */
+.feedback-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.feedback-emoji {
+  font-size: 6rem;
+  animation: celebrate 0.6s ease;
+}
+
+/* ===== Level complete ===== */
+.level-complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.level-complete .big-emoji {
+  font-size: 5rem;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.level-complete h2 {
+  font-size: 2rem;
+  background: linear-gradient(135deg, var(--yellow), var(--orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.level-complete .earned-stars {
+  font-size: 2.5rem;
+  letter-spacing: 4px;
+}
+
+/* ===== Sequence display (Pattern game) ===== */
+.sequence-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sequence-item {
+  font-size: 2.5rem;
+  background: var(--card-bg);
+  border-radius: 12px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sequence-item.mystery {
+  border: 3px dashed var(--yellow);
+  font-size: 1.5rem;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+/* ===== Connection lines (Systems game) ===== */
+.system-board {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.system-scenario {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.system-parts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.system-part {
+  background: var(--card-bg);
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.system-part .part-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.system-part.selected {
+  border-color: var(--green);
+  background: rgba(74, 222, 128, 0.15);
+  transform: scale(1.05);
+}
+
+.system-part.wrong-pick {
+  border-color: var(--red);
+  animation: shake 0.4s ease;
+}
+
+/* ===== Steps list (Boss Brain game) ===== */
+.steps-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.step-slot {
+  background: var(--card-bg);
+  border: 2px dashed rgba(255,255,255,0.2);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  min-height: 56px;
+}
+
+.step-slot .step-number {
+  background: var(--purple);
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.step-slot.filled {
+  border-style: solid;
+  border-color: var(--green);
+  background: rgba(74, 222, 128, 0.1);
+}
+
+.step-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.step-choice-btn {
+  background: var(--card-bg);
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 14px;
+  padding: 10px 16px;
+  color: white;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s;
+}
+
+.step-choice-btn:hover {
+  border-color: var(--purple);
+  transform: scale(1.05);
+}
+
+.step-choice-btn.used {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* ===== Story Machine ===== */
+.story-scene {
+  font-size: 4rem;
+  text-align: center;
+}
+
+.instruction-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.instruction-slot {
+  background: var(--card-bg);
+  border: 2px dashed rgba(255,255,255,0.2);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 50px;
+  font-size: 1rem;
+}
+
+.instruction-slot .slot-arrow {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.instruction-slot.filled {
+  border-style: solid;
+  border-color: var(--blue);
+}
+
+.instruction-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.instruction-choice {
+  background: var(--card-bg);
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 12px;
+  padding: 8px 14px;
+  color: white;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+
+.instruction-choice:hover {
+  border-color: var(--blue);
+}
+
+.instruction-choice.used {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* ===== Idea Mixer ===== */
+.mixer-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: center;
+}
+
+.mix-item {
+  font-size: 4rem;
+  background: var(--card-bg);
+  border-radius: 20px;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mix-plus {
+  font-size: 2rem;
+  color: var(--yellow);
+  font-weight: 800;
+}
+
+.mix-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.mix-result .result-emoji {
+  font-size: 5rem;
+  animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.mix-result .result-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--yellow);
+}
+
+/* ===== Cause & Effect ===== */
+.cause-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 24px;
+  text-align: center;
+  width: 100%;
+  max-width: 350px;
+}
+
+.cause-card .cause-emoji {
+  font-size: 4rem;
+}
+
+.cause-card .cause-text {
+  font-size: 1.1rem;
+  margin-top: 8px;
+  color: var(--text-muted);
+}
+
+.effect-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.effect-btn {
+  background: var(--card-bg);
+  border: 3px solid rgba(255,255,255,0.15);
+  border-radius: 16px;
+  padding: 14px;
+  font-size: 2.2rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s;
+}
+
+.effect-btn .effect-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.effect-btn:hover {
+  border-color: rgba(255,255,255,0.4);
+  transform: scale(1.05);
+}
+
+.effect-btn.correct {
+  border-color: var(--green);
+  background: rgba(74, 222, 128, 0.2);
+  animation: celebrate 0.5s ease;
+}
+
+.effect-btn.wrong {
+  border-color: var(--red);
+  background: rgba(248, 113, 113, 0.2);
+  animation: shake 0.4s ease;
+}
+
+/* ===== Progress bar ===== */
+.progress-bar {
+  width: 100%;
+  max-width: 300px;
+  height: 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--blue));
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* ===== Confetti particles ===== */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 200;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  top: -10px;
+  animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
