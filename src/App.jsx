@@ -4,6 +4,8 @@ import { useProgress } from './useProgress';
 import { speak, initSpeech, unlockAudio } from './speak';
 import { playTap } from './sounds';
 import Mascot from './Mascot';
+import VoicePicker from './VoicePicker';
+import CreatureGarden from './CreatureGarden';
 import PatternDetective from './games/PatternDetective';
 import BigPictureBuilder from './games/BigPictureBuilder';
 import BossBrain from './games/BossBrain';
@@ -27,13 +29,14 @@ const GAMES = [
 export default function App() {
   const [currentGame, setCurrentGame] = useState(null);
   const [started, setStarted] = useState(false);
-  const { progress, addStars } = useProgress();
+  const [showVoicePicker, setShowVoicePicker] = useState(false);
+  const [showCreatures, setShowCreatures] = useState(false);
+  const { progress, addStars, spendStarsForCreature } = useProgress();
 
   useEffect(() => {
     initSpeech();
   }, []);
 
-  // Splash screen — requires a tap to unlock audio on mobile
   const handleStart = () => {
     unlockAudio();
     playTap();
@@ -49,8 +52,10 @@ export default function App() {
 
   const handleGoHome = () => {
     setCurrentGame(null);
+    setShowCreatures(false);
   };
 
+  // Splash screen
   if (!started) {
     return (
       <div className="app">
@@ -67,13 +72,28 @@ export default function App() {
             Brain Games!
           </h1>
           <button className="action-btn bounce" onClick={handleStart} style={{ fontSize: '1.5rem', padding: '18px 50px' }}>
-            ▶ Play
+            &#9654; Play
           </button>
         </div>
       </div>
     );
   }
 
+  // Creature garden view
+  if (showCreatures) {
+    return (
+      <div className="app">
+        <CreatureGarden
+          totalStars={progress.totalStars}
+          creatures={progress.creatures}
+          onSpendStars={spendStarsForCreature}
+          onBack={handleGoHome}
+        />
+      </div>
+    );
+  }
+
+  // Active game
   if (currentGame) {
     const { Component, id } = currentGame;
     return (
@@ -87,6 +107,7 @@ export default function App() {
     );
   }
 
+  // Home screen
   return (
     <div className="app">
       <div className="home">
@@ -96,8 +117,20 @@ export default function App() {
         </div>
 
         <div className="stars-bar slide-up" style={{ animationDelay: '0.1s' }}>
-          <span style={{ fontSize: '1.6rem' }}>⭐</span>
+          <span style={{ fontSize: '1.6rem' }}>&#11088;</span>
           <span className="star-count">{progress.totalStars}</span>
+        </div>
+
+        {/* Quick action buttons: creatures + voice */}
+        <div className="home-actions slide-up" style={{ animationDelay: '0.15s' }}>
+          <button className="home-action-btn" onClick={() => { playTap(); setShowCreatures(true); }}>
+            <span>🥚</span>
+            <span>MY CREATURES</span>
+          </button>
+          <button className="home-action-btn" onClick={() => { playTap(); setShowVoicePicker(true); }}>
+            <span>🔊</span>
+            <span>VOICE</span>
+          </button>
         </div>
 
         <div className="game-grid">
@@ -110,7 +143,7 @@ export default function App() {
               onClick={() => handleOpenGame(game)}
             >
               {(progress.games[game.id]?.stars || 0) > 0 && (
-                <div className="card-badge">⭐</div>
+                <div className="card-badge">&#11088;</div>
               )}
               <div className="card-icon">{game.icon}</div>
               <div className="card-title">{game.title}</div>
@@ -118,6 +151,8 @@ export default function App() {
           ))}
         </div>
       </div>
+
+      {showVoicePicker && <VoicePicker onClose={() => setShowVoicePicker(false)} />}
     </div>
   );
 }

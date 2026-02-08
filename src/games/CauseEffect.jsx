@@ -7,35 +7,35 @@ import { playCorrect, playWrong, playTap } from '../sounds';
 const PUZZLES = [
   {
     cause: '🌧️', hint: 'It rains a lot...', answer: '🌊', answerLabel: 'Puddles!',
-    choices: [{ emoji: '🌊', label: 'Puddles' }, { emoji: '🔥', label: 'Fire' }, { emoji: '❄️', label: 'Snow' }, { emoji: '🌵', label: 'Desert' }],
+    choices: [{ emoji: '🌊', label: 'PUDDLES' }, { emoji: '🔥', label: 'FIRE' }, { emoji: '❄️', label: 'SNOW' }, { emoji: '🌵', label: 'DESERT' }],
   },
   {
     cause: '☀️', hint: 'Ice cream in the sun...', answer: '🫠', answerLabel: 'It melts!',
-    choices: [{ emoji: '🫠', label: 'Melts' }, { emoji: '🧊', label: 'Freezes' }, { emoji: '💨', label: 'Flies' }, { emoji: '🎵', label: 'Sings' }],
+    choices: [{ emoji: '🫠', label: 'MELTS' }, { emoji: '🧊', label: 'FREEZES' }, { emoji: '💨', label: 'FLIES' }, { emoji: '🎵', label: 'SINGS' }],
   },
   {
     cause: '🌱', hint: 'Water a seed every day...', answer: '🌻', answerLabel: 'Flower!',
-    choices: [{ emoji: '🌻', label: 'Flower' }, { emoji: '🪨', label: 'Rock' }, { emoji: '⭐', label: 'Star' }, { emoji: '🧸', label: 'Teddy' }],
+    choices: [{ emoji: '🌻', label: 'FLOWER' }, { emoji: '🪨', label: 'ROCK' }, { emoji: '⭐', label: 'STAR' }, { emoji: '🧸', label: 'TEDDY' }],
   },
   {
     cause: '💨', hint: 'Strong wind blows...', answer: '🍂', answerLabel: 'Leaves fall!',
-    choices: [{ emoji: '🍂', label: 'Leaves' }, { emoji: '🐟', label: 'Fish' }, { emoji: '📚', label: 'Books' }, { emoji: '🎸', label: 'Guitar' }],
+    choices: [{ emoji: '🍂', label: 'LEAVES' }, { emoji: '🐟', label: 'FISH' }, { emoji: '📚', label: 'BOOKS' }, { emoji: '🎸', label: 'GUITAR' }],
   },
   {
     cause: '🥶', hint: 'It gets very cold...', answer: '❄️', answerLabel: 'Ice!',
-    choices: [{ emoji: '❄️', label: 'Ice' }, { emoji: '🔥', label: 'Fire' }, { emoji: '🌺', label: 'Flowers' }, { emoji: '🦁', label: 'Lion' }],
+    choices: [{ emoji: '❄️', label: 'ICE' }, { emoji: '🔥', label: 'FIRE' }, { emoji: '🌺', label: 'FLOWERS' }, { emoji: '🦁', label: 'LION' }],
   },
   {
     cause: '😴', hint: 'You stay up late...', answer: '🥱', answerLabel: 'Sleepy!',
-    choices: [{ emoji: '🥱', label: 'Sleepy' }, { emoji: '💪', label: 'Strong' }, { emoji: '🎵', label: 'Music' }, { emoji: '🍕', label: 'Pizza' }],
+    choices: [{ emoji: '🥱', label: 'SLEEPY' }, { emoji: '💪', label: 'STRONG' }, { emoji: '🎵', label: 'MUSIC' }, { emoji: '🍕', label: 'PIZZA' }],
   },
   {
     cause: '📚', hint: 'You read every day...', answer: '🧠', answerLabel: 'Smarter!',
-    choices: [{ emoji: '🧠', label: 'Smart' }, { emoji: '🦷', label: 'Teeth' }, { emoji: '🧊', label: 'Ice' }, { emoji: '🎈', label: 'Balloon' }],
+    choices: [{ emoji: '🧠', label: 'SMART' }, { emoji: '🦷', label: 'TEETH' }, { emoji: '🧊', label: 'ICE' }, { emoji: '🎈', label: 'BALLOON' }],
   },
   {
     cause: '🔋', hint: 'Battery runs out...', answer: '📵', answerLabel: 'Off!',
-    choices: [{ emoji: '📵', label: 'Off' }, { emoji: '🚀', label: 'Flies' }, { emoji: '🎉', label: 'Party' }, { emoji: '🌈', label: 'Rainbow' }],
+    choices: [{ emoji: '📵', label: 'OFF' }, { emoji: '🚀', label: 'FLIES' }, { emoji: '🎉', label: 'PARTY' }, { emoji: '🌈', label: 'RAINBOW' }],
   },
 ];
 
@@ -104,6 +104,7 @@ export default function CauseEffect({ stars, onAddStars, onHome }) {
     <GameShell title="What Happens?" emoji="⚡" stars={stars} onBack={onHome} speakText={puzzle.hint + ' What happens?'}>
       <div className="cause-card">
         <div className="cause-emoji">{puzzle.cause}</div>
+        <div className="cause-text">{puzzle.hint}</div>
       </div>
 
       <div className="effect-options">
@@ -114,6 +115,7 @@ export default function CauseEffect({ stars, onAddStars, onHome }) {
             onClick={() => handleChoice(choice)}
           >
             {choice.emoji}
+            <span className="effect-label">{choice.label}</span>
           </button>
         ))}
       </div>

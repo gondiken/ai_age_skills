@@ -7,33 +7,33 @@ import { playCorrect, playWrong, playTap } from '../sounds';
 const PUZZLES = [
   {
     emoji: '🏠', hint: 'Pick what you need to build a house!',
-    correct: ['🧱', '🪟', '🚪', '🔨'],
-    wrong: ['🐟', '🎸'],
+    correct: ['🧱', '🪟', '🚪', '🔨'], wrong: ['🐟', '🎸'],
+    labels: { '🧱': 'BRICKS', '🪟': 'WINDOW', '🚪': 'DOOR', '🔨': 'HAMMER', '🐟': 'FISH', '🎸': 'GUITAR' },
   },
   {
     emoji: '🌳', hint: 'What does a tree need to grow?',
-    correct: ['🌱', '☀️', '💧', '🪴'],
-    wrong: ['🔑', '📺'],
+    correct: ['🌱', '☀️', '💧', '🪴'], wrong: ['🔑', '📺'],
+    labels: { '🌱': 'SEED', '☀️': 'SUN', '💧': 'WATER', '🪴': 'SOIL', '🔑': 'KEY', '📺': 'TV' },
   },
   {
     emoji: '🍕', hint: 'What do you need for pizza?',
-    correct: ['🫓', '🧀', '🍅', '🔥'],
-    wrong: ['🧸', '📚'],
+    correct: ['🫓', '🧀', '🍅', '🔥'], wrong: ['🧸', '📚'],
+    labels: { '🫓': 'DOUGH', '🧀': 'CHEESE', '🍅': 'SAUCE', '🔥': 'OVEN', '🧸': 'TEDDY', '📚': 'BOOKS' },
   },
   {
     emoji: '🚗', hint: 'What does a car need?',
-    correct: ['⛽', '🛞', '🔑', '🛣️'],
-    wrong: ['🌂', '🎈'],
+    correct: ['⛽', '🛞', '🔑', '🛣️'], wrong: ['🌂', '🎈'],
+    labels: { '⛽': 'GAS', '🛞': 'WHEELS', '🔑': 'KEY', '🛣️': 'ROAD', '🌂': 'UMBRELLA', '🎈': 'BALLOON' },
   },
   {
     emoji: '🎵', hint: 'What do you need to play music?',
-    correct: ['🎸', '🎵', '🙌', '👂'],
-    wrong: ['🧊', '🗑️'],
+    correct: ['🎸', '🎵', '🙌', '👂'], wrong: ['🧊', '🗑️'],
+    labels: { '🎸': 'GUITAR', '🎵': 'NOTES', '🙌': 'HANDS', '👂': 'EARS', '🧊': 'ICE', '🗑️': 'TRASH' },
   },
   {
     emoji: '📦', hint: 'What do you need to send a box?',
-    correct: ['📦', '📝', '📮', '🚚'],
-    wrong: ['🧹', '🎲'],
+    correct: ['📦', '📝', '📮', '🚚'], wrong: ['🧹', '🎲'],
+    labels: { '📦': 'BOX', '📝': 'ADDRESS', '📮': 'MAILBOX', '🚚': 'TRUCK', '🧹': 'BROOM', '🎲': 'DICE' },
   },
 ];
 
@@ -107,6 +107,7 @@ export default function BigPictureBuilder({ stars, onAddStars, onHome }) {
               onClick={() => handlePick(part)}
             >
               {part}
+              <span className="part-label">{puzzle.labels[part]}</span>
             </button>
           ))}
         </div>

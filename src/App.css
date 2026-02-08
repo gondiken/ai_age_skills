@@ -104,8 +104,17 @@
   color: var(--yellow);
 }
 
-/* Remove text labels from effect buttons — emoji only */
-.effect-btn { font-size: 2.8rem; }
+/* Part labels (Big Picture game) */
+.system-part {
+  flex-direction: column;
+  gap: 4px;
+}
+.system-part .part-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
 
 .game-card .card-badge {
   position: absolute;
@@ -664,4 +673,239 @@
     transform: translateY(100vh) rotate(720deg);
     opacity: 0;
   }
+}
+
+/* ===== Home Action Buttons ===== */
+.home-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 4px 0 8px;
+}
+
+.home-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card-bg);
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 50px;
+  padding: 8px 16px;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: all 0.15s;
+}
+
+.home-action-btn:hover {
+  border-color: rgba(255,255,255,0.4);
+  transform: scale(1.05);
+}
+
+/* ===== Voice Picker ===== */
+.voice-picker-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  animation: fadeIn 0.2s ease;
+}
+
+.voice-picker {
+  background: linear-gradient(135deg, var(--bg), var(--bg-light));
+  border-radius: 24px;
+  padding: 24px;
+  max-width: 340px;
+  width: 90%;
+  border: 2px solid rgba(255,255,255,0.15);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.voice-picker-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+  color: var(--yellow);
+}
+
+.voice-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.voice-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: var(--card-bg);
+  border: 3px solid rgba(255,255,255,0.15);
+  border-radius: 16px;
+  padding: 12px 16px;
+  color: white;
+  transition: all 0.15s;
+  min-width: 80px;
+}
+
+.voice-option:hover {
+  border-color: rgba(255,255,255,0.4);
+  transform: scale(1.05);
+}
+
+.voice-option.active {
+  border-color: var(--green);
+  background: rgba(74,222,128,0.15);
+}
+
+.voice-emoji {
+  font-size: 2rem;
+}
+
+.voice-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ===== Creature Garden ===== */
+.creature-set-tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.creature-set-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: var(--card-bg);
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 14px;
+  padding: 10px 16px;
+  color: white;
+  font-size: 1.5rem;
+  transition: all 0.15s;
+}
+
+.creature-set-tab.active {
+  border-color: var(--yellow);
+  background: rgba(250,204,21,0.1);
+}
+
+.creature-set-count {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.creature-set-name {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+}
+
+.creature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.creature-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: var(--card-bg);
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 12px 8px;
+  transition: all 0.3s;
+}
+
+.creature-collected {
+  border-color: rgba(74,222,128,0.3);
+  background: rgba(74,222,128,0.08);
+}
+
+.creature-locked {
+  opacity: 0.7;
+}
+
+.creature-svg {
+  animation: float 3s ease-in-out infinite;
+}
+
+.creature-name {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.creature-egg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.creature-egg-shake {
+  animation: shake 0.3s ease infinite;
+}
+
+.creature-hatch-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--yellow), var(--orange));
+  color: #1E1B4B;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 14px 28px;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(250,204,21,0.3);
+  transition: transform 0.15s;
+}
+
+.creature-hatch-btn:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.creature-hatch-btn:disabled {
+  opacity: 0.5;
+  background: rgba(255,255,255,0.15);
+  color: var(--text-muted);
+  box-shadow: none;
+}
+
+.creature-complete {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.creature-complete-text {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--yellow), var(--orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

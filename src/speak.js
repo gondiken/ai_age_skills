@@ -1,4 +1,4 @@
-// Text-to-speech helper — proper voice loading + user-gesture unlock
+// Text-to-speech helper — voice loading + user-gesture unlock + configurable voice
 
 let cachedVoice = null;
 let userHasInteracted = false;
@@ -15,18 +15,29 @@ function loadVoice() {
   return cachedVoice;
 }
 
-// Call once on app mount to pre-load voices
 export function initSpeech() {
   if (!('speechSynthesis' in window)) return;
-  // Chrome loads voices async
   if (window.speechSynthesis.onvoiceschanged !== undefined) {
     window.speechSynthesis.onvoiceschanged = () => loadVoice();
   }
-  // Firefox/Safari may already have voices
   if (window.speechSynthesis.getVoices().length > 0) loadVoice();
+
+  // Load saved voice preset
+  try {
+    const saved = localStorage.getItem('brain_games_voice');
+    const presets = {
+      default: { rate: 0.85, pitch: 1.1 },
+      slow: { rate: 0.65, pitch: 0.9 },
+      fast: { rate: 1.1, pitch: 1.2 },
+      deep: { rate: 0.8, pitch: 0.6 },
+      high: { rate: 0.95, pitch: 1.8 },
+    };
+    const p = presets[saved] || presets.default;
+    window.__voiceRate = p.rate;
+    window.__voicePitch = p.pitch;
+  } catch { /* ignore */ }
 }
 
-// Call on first user tap to unlock audio on mobile browsers
 export function unlockAudio() {
   if (userHasInteracted) return;
   userHasInteracted = true;
@@ -44,11 +55,10 @@ export function speak(text) {
 
   window.speechSynthesis.cancel();
 
-  // Small delay helps Chrome after cancel()
   setTimeout(() => {
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.85;
-    utterance.pitch = 1.1;
+    utterance.rate = window.__voiceRate || 0.85;
+    utterance.pitch = window.__voicePitch || 1.1;
     utterance.volume = 1;
 
     const voice = loadVoice();
@@ -56,7 +66,6 @@ export function speak(text) {
 
     window.speechSynthesis.speak(utterance);
 
-    // Chrome bug: resume periodically to prevent stalling
     const keepAlive = setInterval(() => {
       if (!window.speechSynthesis.speaking) {
         clearInterval(keepAlive);

@@ -14,6 +14,7 @@ const defaultProgress = {
     sort: { stars: 0, highLevel: 0 },
     memory: { stars: 0, highLevel: 0 },
   },
+  creatures: {},
 };
 
 export function useProgress() {
@@ -26,6 +27,7 @@ export function useProgress() {
           ...defaultProgress,
           ...parsed,
           games: { ...defaultProgress.games, ...parsed.games },
+          creatures: parsed.creatures || {},
         };
       }
       return defaultProgress;
@@ -52,5 +54,20 @@ export function useProgress() {
     }));
   };
 
-  return { progress, addStars };
+  const spendStarsForCreature = (cost, setId, creatureId) => {
+    setProgress(prev => {
+      const currentCreatures = prev.creatures[setId] || [];
+      if (currentCreatures.includes(creatureId)) return prev;
+      return {
+        ...prev,
+        totalStars: Math.max(0, prev.totalStars - cost),
+        creatures: {
+          ...prev.creatures,
+          [setId]: [...currentCreatures, creatureId],
+        },
+      };
+    });
+  };
+
+  return { progress, addStars, spendStarsForCreature };
 }
