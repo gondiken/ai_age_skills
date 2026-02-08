@@ -1,65 +1,49 @@
 import { useState, useEffect, useCallback } from 'react';
 import GameShell from '../GameShell';
 import LevelComplete from '../LevelComplete';
-import { speak } from '../speak';
+import { speak, unlockAudio } from '../speak';
+import { playCorrect, playWrong, playTap } from '../sounds';
 
-// Giving clear instructions (like prompting an AI) - pick instructions in order
 const PUZZLES = [
   {
-    scene: '🤖',
-    task: 'Tell the robot to make breakfast!',
+    scene: '🤖', hint: 'Tell the robot to cook!',
     steps: [
-      { emoji: '🚶', text: 'Go to kitchen' },
-      { emoji: '🍳', text: 'Get a pan' },
-      { emoji: '🥚', text: 'Crack an egg' },
-      { emoji: '🔥', text: 'Cook it' },
+      { emoji: '🚶', text: 'Go kitchen' },
+      { emoji: '🍳', text: 'Get pan' },
+      { emoji: '🥚', text: 'Crack egg' },
+      { emoji: '🔥', text: 'Cook' },
     ],
-    wrong: [
-      { emoji: '🛁', text: 'Take a bath' },
-      { emoji: '📖', text: 'Read a book' },
-    ],
+    wrong: [{ emoji: '🛁', text: 'Bath' }, { emoji: '📖', text: 'Read' }],
   },
   {
-    scene: '🐕',
-    task: 'Tell your dog to do a trick!',
+    scene: '🐕', hint: 'Teach the dog a trick!',
     steps: [
-      { emoji: '👀', text: 'Look at dog' },
-      { emoji: '🫴', text: 'Show a treat' },
+      { emoji: '👀', text: 'Look' },
+      { emoji: '🫴', text: 'Show treat' },
       { emoji: '🗣️', text: 'Say sit' },
       { emoji: '🦴', text: 'Give treat' },
     ],
-    wrong: [
-      { emoji: '🏃', text: 'Run away' },
-      { emoji: '😴', text: 'Go to sleep' },
-    ],
+    wrong: [{ emoji: '🏃', text: 'Run' }, { emoji: '😴', text: 'Sleep' }],
   },
   {
-    scene: '🎮',
-    task: 'Tell a friend how to play a game!',
+    scene: '🎮', hint: 'Tell a friend to play!',
     steps: [
       { emoji: '📺', text: 'Turn on TV' },
-      { emoji: '🎮', text: 'Pick up controller' },
+      { emoji: '🎮', text: 'Get controller' },
       { emoji: '▶️', text: 'Press start' },
-      { emoji: '🕹️', text: 'Move the stick' },
+      { emoji: '🕹️', text: 'Move stick' },
     ],
-    wrong: [
-      { emoji: '🧹', text: 'Sweep floor' },
-      { emoji: '🍎', text: 'Eat an apple' },
-    ],
+    wrong: [{ emoji: '🧹', text: 'Sweep' }, { emoji: '🍎', text: 'Eat apple' }],
   },
   {
-    scene: '🧸',
-    task: 'Tell someone how to wrap a gift!',
+    scene: '🧸', hint: 'Wrap a gift!',
     steps: [
-      { emoji: '🎁', text: 'Get the gift' },
+      { emoji: '🎁', text: 'Get gift' },
       { emoji: '📃', text: 'Get paper' },
-      { emoji: '✂️', text: 'Cut paper' },
-      { emoji: '🎀', text: 'Add a bow' },
+      { emoji: '✂️', text: 'Cut' },
+      { emoji: '🎀', text: 'Add bow' },
     ],
-    wrong: [
-      { emoji: '🧊', text: 'Get ice' },
-      { emoji: '🔔', text: 'Ring bell' },
-    ],
+    wrong: [{ emoji: '🧊', text: 'Ice' }, { emoji: '🔔', text: 'Ring bell' }],
   },
 ];
 
@@ -83,60 +67,48 @@ export default function StoryMachine({ stars, onAddStars, onHome }) {
   useEffect(() => {
     setAllChoices(shuffle([...puzzle.steps, ...puzzle.wrong]));
     setPlaced([]);
-    speak(puzzle.task);
+    speak(puzzle.hint);
   }, [puzzleIndex]);
 
   const handlePick = useCallback((choice) => {
     const nextIndex = placed.length;
     if (nextIndex >= puzzle.steps.length) return;
+    unlockAudio();
+    playTap();
     const correctStep = puzzle.steps[nextIndex];
     if (choice.text === correctStep.text) {
       const newPlaced = [...placed, choice];
       setPlaced(newPlaced);
-      speak(choice.text);
+      playCorrect();
       if (newPlaced.length === puzzle.steps.length) {
-        speak('Perfect instructions! The robot knows what to do!');
         onAddStars('story', 2);
-        setTimeout(() => setShowComplete(true), 800);
+        setTimeout(() => setShowComplete(true), 600);
       }
-    } else if (puzzle.wrong.some(w => w.text === choice.text)) {
-      speak('That does not help here!');
     } else {
-      speak('Good idea, but not yet!');
+      playWrong();
     }
   }, [placed, puzzle, onAddStars]);
 
-  const handleNext = () => {
-    setShowComplete(false);
-    setPuzzleIndex(i => i + 1);
-  };
-
   if (showComplete) {
     return (
-      <GameShell title="Story Machine" stars={stars} onBack={onHome}>
-        <LevelComplete starsEarned={2} onNext={handleNext} onHome={onHome} />
+      <GameShell title="Story Machine" emoji="🤖" stars={stars} onBack={onHome}>
+        <LevelComplete starsEarned={2} onNext={() => { setShowComplete(false); setPuzzleIndex(i => i + 1); }} onHome={onHome} />
       </GameShell>
     );
   }
 
   return (
-    <GameShell
-      title="Story Machine"
-      stars={stars}
-      onBack={onHome}
-      speakText={puzzle.task}
-    >
-      <div className="story-scene">{puzzle.scene}</div>
-      <div className="question-text">{puzzle.task}</div>
+    <GameShell title="Story Machine" emoji="🤖" stars={stars} onBack={onHome} speakText={puzzle.hint}>
+      <div style={{ fontSize: '4rem' }}>{puzzle.scene}</div>
 
       <div className="instruction-slots">
         {puzzle.steps.map((_, i) => (
           <div key={i} className={`instruction-slot ${i < placed.length ? 'filled' : ''}`}>
-            <span className="slot-arrow">{i < placed.length ? '✅' : `${i + 1}.`}</span>
+            <span className="slot-arrow">{i < placed.length ? '✅' : `${i + 1}`}</span>
             {i < placed.length ? (
-              <span className="pop-in">{placed[i].emoji} {placed[i].text}</span>
+              <span className="pop-in"><span style={{ fontSize: '1.3rem' }}>{placed[i].emoji}</span> {placed[i].text}</span>
             ) : (
-              <span style={{ color: 'var(--text-muted)' }}>What's next?</span>
+              <span style={{ color: 'var(--text-muted)' }}>?</span>
             )}
           </div>
         ))}
@@ -146,12 +118,8 @@ export default function StoryMachine({ stars, onAddStars, onHome }) {
         {allChoices.map((choice, i) => {
           const used = placed.some(p => p.text === choice.text);
           return (
-            <button
-              key={i}
-              className={`instruction-choice ${used ? 'used' : ''}`}
-              onClick={() => handlePick(choice)}
-            >
-              {choice.emoji} {choice.text}
+            <button key={i} className={`instruction-choice ${used ? 'used' : ''}`} onClick={() => handlePick(choice)}>
+              <span style={{ fontSize: '1.3rem' }}>{choice.emoji}</span> {choice.text}
             </button>
           );
         })}

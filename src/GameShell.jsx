@@ -1,19 +1,30 @@
-import { speak } from './speak';
+import { speak, unlockAudio } from './speak';
+import { playTap } from './sounds';
 
-export default function GameShell({ title, stars, onBack, speakText, children }) {
+export default function GameShell({ title, emoji, stars, onBack, speakText, children }) {
+  const handleBack = () => {
+    unlockAudio();
+    playTap();
+    onBack();
+  };
+
+  const handleSpeak = () => {
+    unlockAudio();
+    speak(speakText);
+  };
+
   return (
     <div className="game-screen">
       <div className="game-topbar">
-        <button className="back-btn" onClick={onBack}>&#8592;</button>
+        <button className="back-btn" onClick={handleBack}>&#8592;</button>
+        {emoji && <span style={{ fontSize: '1.4rem' }}>{emoji}</span>}
         <div className="game-title">{title}</div>
         {speakText && (
-          <button className="speak-btn" onClick={() => speak(speakText)}>
-            &#128264;
+          <button className="speak-btn" onClick={handleSpeak}>
+            &#128266;
           </button>
         )}
-        <div className="game-stars">
-          &#11088; {stars}
-        </div>
+        <div className="game-stars">&#11088; {stars}</div>
       </div>
       <div className="game-body">
         {children}

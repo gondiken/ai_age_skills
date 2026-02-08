@@ -1,68 +1,62 @@
 import { useState, useEffect, useCallback } from 'react';
 import GameShell from '../GameShell';
 import LevelComplete from '../LevelComplete';
-import { speak } from '../speak';
+import { speak, unlockAudio } from '../speak';
+import { playCorrect, playWrong, playTap } from '../sounds';
 
-// Agency / decomposition: put steps in the right order
 const PUZZLES = [
   {
-    task: '🥪 Make a Sandwich',
-    hint: 'Put the steps in order to make a sandwich!',
+    emoji: '🥪', hint: 'Make a sandwich!',
     steps: [
       { emoji: '🍞', text: 'Get bread' },
       { emoji: '🧈', text: 'Spread butter' },
       { emoji: '🧀', text: 'Add cheese' },
-      { emoji: '🍞', text: 'Put bread on top' },
+      { emoji: '🍞', text: 'Top bread' },
     ],
   },
   {
-    task: '🎨 Paint a Picture',
-    hint: 'What do you do first, second, third?',
+    emoji: '🎨', hint: 'Paint a picture!',
     steps: [
       { emoji: '📄', text: 'Get paper' },
       { emoji: '🎨', text: 'Pick colors' },
-      { emoji: '🖌️', text: 'Paint!' },
-      { emoji: '🖼️', text: 'Hang it up' },
+      { emoji: '🖌️', text: 'Paint' },
+      { emoji: '🖼️', text: 'Hang it' },
     ],
   },
   {
-    task: '🌱 Plant a Flower',
-    hint: 'How do you plant a flower?',
+    emoji: '🌱', hint: 'Plant a flower!',
     steps: [
-      { emoji: '🕳️', text: 'Dig a hole' },
-      { emoji: '🌱', text: 'Put seed in' },
-      { emoji: '🪣', text: 'Cover with dirt' },
-      { emoji: '💧', text: 'Water it' },
+      { emoji: '🕳️', text: 'Dig hole' },
+      { emoji: '🌱', text: 'Put seed' },
+      { emoji: '🪣', text: 'Add dirt' },
+      { emoji: '💧', text: 'Water' },
     ],
   },
   {
-    task: '🦷 Brush Your Teeth',
-    hint: 'The steps to brush your teeth!',
+    emoji: '🦷', hint: 'Brush teeth!',
     steps: [
-      { emoji: '🪥', text: 'Get toothbrush' },
-      { emoji: '🧴', text: 'Add toothpaste' },
-      { emoji: '😬', text: 'Brush teeth' },
-      { emoji: '💦', text: 'Rinse mouth' },
+      { emoji: '🪥', text: 'Get brush' },
+      { emoji: '🧴', text: 'Add paste' },
+      { emoji: '😬', text: 'Brush' },
+      { emoji: '💦', text: 'Rinse' },
     ],
   },
   {
-    task: '📬 Send a Letter',
-    hint: 'How do you send a letter?',
+    emoji: '🎂', hint: 'Bake a cake!',
     steps: [
-      { emoji: '✏️', text: 'Write letter' },
-      { emoji: '📨', text: 'Put in envelope' },
-      { emoji: '📮', text: 'Add a stamp' },
-      { emoji: '📭', text: 'Put in mailbox' },
-    ],
-  },
-  {
-    task: '🎂 Bake a Cake',
-    hint: 'Put the baking steps in order!',
-    steps: [
-      { emoji: '🥣', text: 'Mix ingredients' },
+      { emoji: '🥣', text: 'Mix' },
       { emoji: '🍰', text: 'Pour in pan' },
-      { emoji: '🔥', text: 'Bake in oven' },
-      { emoji: '🎂', text: 'Add frosting' },
+      { emoji: '🔥', text: 'Bake' },
+      { emoji: '🎂', text: 'Frosting' },
+    ],
+  },
+  {
+    emoji: '📬', hint: 'Send a letter!',
+    steps: [
+      { emoji: '✏️', text: 'Write' },
+      { emoji: '📨', text: 'Envelope' },
+      { emoji: '📮', text: 'Stamp' },
+      { emoji: '📭', text: 'Mailbox' },
     ],
   },
 ];
@@ -91,53 +85,43 @@ export default function BossBrain({ stars, onAddStars, onHome }) {
   }, [puzzleIndex]);
 
   const handlePick = useCallback((step) => {
+    unlockAudio();
+    playTap();
     const nextIndex = placed.length;
     const correctStep = puzzle.steps[nextIndex];
     if (step.text === correctStep.text) {
       const newPlaced = [...placed, step];
       setPlaced(newPlaced);
-      speak(step.text);
+      playCorrect();
       if (newPlaced.length === puzzle.steps.length) {
-        speak('You did it! All steps in order!');
         onAddStars('boss', 2);
-        setTimeout(() => setShowComplete(true), 800);
+        setTimeout(() => setShowComplete(true), 600);
       }
     } else {
-      speak('Not that one yet! Think about what comes first.');
+      playWrong();
     }
   }, [placed, puzzle, onAddStars]);
 
-  const handleNext = () => {
-    setShowComplete(false);
-    setPuzzleIndex(i => i + 1);
-  };
-
   if (showComplete) {
     return (
-      <GameShell title="Boss Brain" stars={stars} onBack={onHome}>
-        <LevelComplete starsEarned={2} onNext={handleNext} onHome={onHome} />
+      <GameShell title="Boss Brain" emoji="👑" stars={stars} onBack={onHome}>
+        <LevelComplete starsEarned={2} onNext={() => { setShowComplete(false); setPuzzleIndex(i => i + 1); }} onHome={onHome} />
       </GameShell>
     );
   }
 
   return (
-    <GameShell
-      title="Boss Brain"
-      stars={stars}
-      onBack={onHome}
-      speakText={puzzle.hint}
-    >
-      <div className="question-text">{puzzle.task}</div>
-      <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{puzzle.hint}</div>
+    <GameShell title="Boss Brain" emoji="👑" stars={stars} onBack={onHome} speakText={puzzle.hint}>
+      <div style={{ fontSize: '3rem' }}>{puzzle.emoji}</div>
 
       <div className="steps-area">
         {puzzle.steps.map((_, i) => (
           <div key={i} className={`step-slot ${i < placed.length ? 'filled' : ''}`}>
             <div className="step-number">{i + 1}</div>
             {i < placed.length ? (
-              <span className="pop-in">{placed[i].emoji} {placed[i].text}</span>
+              <span className="pop-in" style={{ fontSize: '1.3rem' }}>{placed[i].emoji} {placed[i].text}</span>
             ) : (
-              <span style={{ color: 'var(--text-muted)' }}>...</span>
+              <span style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>?</span>
             )}
           </div>
         ))}
@@ -147,12 +131,8 @@ export default function BossBrain({ stars, onAddStars, onHome }) {
         {shuffledSteps.map((step, i) => {
           const used = placed.some(p => p.text === step.text);
           return (
-            <button
-              key={i}
-              className={`step-choice-btn ${used ? 'used' : ''}`}
-              onClick={() => handlePick(step)}
-            >
-              {step.emoji} {step.text}
+            <button key={i} className={`step-choice-btn ${used ? 'used' : ''}`} onClick={() => handlePick(step)}>
+              <span style={{ fontSize: '1.5rem' }}>{step.emoji}</span> {step.text}
             </button>
           );
         })}

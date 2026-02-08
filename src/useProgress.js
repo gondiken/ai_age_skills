@@ -11,6 +11,8 @@ const defaultProgress = {
     story: { stars: 0, highLevel: 0 },
     mixer: { stars: 0, highLevel: 0 },
     cause: { stars: 0, highLevel: 0 },
+    sort: { stars: 0, highLevel: 0 },
+    memory: { stars: 0, highLevel: 0 },
   },
 };
 
@@ -18,7 +20,15 @@ export function useProgress() {
   const [progress, setProgress] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : defaultProgress;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          ...defaultProgress,
+          ...parsed,
+          games: { ...defaultProgress.games, ...parsed.games },
+        };
+      }
+      return defaultProgress;
     } catch {
       return defaultProgress;
     }
@@ -36,7 +46,7 @@ export function useProgress() {
         ...prev.games,
         [gameId]: {
           ...prev.games[gameId],
-          stars: prev.games[gameId].stars + count,
+          stars: (prev.games[gameId]?.stars || 0) + count,
         },
       },
     }));

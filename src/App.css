@@ -35,6 +35,11 @@
   margin-top: 4px;
 }
 
+/* Splash screen */
+.splash-mascot {
+  animation: float 3s ease-in-out infinite;
+}
+
 .stars-bar {
   display: flex;
   align-items: center;
@@ -98,6 +103,9 @@
   font-size: 0.8rem;
   color: var(--yellow);
 }
+
+/* Remove text labels from effect buttons — emoji only */
+.effect-btn { font-size: 2.8rem; }
 
 .game-card .card-badge {
   position: absolute;
@@ -349,18 +357,13 @@
 .system-part {
   background: var(--card-bg);
   border: 2px solid rgba(255,255,255,0.15);
-  border-radius: 12px;
-  padding: 10px 16px;
-  font-size: 1.8rem;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 2.2rem;
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   transition: all 0.2s;
-}
-
-.system-part .part-label {
-  font-size: 0.75rem;
-  font-weight: 600;
 }
 
 .system-part.selected {

@@ -1,20 +1,23 @@
 import { useState, useEffect } from 'react';
 import GameShell from '../GameShell';
 import LevelComplete from '../LevelComplete';
-import { speak } from '../speak';
+import { speak, unlockAudio } from '../speak';
+import { playCorrect, playWrong, playTap } from '../sounds';
 
-// Creative thinking: combine two things to make something new
+// Fixed combos — each makes intuitive sense for a 6-year-old
 const COMBOS = [
-  { a: '🐴', b: '🦄', result: '🦄', name: 'Unicorn!', hint: 'A horse plus magic...' },
-  { a: '🚗', b: '✈️', result: '🚀', name: 'Rocket!', hint: 'A car that can fly really fast...' },
-  { a: '🏠', b: '🌊', result: '🚢', name: 'Ship!', hint: 'A house on the water...' },
-  { a: '📱', b: '📷', result: '🤳', name: 'Selfie!', hint: 'A phone with a camera...' },
-  { a: '🐟', b: '🦅', result: '🐉', name: 'Dragon!', hint: 'Scales and wings together...' },
-  { a: '🌙', b: '💡', result: '⭐', name: 'Star!', hint: 'Night sky plus light...' },
-  { a: '🍦', b: '🎂', result: '🧁', name: 'Cupcake!', hint: 'Ice cream meets cake...' },
-  { a: '🐛', b: '🌺', result: '🦋', name: 'Butterfly!', hint: 'A caterpillar and a flower...' },
-  { a: '🎵', b: '📺', result: '🎬', name: 'Movie!', hint: 'Music and a screen...' },
-  { a: '🧊', b: '☀️', result: '💧', name: 'Water!', hint: 'Ice in the sun...' },
+  { a: '❄️', b: '☀️', result: '💧', name: 'Water!', hint: 'Ice plus sun...' },
+  { a: '🌧️', b: '☀️', result: '🌈', name: 'Rainbow!', hint: 'Rain plus sunshine...' },
+  { a: '🍞', b: '🧀', result: '🥪', name: 'Sandwich!', hint: 'Bread plus cheese...' },
+  { a: '🐛', b: '🕐', result: '🦋', name: 'Butterfly!', hint: 'Caterpillar plus time...' },
+  { a: '🥛', b: '🍫', result: '🍪', name: 'Cookie!', hint: 'Milk plus chocolate...' },
+  { a: '🌊', b: '🏖️', result: '🐚', name: 'Seashell!', hint: 'Waves plus beach...' },
+  { a: '🌙', b: '⭐', result: '🌌', name: 'Night sky!', hint: 'Moon plus stars...' },
+  { a: '🥚', b: '🔥', result: '🍳', name: 'Fried egg!', hint: 'Egg plus fire...' },
+  { a: '🌿', b: '💧', result: '🌻', name: 'Flower!', hint: 'Plant plus water...' },
+  { a: '🏠', b: '🛞', result: '🚐', name: 'Camper van!', hint: 'House plus wheels...' },
+  { a: '🐟', b: '🍣', result: '🍱', name: 'Sushi!', hint: 'Fish plus rice...' },
+  { a: '⚡', b: '🌧️', result: '⛈️', name: 'Storm!', hint: 'Lightning plus rain...' },
 ];
 
 function shuffle(arr) {
@@ -38,7 +41,6 @@ export default function IdeaMixer({ stars, onAddStars, onHome }) {
 
   useEffect(() => {
     setMixed(false);
-    // Create 4 options with 1 correct
     const wrongOptions = shuffle(COMBOS.filter(c => c.result !== combo.result))
       .slice(0, 3)
       .map(c => c.result);
@@ -48,8 +50,11 @@ export default function IdeaMixer({ stars, onAddStars, onHome }) {
 
   const handleGuess = (choice) => {
     if (mixed) return;
+    unlockAudio();
+    playTap();
     if (choice === combo.result) {
       setMixed(true);
+      playCorrect();
       speak(combo.name);
       onAddStars('mixer', 1);
       const newRound = roundCount + 1;
@@ -57,39 +62,27 @@ export default function IdeaMixer({ stars, onAddStars, onHome }) {
       if (newRound % roundSize === 0) {
         setTimeout(() => setShowComplete(true), 1200);
       } else {
-        setTimeout(() => setComboIndex(i => i + 1), 1500);
+        setTimeout(() => setComboIndex(i => i + 1), 1200);
       }
     } else {
-      speak('Try another one!');
+      playWrong();
     }
-  };
-
-  const handleNext = () => {
-    setShowComplete(false);
-    setComboIndex(i => i + 1);
   };
 
   if (showComplete) {
     return (
-      <GameShell title="Idea Mixer" stars={stars} onBack={onHome}>
-        <LevelComplete starsEarned={roundSize} onNext={handleNext} onHome={onHome} />
+      <GameShell title="Idea Mixer" emoji="💡" stars={stars} onBack={onHome}>
+        <LevelComplete starsEarned={roundSize} onNext={() => { setShowComplete(false); setComboIndex(i => i + 1); }} onHome={onHome} />
       </GameShell>
     );
   }
 
   return (
-    <GameShell
-      title="Idea Mixer"
-      stars={stars}
-      onBack={onHome}
-      speakText={combo.hint}
-    >
-      <div className="question-text">{combo.hint}</div>
-
+    <GameShell title="Idea Mixer" emoji="💡" stars={stars} onBack={onHome} speakText={combo.hint}>
       <div className="mixer-area">
         <div className="mix-item pop-in">{combo.a}</div>
         <div className="mix-plus">+</div>
-        <div className="mix-item pop-in" style={{ animationDelay: '0.2s' }}>{combo.b}</div>
+        <div className="mix-item pop-in" style={{ animationDelay: '0.15s' }}>{combo.b}</div>
         <div className="mix-plus">=</div>
         <div className="mix-item" style={{ fontSize: mixed ? '4rem' : '2rem' }}>
           {mixed ? (

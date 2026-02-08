@@ -1,105 +1,41 @@
 import { useState, useEffect, useCallback } from 'react';
 import GameShell from '../GameShell';
 import LevelComplete from '../LevelComplete';
-import { speak } from '../speak';
+import { speak, unlockAudio } from '../speak';
+import { playCorrect, playWrong, playTap } from '../sounds';
 
-// Cause and effect: what happens when...?
 const PUZZLES = [
   {
-    cause: '🌧️',
-    causeText: 'It rains a lot...',
-    answer: '🌊',
-    answerLabel: 'Puddles!',
-    choices: [
-      { emoji: '🌊', label: 'Puddles' },
-      { emoji: '🔥', label: 'Fire' },
-      { emoji: '❄️', label: 'Snow' },
-      { emoji: '🌵', label: 'Desert' },
-    ],
+    cause: '🌧️', hint: 'It rains a lot...', answer: '🌊', answerLabel: 'Puddles!',
+    choices: [{ emoji: '🌊', label: 'Puddles' }, { emoji: '🔥', label: 'Fire' }, { emoji: '❄️', label: 'Snow' }, { emoji: '🌵', label: 'Desert' }],
   },
   {
-    cause: '☀️',
-    causeText: 'You leave ice cream in the sun...',
-    answer: '🫠',
-    answerLabel: 'It melts!',
-    choices: [
-      { emoji: '🫠', label: 'Melts' },
-      { emoji: '🧊', label: 'Freezes' },
-      { emoji: '💨', label: 'Flies away' },
-      { emoji: '🎵', label: 'Sings' },
-    ],
+    cause: '☀️', hint: 'Ice cream in the sun...', answer: '🫠', answerLabel: 'It melts!',
+    choices: [{ emoji: '🫠', label: 'Melts' }, { emoji: '🧊', label: 'Freezes' }, { emoji: '💨', label: 'Flies' }, { emoji: '🎵', label: 'Sings' }],
   },
   {
-    cause: '🌱',
-    causeText: 'You water a seed every day...',
-    answer: '🌻',
-    answerLabel: 'A flower grows!',
-    choices: [
-      { emoji: '🌻', label: 'Flower' },
-      { emoji: '🪨', label: 'Rock' },
-      { emoji: '⭐', label: 'Star' },
-      { emoji: '🧸', label: 'Teddy' },
-    ],
+    cause: '🌱', hint: 'Water a seed every day...', answer: '🌻', answerLabel: 'Flower!',
+    choices: [{ emoji: '🌻', label: 'Flower' }, { emoji: '🪨', label: 'Rock' }, { emoji: '⭐', label: 'Star' }, { emoji: '🧸', label: 'Teddy' }],
   },
   {
-    cause: '🔋',
-    causeText: 'The battery runs out...',
-    answer: '📵',
-    answerLabel: 'Phone turns off!',
-    choices: [
-      { emoji: '📵', label: 'Turns off' },
-      { emoji: '🚀', label: 'Flies' },
-      { emoji: '🎉', label: 'Party' },
-      { emoji: '🌈', label: 'Rainbow' },
-    ],
+    cause: '💨', hint: 'Strong wind blows...', answer: '🍂', answerLabel: 'Leaves fall!',
+    choices: [{ emoji: '🍂', label: 'Leaves' }, { emoji: '🐟', label: 'Fish' }, { emoji: '📚', label: 'Books' }, { emoji: '🎸', label: 'Guitar' }],
   },
   {
-    cause: '💨',
-    causeText: 'Strong wind blows...',
-    answer: '🍂',
-    answerLabel: 'Leaves fall!',
-    choices: [
-      { emoji: '🍂', label: 'Leaves fall' },
-      { emoji: '🐟', label: 'Fish' },
-      { emoji: '📚', label: 'Books' },
-      { emoji: '🎸', label: 'Guitar' },
-    ],
+    cause: '🥶', hint: 'It gets very cold...', answer: '❄️', answerLabel: 'Ice!',
+    choices: [{ emoji: '❄️', label: 'Ice' }, { emoji: '🔥', label: 'Fire' }, { emoji: '🌺', label: 'Flowers' }, { emoji: '🦁', label: 'Lion' }],
   },
   {
-    cause: '🥶',
-    causeText: 'It gets very very cold...',
-    answer: '❄️',
-    answerLabel: 'Water freezes!',
-    choices: [
-      { emoji: '❄️', label: 'Freezes' },
-      { emoji: '🔥', label: 'Fire' },
-      { emoji: '🌺', label: 'Flowers' },
-      { emoji: '🦁', label: 'Lion' },
-    ],
+    cause: '😴', hint: 'You stay up late...', answer: '🥱', answerLabel: 'Sleepy!',
+    choices: [{ emoji: '🥱', label: 'Sleepy' }, { emoji: '💪', label: 'Strong' }, { emoji: '🎵', label: 'Music' }, { emoji: '🍕', label: 'Pizza' }],
   },
   {
-    cause: '😴',
-    causeText: 'You stay up too late...',
-    answer: '🥱',
-    answerLabel: 'You feel sleepy!',
-    choices: [
-      { emoji: '🥱', label: 'Sleepy' },
-      { emoji: '💪', label: 'Strong' },
-      { emoji: '🎵', label: 'Music' },
-      { emoji: '🍕', label: 'Pizza' },
-    ],
+    cause: '📚', hint: 'You read every day...', answer: '🧠', answerLabel: 'Smarter!',
+    choices: [{ emoji: '🧠', label: 'Smart' }, { emoji: '🦷', label: 'Teeth' }, { emoji: '🧊', label: 'Ice' }, { emoji: '🎈', label: 'Balloon' }],
   },
   {
-    cause: '📚',
-    causeText: 'You read books every day...',
-    answer: '🧠',
-    answerLabel: 'You get smarter!',
-    choices: [
-      { emoji: '🧠', label: 'Smarter' },
-      { emoji: '🦷', label: 'Teeth' },
-      { emoji: '🧊', label: 'Ice' },
-      { emoji: '🎈', label: 'Balloon' },
-    ],
+    cause: '🔋', hint: 'Battery runs out...', answer: '📵', answerLabel: 'Off!',
+    choices: [{ emoji: '📵', label: 'Off' }, { emoji: '🚀', label: 'Flies' }, { emoji: '🎉', label: 'Party' }, { emoji: '🌈', label: 'Rainbow' }],
   },
 ];
 
@@ -125,19 +61,21 @@ export default function CauseEffect({ stars, onAddStars, onHome }) {
 
   useEffect(() => {
     setShuffledChoices(shuffle(puzzle.choices));
-    speak(puzzle.causeText + ' What happens?');
+    speak(puzzle.hint + ' What happens?');
   }, [puzzleIndex]);
 
   const handleChoice = useCallback((choice) => {
     if (selected !== null) return;
+    unlockAudio();
+    playTap();
     setSelected(choice.emoji);
     if (choice.emoji === puzzle.answer) {
       setIsCorrect(true);
       setRoundStars(s => s + 1);
-      speak('Yes! ' + puzzle.answerLabel);
+      playCorrect();
     } else {
       setIsCorrect(false);
-      speak('Not quite!');
+      playWrong();
     }
     setTimeout(() => {
       const nextIdx = puzzleIndex + 1;
@@ -151,53 +89,31 @@ export default function CauseEffect({ stars, onAddStars, onHome }) {
       }
       setSelected(null);
       setIsCorrect(null);
-    }, 1200);
+    }, 900);
   }, [selected, puzzle, puzzleIndex, roundStars, onAddStars]);
-
-  const handleNext = () => {
-    setShowComplete(false);
-    setPuzzleIndex(i => i + 1);
-  };
 
   if (showComplete) {
     return (
-      <GameShell title="Why? What Happens?" stars={stars} onBack={onHome}>
-        <LevelComplete
-          starsEarned={Math.min(roundSize, roundStars)}
-          onNext={handleNext}
-          onHome={onHome}
-        />
+      <GameShell title="What Happens?" emoji="⚡" stars={stars} onBack={onHome}>
+        <LevelComplete starsEarned={Math.min(roundSize, roundStars)} onNext={() => { setShowComplete(false); setPuzzleIndex(i => i + 1); }} onHome={onHome} />
       </GameShell>
     );
   }
 
   return (
-    <GameShell
-      title="Why? What Happens?"
-      stars={stars}
-      onBack={onHome}
-      speakText={puzzle.causeText + ' What happens?'}
-    >
+    <GameShell title="What Happens?" emoji="⚡" stars={stars} onBack={onHome} speakText={puzzle.hint + ' What happens?'}>
       <div className="cause-card">
         <div className="cause-emoji">{puzzle.cause}</div>
-        <div className="cause-text">{puzzle.causeText}</div>
       </div>
-
-      <div className="question-text">What happens?</div>
 
       <div className="effect-options">
         {shuffledChoices.map((choice, i) => (
           <button
             key={i}
-            className={`effect-btn ${
-              selected === choice.emoji
-                ? isCorrect ? 'correct' : 'wrong'
-                : ''
-            }`}
+            className={`effect-btn ${selected === choice.emoji ? (isCorrect ? 'correct' : 'wrong') : ''}`}
             onClick={() => handleChoice(choice)}
           >
             {choice.emoji}
-            <span className="effect-label">{choice.label}</span>
           </button>
         ))}
       </div>

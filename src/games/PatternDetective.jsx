@@ -1,70 +1,20 @@
 import { useState, useEffect, useCallback } from 'react';
 import GameShell from '../GameShell';
 import LevelComplete from '../LevelComplete';
-import { speak } from '../speak';
+import { speak, unlockAudio } from '../speak';
+import { playCorrect, playWrong, playTap } from '../sounds';
 
-// Pattern puzzles: each has a sequence and 4 choices, one correct
 const PUZZLES = [
-  {
-    seq: ['🔴', '🔵', '🔴', '🔵', '🔴'],
-    answer: '🔵',
-    choices: ['🔵', '🟢', '🔴', '🟡'],
-    hint: 'Red, blue, red, blue... what comes next?',
-  },
-  {
-    seq: ['🐱', '🐶', '🐱', '🐶', '🐱'],
-    answer: '🐶',
-    choices: ['🐱', '🐶', '🐟', '🐦'],
-    hint: 'Cat, dog, cat, dog... what comes next?',
-  },
-  {
-    seq: ['⬆️', '➡️', '⬇️', '⬅️', '⬆️'],
-    answer: '➡️',
-    choices: ['⬇️', '➡️', '⬆️', '⬅️'],
-    hint: 'Up, right, down, left, up... what comes next?',
-  },
-  {
-    seq: ['🌙', '🌙', '⭐', '🌙', '🌙'],
-    answer: '⭐',
-    choices: ['🌙', '⭐', '☀️', '🌈'],
-    hint: 'Moon, moon, star, moon, moon... what comes next?',
-  },
-  {
-    seq: ['🍎', '🍌', '🍎', '🍌', '🍎'],
-    answer: '🍌',
-    choices: ['🍎', '🍇', '🍌', '🍊'],
-    hint: 'Apple, banana, apple, banana... what comes next?',
-  },
-  {
-    seq: ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣'],
-    answer: '6️⃣',
-    choices: ['6️⃣', '1️⃣', '7️⃣', '5️⃣'],
-    hint: '1, 2, 3, 4, 5... what comes next?',
-  },
-  {
-    seq: ['❤️', '💛', '💚', '💙', '💜'],
-    answer: '❤️',
-    choices: ['💜', '❤️', '🖤', '💛'],
-    hint: 'The colors go in a circle! What starts again?',
-  },
-  {
-    seq: ['🐸', '🐸', '🦋', '🐸', '🐸'],
-    answer: '🦋',
-    choices: ['🐸', '🦋', '🐝', '🐞'],
-    hint: 'Frog, frog, butterfly, frog, frog... what comes next?',
-  },
-  {
-    seq: ['👏', '👏', '🙌', '👏', '👏'],
-    answer: '🙌',
-    choices: ['👏', '🙌', '✋', '👋'],
-    hint: 'Clap, clap, hands up, clap, clap... what comes next?',
-  },
-  {
-    seq: ['🔺', '🔻', '🔺', '🔻', '🔺'],
-    answer: '🔻',
-    choices: ['🔺', '🔻', '⬛', '🔶'],
-    hint: 'Up triangle, down triangle... what comes next?',
-  },
+  { seq: ['🔴', '🔵', '🔴', '🔵', '🔴'], answer: '🔵', choices: ['🔵', '🟢', '🔴', '🟡'], hint: 'Red, blue, red, blue...' },
+  { seq: ['🐱', '🐶', '🐱', '🐶', '🐱'], answer: '🐶', choices: ['🐱', '🐶', '🐟', '🐦'], hint: 'Cat, dog, cat, dog...' },
+  { seq: ['⬆️', '➡️', '⬇️', '⬅️', '⬆️'], answer: '➡️', choices: ['⬇️', '➡️', '⬆️', '⬅️'], hint: 'Up, right, down, left, up...' },
+  { seq: ['🌙', '🌙', '⭐', '🌙', '🌙'], answer: '⭐', choices: ['🌙', '⭐', '☀️', '🌈'], hint: 'Moon, moon, star, moon, moon...' },
+  { seq: ['🍎', '🍌', '🍎', '🍌', '🍎'], answer: '🍌', choices: ['🍎', '🍇', '🍌', '🍊'], hint: 'Apple, banana, apple, banana...' },
+  { seq: ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣'], answer: '6️⃣', choices: ['6️⃣', '1️⃣', '7️⃣', '5️⃣'], hint: 'One, two, three, four, five...' },
+  { seq: ['🐸', '🐸', '🦋', '🐸', '🐸'], answer: '🦋', choices: ['🐸', '🦋', '🐝', '🐞'], hint: 'Frog, frog, butterfly...' },
+  { seq: ['👏', '👏', '🙌', '👏', '👏'], answer: '🙌', choices: ['👏', '🙌', '✋', '👋'], hint: 'Clap, clap, hands up...' },
+  { seq: ['🔺', '🔻', '🔺', '🔻', '🔺'], answer: '🔻', choices: ['🔺', '🔻', '⬛', '🔶'], hint: 'Up, down, up, down...' },
+  { seq: ['🟡', '🟡', '🟢', '🟡', '🟡'], answer: '🟢', choices: ['🟡', '🟢', '🔵', '🔴'], hint: 'Yellow, yellow, green...' },
 ];
 
 function shuffle(arr) {
@@ -89,19 +39,21 @@ export default function PatternDetective({ stars, onAddStars, onHome }) {
 
   useEffect(() => {
     setShuffledChoices(shuffle(puzzle.choices));
-    speak(puzzle.hint);
+    speak(puzzle.hint + ' what comes next?');
   }, [puzzleIndex]);
 
   const handleChoice = useCallback((choice) => {
     if (selected !== null) return;
+    unlockAudio();
+    playTap();
     setSelected(choice);
     if (choice === puzzle.answer) {
       setIsCorrect(true);
       setRoundStars(s => s + 1);
-      speak('Yes!');
+      playCorrect();
     } else {
       setIsCorrect(false);
-      speak('Try the next one!');
+      playWrong();
     }
     setTimeout(() => {
       const nextIdx = puzzleIndex + 1;
@@ -115,20 +67,15 @@ export default function PatternDetective({ stars, onAddStars, onHome }) {
       }
       setSelected(null);
       setIsCorrect(null);
-    }, 1000);
+    }, 900);
   }, [selected, puzzle, puzzleIndex, roundStars, onAddStars]);
-
-  const handleNext = () => {
-    setShowComplete(false);
-    setPuzzleIndex(i => i + 1);
-  };
 
   if (showComplete) {
     return (
-      <GameShell title="Pattern Detective" stars={stars} onBack={onHome}>
+      <GameShell title="Patterns" emoji="🔍" stars={stars} onBack={onHome}>
         <LevelComplete
           starsEarned={Math.min(roundSize, roundStars + (isCorrect ? 1 : 0))}
-          onNext={handleNext}
+          onNext={() => { setShowComplete(false); setPuzzleIndex(i => i + 1); }}
           onHome={onHome}
         />
       </GameShell>
@@ -136,24 +83,14 @@ export default function PatternDetective({ stars, onAddStars, onHome }) {
   }
 
   return (
-    <GameShell
-      title="Pattern Detective"
-      stars={stars}
-      onBack={onHome}
-      speakText={puzzle.hint}
-    >
-      <div className="question-text">{puzzle.hint}</div>
-
+    <GameShell title="Patterns" emoji="🔍" stars={stars} onBack={onHome} speakText={puzzle.hint + ' what comes next?'}>
       <div className="progress-bar">
-        <div
-          className="progress-fill"
-          style={{ width: `${((puzzleIndex % roundSize) / roundSize) * 100}%` }}
-        />
+        <div className="progress-fill" style={{ width: `${((puzzleIndex % roundSize) / roundSize) * 100}%` }} />
       </div>
 
       <div className="sequence-row">
         {puzzle.seq.map((item, i) => (
-          <div key={i} className="sequence-item pop-in" style={{ animationDelay: `${i * 0.1}s` }}>
+          <div key={i} className="sequence-item pop-in" style={{ animationDelay: `${i * 0.08}s` }}>
             {item}
           </div>
         ))}
@@ -164,9 +101,7 @@ export default function PatternDetective({ stars, onAddStars, onHome }) {
         {shuffledChoices.map((choice, i) => (
           <button
             key={i}
-            className={`option-btn ${
-              selected === choice ? (isCorrect ? 'correct' : 'wrong') : ''
-            }`}
+            className={`option-btn ${selected === choice ? (isCorrect ? 'correct' : 'wrong') : ''}`}
             onClick={() => handleChoice(choice)}
           >
             {choice}
