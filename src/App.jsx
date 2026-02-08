@@ -69,7 +69,7 @@ export default function App() {
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
           }}>
-            Brain Games!
+            BRAIN GAMES!
           </h1>
           <button className="action-btn bounce" onClick={handleStart} style={{ fontSize: '1.5rem', padding: '18px 50px' }}>
             &#9654; Play
@@ -113,7 +113,7 @@ export default function App() {
       <div className="home">
         <div className="home-header slide-up" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
           <Mascot size={50} />
-          <h1>Brain Games!</h1>
+          <h1>BRAIN GAMES!</h1>
         </div>
 
         <div className="stars-bar slide-up" style={{ animationDelay: '0.1s' }}>

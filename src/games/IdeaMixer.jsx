@@ -6,18 +6,18 @@ import { playCorrect, playWrong, playTap } from '../sounds';
 
 // Fixed combos — each makes intuitive sense for a 6-year-old
 const COMBOS = [
-  { a: '❄️', b: '☀️', result: '💧', name: 'Water!', hint: 'Ice plus sun...' },
-  { a: '🌧️', b: '☀️', result: '🌈', name: 'Rainbow!', hint: 'Rain plus sunshine...' },
-  { a: '🍞', b: '🧀', result: '🥪', name: 'Sandwich!', hint: 'Bread plus cheese...' },
-  { a: '🐛', b: '🕐', result: '🦋', name: 'Butterfly!', hint: 'Caterpillar plus time...' },
-  { a: '🥛', b: '🍫', result: '🍪', name: 'Cookie!', hint: 'Milk plus chocolate...' },
-  { a: '🌊', b: '🏖️', result: '🐚', name: 'Seashell!', hint: 'Waves plus beach...' },
-  { a: '🌙', b: '⭐', result: '🌌', name: 'Night sky!', hint: 'Moon plus stars...' },
-  { a: '🥚', b: '🔥', result: '🍳', name: 'Fried egg!', hint: 'Egg plus fire...' },
-  { a: '🌿', b: '💧', result: '🌻', name: 'Flower!', hint: 'Plant plus water...' },
-  { a: '🏠', b: '🛞', result: '🚐', name: 'Camper van!', hint: 'House plus wheels...' },
-  { a: '🐟', b: '🍣', result: '🍱', name: 'Sushi!', hint: 'Fish plus rice...' },
-  { a: '⚡', b: '🌧️', result: '⛈️', name: 'Storm!', hint: 'Lightning plus rain...' },
+  { a: '❄️', b: '☀️', result: '💧', name: 'WATER!', hint: 'Ice plus sun...' },
+  { a: '🌧️', b: '☀️', result: '🌈', name: 'RAINBOW!', hint: 'Rain plus sunshine...' },
+  { a: '🍞', b: '🧀', result: '🥪', name: 'SANDWICH!', hint: 'Bread plus cheese...' },
+  { a: '🐛', b: '🕐', result: '🦋', name: 'BUTTERFLY!', hint: 'Caterpillar plus time...' },
+  { a: '🥛', b: '🍫', result: '🍪', name: 'COOKIE!', hint: 'Milk plus chocolate...' },
+  { a: '🌊', b: '🏖️', result: '🐚', name: 'SEASHELL!', hint: 'Waves plus beach...' },
+  { a: '🌙', b: '⭐', result: '🌌', name: 'NIGHT SKY!', hint: 'Moon plus stars...' },
+  { a: '🥚', b: '🔥', result: '🍳', name: 'FRIED EGG!', hint: 'Egg plus fire...' },
+  { a: '🌿', b: '💧', result: '🌻', name: 'FLOWER!', hint: 'Plant plus water...' },
+  { a: '🏠', b: '🛞', result: '🚐', name: 'CAMPER VAN!', hint: 'House plus wheels...' },
+  { a: '🐟', b: '🍣', result: '🍱', name: 'SUSHI!', hint: 'Fish plus rice...' },
+  { a: '⚡', b: '🌧️', result: '⛈️', name: 'STORM!', hint: 'Lightning plus rain...' },
 ];
 
 function shuffle(arr) {
@@ -71,14 +71,14 @@ export default function IdeaMixer({ stars, onAddStars, onHome }) {
 
   if (showComplete) {
     return (
-      <GameShell title="Idea Mixer" emoji="💡" stars={stars} onBack={onHome}>
+      <GameShell title="IDEA MIXER" emoji="💡" stars={stars} onBack={onHome}>
         <LevelComplete starsEarned={roundSize} onNext={() => { setShowComplete(false); setComboIndex(i => i + 1); }} onHome={onHome} />
       </GameShell>
     );
   }
 
   return (
-    <GameShell title="Idea Mixer" emoji="💡" stars={stars} onBack={onHome} speakText={combo.hint}>
+    <GameShell title="IDEA MIXER" emoji="💡" stars={stars} onBack={onHome} speakText={combo.hint}>
       <div className="question-text" style={{ fontSize: '1rem' }}>WHAT DO YOU GET?</div>
 
       <div className="mixer-area">

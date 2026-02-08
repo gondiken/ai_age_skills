@@ -5,12 +5,12 @@ import { speak, unlockAudio } from '../speak';
 import { playCorrect, playWrong, playTap } from '../sounds';
 
 const PUZZLES = [
-  { hint: 'Sky or water?', bucketA: { emoji: '☁️', label: 'SKY', items: ['🦅', '✈️', '🎈', '🌙'] }, bucketB: { emoji: '🌊', label: 'WATER', items: ['🐟', '🐙', '🚢', '🐳'] } },
-  { hint: 'Hot or cold?', bucketA: { emoji: '🔥', label: 'HOT', items: ['☀️', '🌶️', '🍳', '🌋'] }, bucketB: { emoji: '❄️', label: 'COLD', items: ['🧊', '⛄', '🍦', '🐧'] } },
-  { hint: 'Day or night?', bucketA: { emoji: '🌞', label: 'DAY', items: ['🏫', '🦋', '🌻', '🏖️'] }, bucketB: { emoji: '🌙', label: 'NIGHT', items: ['⭐', '🦉', '🛏️', '🌌'] } },
-  { hint: 'Fruit or veggie?', bucketA: { emoji: '🍎', label: 'FRUIT', items: ['🍌', '🍇', '🍊', '🍓'] }, bucketB: { emoji: '🥦', label: 'VEGGIE', items: ['🥕', '🌽', '🥬', '🍆'] } },
-  { hint: 'Big or small?', bucketA: { emoji: '🐘', label: 'BIG', items: ['🏠', '🌳', '🚌', '🦕'] }, bucketB: { emoji: '🐜', label: 'SMALL', items: ['🐛', '🍒', '🔑', '🐝'] } },
-  { hint: 'Fast or slow?', bucketA: { emoji: '🚀', label: 'FAST', items: ['⚡', '🏎️', '🦅', '🐆'] }, bucketB: { emoji: '🐌', label: 'SLOW', items: ['🐢', '🦥', '🐌', '🧊'] } },
+  { hint: 'SKY OR WATER?', bucketA: { emoji: '☁️', label: 'SKY', items: ['🦅', '✈️', '🎈', '🌙'] }, bucketB: { emoji: '🌊', label: 'WATER', items: ['🐟', '🐙', '🚢', '🐳'] } },
+  { hint: 'HOT OR COLD?', bucketA: { emoji: '🔥', label: 'HOT', items: ['☀️', '🌶️', '🍳', '🌋'] }, bucketB: { emoji: '❄️', label: 'COLD', items: ['🧊', '⛄', '🍦', '🐧'] } },
+  { hint: 'DAY OR NIGHT?', bucketA: { emoji: '🌞', label: 'DAY', items: ['🏫', '🦋', '🌻', '🏖️'] }, bucketB: { emoji: '🌙', label: 'NIGHT', items: ['⭐', '🦉', '🛏️', '🌌'] } },
+  { hint: 'FRUIT OR VEGGIE?', bucketA: { emoji: '🍎', label: 'FRUIT', items: ['🍌', '🍇', '🍊', '🍓'] }, bucketB: { emoji: '🥦', label: 'VEGGIE', items: ['🥕', '🌽', '🥬', '🍆'] } },
+  { hint: 'BIG OR SMALL?', bucketA: { emoji: '🐘', label: 'BIG', items: ['🏠', '🌳', '🚌', '🦕'] }, bucketB: { emoji: '🐜', label: 'SMALL', items: ['🐛', '🍒', '🔑', '🐝'] } },
+  { hint: 'FAST OR SLOW?', bucketA: { emoji: '🚀', label: 'FAST', items: ['⚡', '🏎️', '🦅', '🐆'] }, bucketB: { emoji: '🐌', label: 'SLOW', items: ['🐢', '🦥', '🐌', '🧊'] } },
 ];
 
 function shuffle(arr) {
@@ -296,7 +296,7 @@ export default function SortItOut({ stars, onAddStars, onHome }) {
 
   if (showComplete) {
     return (
-      <GameShell title="Sort It" emoji="📦" stars={stars} onBack={onHome}>
+      <GameShell title="SORT IT" emoji="📦" stars={stars} onBack={onHome}>
         <LevelComplete
           starsEarned={2}
           onNext={() => { setShowComplete(false); setPuzzleIndex(i => i + 1); }}
@@ -311,7 +311,7 @@ export default function SortItOut({ stars, onAddStars, onHome }) {
   const binBState = feedback === 'b' ? 'sort-bin--correct' : feedback === 'wrong' ? '' : '';
 
   return (
-    <GameShell title="Sort It" emoji="📦" stars={stars} onBack={onHome} speakText={puzzle.hint}>
+    <GameShell title="SORT IT" emoji="📦" stars={stars} onBack={onHome} speakText={puzzle.hint}>
       <style>{SORT_STYLES}</style>
 
       {/* progress bar */}

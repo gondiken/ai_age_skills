@@ -32,6 +32,7 @@ export default function PatternDetective({ stars, onAddStars, onHome }) {
   const [isCorrect, setIsCorrect] = useState(null);
   const [roundStars, setRoundStars] = useState(0);
   const [showComplete, setShowComplete] = useState(false);
+  const [completedStars, setCompletedStars] = useState(0);
   const [shuffledChoices, setShuffledChoices] = useState([]);
 
   const puzzle = PUZZLES[puzzleIndex % PUZZLES.length];
@@ -60,6 +61,7 @@ export default function PatternDetective({ stars, onAddStars, onHome }) {
       if (nextIdx % roundSize === 0 && nextIdx > 0) {
         const earned = roundStars + (choice === puzzle.answer ? 1 : 0);
         onAddStars('pattern', earned);
+        setCompletedStars(earned);
         setRoundStars(0);
         setShowComplete(true);
       } else {
@@ -72,9 +74,9 @@ export default function PatternDetective({ stars, onAddStars, onHome }) {
 
   if (showComplete) {
     return (
-      <GameShell title="Patterns" emoji="🔍" stars={stars} onBack={onHome}>
+      <GameShell title="PATTERNS" emoji="🔍" stars={stars} onBack={onHome}>
         <LevelComplete
-          starsEarned={Math.min(roundSize, roundStars + (isCorrect ? 1 : 0))}
+          starsEarned={completedStars}
           onNext={() => { setShowComplete(false); setPuzzleIndex(i => i + 1); }}
           onHome={onHome}
         />
@@ -83,7 +85,7 @@ export default function PatternDetective({ stars, onAddStars, onHome }) {
   }
 
   return (
-    <GameShell title="Patterns" emoji="🔍" stars={stars} onBack={onHome} speakText={puzzle.hint + ' what comes next?'}>
+    <GameShell title="PATTERNS" emoji="🔍" stars={stars} onBack={onHome} speakText={puzzle.hint + ' what comes next?'}>
       <div className="progress-bar">
         <div className="progress-fill" style={{ width: `${((puzzleIndex % roundSize) / roundSize) * 100}%` }} />
       </div>

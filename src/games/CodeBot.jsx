@@ -5,14 +5,41 @@ import { speak, unlockAudio } from '../speak';
 import { playCorrect, playWrong, playTap, playCelebrate } from '../sounds';
 
 const LEVELS = [
-  { size: 4, robot: [0, 3], goal: [3, 3], gems: [[1, 3], [2, 3]], rocks: [], hint: 'Go right to the star!' },
-  { size: 4, robot: [0, 3], goal: [0, 0], gems: [[0, 2], [0, 1]], rocks: [], hint: 'Go up!' },
-  { size: 4, robot: [0, 3], goal: [3, 0], gems: [[1, 3], [3, 2]], rocks: [], hint: 'Right then up!' },
-  { size: 4, robot: [0, 3], goal: [3, 0], gems: [[2, 3]], rocks: [[2, 1]], hint: 'Watch the rock!' },
-  { size: 5, robot: [0, 4], goal: [4, 0], gems: [[2, 4], [4, 2]], rocks: [[2, 2], [1, 1]], hint: 'Find the path!' },
-  { size: 5, robot: [0, 4], goal: [4, 0], gems: [[1, 4], [3, 2]], rocks: [[1, 3], [3, 1], [2, 2]], hint: 'Think ahead!' },
-  { size: 5, robot: [0, 4], goal: [4, 0], gems: [[2, 4], [4, 3], [0, 1]], rocks: [[1, 3], [2, 1], [3, 3], [3, 2]], hint: 'Tricky one!' },
-  { size: 5, robot: [0, 4], goal: [4, 0], gems: [[1, 4], [3, 0]], rocks: [[0, 2], [1, 2], [3, 3], [3, 2], [4, 2]], hint: 'Maze time!' },
+  // === 4x4 GRIDS (Levels 1-10) ===
+  { size: 4, robot: [0, 3], goal: [3, 3], gems: [[1, 3], [2, 3]], rocks: [], hint: 'GO RIGHT TO THE STAR!' },
+  { size: 4, robot: [0, 3], goal: [0, 0], gems: [[0, 2], [0, 1]], rocks: [], hint: 'GO UP!' },
+  { size: 4, robot: [0, 3], goal: [3, 0], gems: [[1, 3], [3, 1]], rocks: [], hint: 'RIGHT THEN UP!' },
+  { size: 4, robot: [0, 0], goal: [3, 3], gems: [[0, 1], [1, 3]], rocks: [], hint: 'DOWN THEN RIGHT!' },
+  { size: 4, robot: [0, 3], goal: [3, 0], gems: [[2, 3]], rocks: [[3, 1]], hint: 'WATCH THE ROCK!' },
+  { size: 4, robot: [0, 0], goal: [3, 3], gems: [[2, 0]], rocks: [[1, 1]], hint: 'GO AROUND!' },
+  { size: 4, robot: [3, 3], goal: [0, 0], gems: [[2, 3], [0, 2]], rocks: [[1, 1], [2, 2]], hint: 'DODGE THE ROCKS!' },
+  { size: 4, robot: [0, 3], goal: [3, 0], gems: [[2, 3], [0, 1]], rocks: [[1, 1], [2, 2]], hint: 'FIND THE PATH!' },
+  { size: 4, robot: [3, 0], goal: [0, 3], gems: [[3, 1], [1, 3]], rocks: [[2, 1], [1, 2]], hint: 'DOWN AND LEFT!' },
+  { size: 4, robot: [0, 3], goal: [3, 0], gems: [[3, 2], [0, 1]], rocks: [[1, 1], [2, 2], [0, 2]], hint: 'NAVIGATE THE MAZE!' },
+  // === 5x5 GRIDS (Levels 11-20) ===
+  { size: 5, robot: [0, 4], goal: [4, 0], gems: [[2, 4], [4, 2]], rocks: [], hint: 'BIGGER GRID!' },
+  { size: 5, robot: [0, 4], goal: [4, 0], gems: [[1, 4], [3, 0]], rocks: [[4, 2]], hint: 'BLOCKED PATH!' },
+  { size: 5, robot: [0, 4], goal: [4, 0], gems: [[2, 4], [4, 3]], rocks: [[2, 2], [3, 1]], hint: 'PLAN YOUR ROUTE!' },
+  { size: 5, robot: [0, 4], goal: [4, 0], gems: [[1, 4], [4, 3]], rocks: [[2, 1], [2, 2], [2, 3]], hint: 'WALL IN THE WAY!' },
+  { size: 5, robot: [4, 4], goal: [0, 0], gems: [[3, 4], [0, 1]], rocks: [[2, 3], [3, 2], [1, 1]], hint: 'GO BACKWARDS!' },
+  { size: 5, robot: [0, 0], goal: [4, 4], gems: [[2, 0], [4, 2]], rocks: [[1, 1], [3, 1], [3, 3]], hint: 'ZIG ZAG PATH!' },
+  { size: 5, robot: [2, 4], goal: [2, 0], gems: [[1, 3], [3, 1]], rocks: [[2, 1], [2, 2], [2, 3]], hint: 'AROUND THE WALL!' },
+  { size: 5, robot: [0, 4], goal: [4, 4], gems: [[2, 3], [4, 2]], rocks: [[1, 4], [2, 4], [3, 4]], hint: 'DETOUR!' },
+  { size: 5, robot: [0, 0], goal: [4, 4], gems: [[1, 0], [3, 2], [4, 3]], rocks: [[0, 1], [2, 1], [3, 3]], hint: 'MANY GEMS!' },
+  { size: 5, robot: [4, 0], goal: [0, 4], gems: [[3, 0], [0, 3]], rocks: [[3, 1], [2, 2], [1, 3]], hint: 'SPIRAL PATH!' },
+  // === 6x6 GRIDS (Levels 21-32) ===
+  { size: 6, robot: [0, 5], goal: [5, 0], gems: [[2, 5], [5, 2]], rocks: [[3, 2]], hint: 'BIG GRID!' },
+  { size: 6, robot: [0, 0], goal: [5, 5], gems: [[1, 0], [5, 3]], rocks: [[1, 1], [3, 3]], hint: 'EXPLORE!' },
+  { size: 6, robot: [0, 5], goal: [5, 0], gems: [[1, 5], [5, 2]], rocks: [[2, 4], [2, 2], [4, 3], [4, 1]], hint: 'LOTS OF ROCKS!' },
+  { size: 6, robot: [5, 5], goal: [0, 0], gems: [[4, 5], [0, 1]], rocks: [[3, 4], [3, 3], [1, 2]], hint: 'REVERSE COURSE!' },
+  { size: 6, robot: [0, 5], goal: [5, 0], gems: [[0, 3], [2, 5], [5, 3]], rocks: [[1, 4], [2, 3], [3, 2], [4, 3]], hint: 'THREE GEMS!' },
+  { size: 6, robot: [0, 0], goal: [5, 5], gems: [[2, 0], [5, 4]], rocks: [[1, 1], [3, 1], [3, 3], [2, 4]], hint: 'CAREFUL PATH!' },
+  { size: 6, robot: [2, 5], goal: [3, 0], gems: [[1, 4], [4, 2]], rocks: [[2, 4], [2, 3], [2, 2], [3, 3], [3, 2]], hint: 'WALL IN THE MIDDLE!' },
+  { size: 6, robot: [0, 5], goal: [5, 0], gems: [[1, 4], [5, 1]], rocks: [[0, 3], [1, 2], [3, 4], [4, 3], [4, 1]], hint: 'SUPER TRICKY!' },
+  { size: 6, robot: [5, 0], goal: [0, 5], gems: [[4, 0], [0, 4]], rocks: [[4, 1], [3, 1], [2, 3], [1, 3], [1, 4]], hint: 'ALMOST THERE!' },
+  { size: 6, robot: [0, 5], goal: [5, 0], gems: [[2, 5], [4, 3]], rocks: [[1, 4], [2, 3], [3, 2], [4, 1], [2, 1]], hint: 'DIAGONAL ROCKS!' },
+  { size: 6, robot: [0, 0], goal: [5, 5], gems: [[3, 0], [5, 2]], rocks: [[1, 1], [2, 2], [3, 3], [4, 4]], hint: 'DIAGONAL WALL!' },
+  { size: 6, robot: [0, 5], goal: [5, 0], gems: [[1, 5], [5, 2], [4, 0]], rocks: [[1, 4], [2, 3], [3, 2], [4, 1], [1, 2], [3, 4]], hint: 'FINAL CHALLENGE!' },
 ];
 
 const DIRS = {
@@ -293,6 +320,13 @@ const STYLES = `
     gap: 4px;
   }
 
+  .codebot-level-badge {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 2px;
+  }
+
   .codebot-shake {
     animation: codebot-bump 0.4s ease;
   }
@@ -302,6 +336,28 @@ const STYLES = `
     40% { transform: translate(6px, 0); }
     60% { transform: translate(-4px, 0); }
     80% { transform: translate(4px, 0); }
+  }
+
+  .codebot-done {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 30px 20px;
+    text-align: center;
+  }
+  .codebot-done-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #FACC15, #F59E0B, #EF4444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .codebot-done-sub {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.7);
+    font-weight: 600;
   }
 `;
 
@@ -317,12 +373,19 @@ export default function CodeBot({ stars, onAddStars, onHome }) {
   const [shaking, setShaking] = useState(false);
   const [showComplete, setShowComplete] = useState(false);
   const [failedStep, setFailedStep] = useState(-1);
+  const [completedStars, setCompletedStars] = useState(0);
   const execRef = useRef(false);
 
-  const level = LEVELS[levelIndex % LEVELS.length];
+  const allDone = levelIndex >= LEVELS.length;
+  const level = allDone ? null : LEVELS[levelIndex];
 
   // Reset on level change
   useEffect(() => {
+    if (allDone) {
+      playCelebrate();
+      speak('Amazing! You finished all the levels!');
+      return;
+    }
     setCommands([]);
     setRobotPos([...level.robot]);
     setRobotDir('right');
@@ -381,7 +444,9 @@ export default function CodeBot({ stars, onAddStars, onHome }) {
         execRef.current = false;
         if (pos[0] === level.goal[0] && pos[1] === level.goal[1]) {
           const gemBonus = collected.size;
-          onAddStars('codebot', 2 + gemBonus);
+          const earned = 2 + gemBonus;
+          onAddStars('codebot', earned);
+          setCompletedStars(earned);
           playCelebrate();
           setTimeout(() => setShowComplete(true), 500);
         } else {
@@ -448,11 +513,29 @@ export default function CodeBot({ stars, onAddStars, onHome }) {
     setTimeout(executeStep, 300);
   }, [commands, executing, level, onAddStars]);
 
+  // All levels complete
+  if (allDone) {
+    return (
+      <GameShell title="CODE BOT" emoji="🤖" stars={stars} onBack={onHome}>
+        <style>{STYLES}</style>
+        <div className="codebot-done">
+          <div style={{ fontSize: '5rem' }}>🏆</div>
+          <div className="codebot-done-title">ALL LEVELS COMPLETE!</div>
+          <div className="codebot-done-sub">YOU ARE A CODING MASTER!</div>
+          <div style={{ fontSize: '2rem' }}>⭐ {stars} ⭐</div>
+          <button className="action-btn" onClick={onHome} style={{ marginTop: 12 }}>
+            🏠 HOME
+          </button>
+        </div>
+      </GameShell>
+    );
+  }
+
   if (showComplete) {
     return (
       <GameShell title="CODE BOT" emoji="🤖" stars={stars} onBack={onHome}>
         <LevelComplete
-          starsEarned={2 + collectedGems.size}
+          starsEarned={completedStars}
           onNext={() => { setShowComplete(false); setLevelIndex(i => i + 1); }}
           onHome={onHome}
         />
@@ -466,6 +549,7 @@ export default function CodeBot({ stars, onAddStars, onHome }) {
     <GameShell title="CODE BOT" emoji="🤖" stars={stars} onBack={onHome} speakText={level.hint}>
       <style>{STYLES}</style>
       <div className="codebot-game">
+        <div className="codebot-level-badge">LEVEL {levelIndex + 1} / {LEVELS.length}</div>
         <p className="codebot-hint">{level.hint}</p>
 
         {/* Gem counter */}

@@ -6,35 +6,35 @@ import { playCorrect, playWrong, playTap } from '../sounds';
 
 const PUZZLES = [
   {
-    cause: '🌧️', hint: 'It rains a lot...', answer: '🌊', answerLabel: 'Puddles!',
+    cause: '🌧️', hint: 'IT RAINS A LOT...', answer: '🌊', answerLabel: 'PUDDLES!',
     choices: [{ emoji: '🌊', label: 'PUDDLES' }, { emoji: '🔥', label: 'FIRE' }, { emoji: '❄️', label: 'SNOW' }, { emoji: '🌵', label: 'DESERT' }],
   },
   {
-    cause: '☀️', hint: 'Ice cream in the sun...', answer: '🫠', answerLabel: 'It melts!',
+    cause: '☀️', hint: 'ICE CREAM IN THE SUN...', answer: '🫠', answerLabel: 'IT MELTS!',
     choices: [{ emoji: '🫠', label: 'MELTS' }, { emoji: '🧊', label: 'FREEZES' }, { emoji: '💨', label: 'FLIES' }, { emoji: '🎵', label: 'SINGS' }],
   },
   {
-    cause: '🌱', hint: 'Water a seed every day...', answer: '🌻', answerLabel: 'Flower!',
+    cause: '🌱', hint: 'WATER A SEED EVERY DAY...', answer: '🌻', answerLabel: 'FLOWER!',
     choices: [{ emoji: '🌻', label: 'FLOWER' }, { emoji: '🪨', label: 'ROCK' }, { emoji: '⭐', label: 'STAR' }, { emoji: '🧸', label: 'TEDDY' }],
   },
   {
-    cause: '💨', hint: 'Strong wind blows...', answer: '🍂', answerLabel: 'Leaves fall!',
+    cause: '💨', hint: 'STRONG WIND BLOWS...', answer: '🍂', answerLabel: 'LEAVES FALL!',
     choices: [{ emoji: '🍂', label: 'LEAVES' }, { emoji: '🐟', label: 'FISH' }, { emoji: '📚', label: 'BOOKS' }, { emoji: '🎸', label: 'GUITAR' }],
   },
   {
-    cause: '🥶', hint: 'It gets very cold...', answer: '❄️', answerLabel: 'Ice!',
+    cause: '🥶', hint: 'IT GETS VERY COLD...', answer: '❄️', answerLabel: 'ICE!',
     choices: [{ emoji: '❄️', label: 'ICE' }, { emoji: '🔥', label: 'FIRE' }, { emoji: '🌺', label: 'FLOWERS' }, { emoji: '🦁', label: 'LION' }],
   },
   {
-    cause: '😴', hint: 'You stay up late...', answer: '🥱', answerLabel: 'Sleepy!',
+    cause: '😴', hint: 'YOU STAY UP LATE...', answer: '🥱', answerLabel: 'SLEEPY!',
     choices: [{ emoji: '🥱', label: 'SLEEPY' }, { emoji: '💪', label: 'STRONG' }, { emoji: '🎵', label: 'MUSIC' }, { emoji: '🍕', label: 'PIZZA' }],
   },
   {
-    cause: '📚', hint: 'You read every day...', answer: '🧠', answerLabel: 'Smarter!',
+    cause: '📚', hint: 'YOU READ EVERY DAY...', answer: '🧠', answerLabel: 'SMARTER!',
     choices: [{ emoji: '🧠', label: 'SMART' }, { emoji: '🦷', label: 'TEETH' }, { emoji: '🧊', label: 'ICE' }, { emoji: '🎈', label: 'BALLOON' }],
   },
   {
-    cause: '🔋', hint: 'Battery runs out...', answer: '📵', answerLabel: 'Off!',
+    cause: '🔋', hint: 'BATTERY RUNS OUT...', answer: '📵', answerLabel: 'OFF!',
     choices: [{ emoji: '📵', label: 'OFF' }, { emoji: '🚀', label: 'FLIES' }, { emoji: '🎉', label: 'PARTY' }, { emoji: '🌈', label: 'RAINBOW' }],
   },
 ];
@@ -54,6 +54,7 @@ export default function CauseEffect({ stars, onAddStars, onHome }) {
   const [isCorrect, setIsCorrect] = useState(null);
   const [roundStars, setRoundStars] = useState(0);
   const [showComplete, setShowComplete] = useState(false);
+  const [completedStars, setCompletedStars] = useState(0);
   const [shuffledChoices, setShuffledChoices] = useState([]);
 
   const puzzle = PUZZLES[puzzleIndex % PUZZLES.length];
@@ -82,6 +83,7 @@ export default function CauseEffect({ stars, onAddStars, onHome }) {
       if (nextIdx % roundSize === 0 && nextIdx > 0) {
         const earned = roundStars + (choice.emoji === puzzle.answer ? 1 : 0);
         onAddStars('cause', earned);
+        setCompletedStars(earned);
         setRoundStars(0);
         setShowComplete(true);
       } else {
@@ -94,14 +96,14 @@ export default function CauseEffect({ stars, onAddStars, onHome }) {
 
   if (showComplete) {
     return (
-      <GameShell title="What Happens?" emoji="⚡" stars={stars} onBack={onHome}>
-        <LevelComplete starsEarned={Math.min(roundSize, roundStars)} onNext={() => { setShowComplete(false); setPuzzleIndex(i => i + 1); }} onHome={onHome} />
+      <GameShell title="WHAT HAPPENS?" emoji="⚡" stars={stars} onBack={onHome}>
+        <LevelComplete starsEarned={completedStars} onNext={() => { setShowComplete(false); setPuzzleIndex(i => i + 1); }} onHome={onHome} />
       </GameShell>
     );
   }
 
   return (
-    <GameShell title="What Happens?" emoji="⚡" stars={stars} onBack={onHome} speakText={puzzle.hint + ' What happens?'}>
+    <GameShell title="WHAT HAPPENS?" emoji="⚡" stars={stars} onBack={onHome} speakText={puzzle.hint + ' What happens?'}>
       <div className="cause-card">
         <div className="cause-emoji">{puzzle.cause}</div>
         <div className="cause-text">{puzzle.hint}</div>

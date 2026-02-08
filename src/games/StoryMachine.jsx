@@ -8,42 +8,42 @@ const PUZZLES = [
   {
     scene: '🤖', hint: 'Tell the robot to cook!',
     steps: [
-      { emoji: '🚶', text: 'Go kitchen' },
-      { emoji: '🍳', text: 'Get pan' },
-      { emoji: '🥚', text: 'Crack egg' },
-      { emoji: '🔥', text: 'Cook' },
+      { emoji: '🚶', text: 'GO KITCHEN' },
+      { emoji: '🍳', text: 'GET PAN' },
+      { emoji: '🥚', text: 'CRACK EGG' },
+      { emoji: '🔥', text: 'COOK' },
     ],
-    wrong: [{ emoji: '🛁', text: 'Bath' }, { emoji: '📖', text: 'Read' }],
+    wrong: [{ emoji: '🛁', text: 'BATH' }, { emoji: '📖', text: 'READ' }],
   },
   {
     scene: '🐕', hint: 'Teach the dog a trick!',
     steps: [
-      { emoji: '👀', text: 'Look' },
-      { emoji: '🫴', text: 'Show treat' },
-      { emoji: '🗣️', text: 'Say sit' },
-      { emoji: '🦴', text: 'Give treat' },
+      { emoji: '👀', text: 'LOOK' },
+      { emoji: '🫴', text: 'SHOW TREAT' },
+      { emoji: '🗣️', text: 'SAY SIT' },
+      { emoji: '🦴', text: 'GIVE TREAT' },
     ],
-    wrong: [{ emoji: '🏃', text: 'Run' }, { emoji: '😴', text: 'Sleep' }],
+    wrong: [{ emoji: '🏃', text: 'RUN' }, { emoji: '😴', text: 'SLEEP' }],
   },
   {
     scene: '🎮', hint: 'Tell a friend to play!',
     steps: [
-      { emoji: '📺', text: 'Turn on TV' },
-      { emoji: '🎮', text: 'Get controller' },
-      { emoji: '▶️', text: 'Press start' },
-      { emoji: '🕹️', text: 'Move stick' },
+      { emoji: '📺', text: 'TURN ON TV' },
+      { emoji: '🎮', text: 'GET CONTROLLER' },
+      { emoji: '▶️', text: 'PRESS START' },
+      { emoji: '🕹️', text: 'MOVE STICK' },
     ],
-    wrong: [{ emoji: '🧹', text: 'Sweep' }, { emoji: '🍎', text: 'Eat apple' }],
+    wrong: [{ emoji: '🧹', text: 'SWEEP' }, { emoji: '🍎', text: 'EAT APPLE' }],
   },
   {
     scene: '🧸', hint: 'Wrap a gift!',
     steps: [
-      { emoji: '🎁', text: 'Get gift' },
-      { emoji: '📃', text: 'Get paper' },
-      { emoji: '✂️', text: 'Cut' },
-      { emoji: '🎀', text: 'Add bow' },
+      { emoji: '🎁', text: 'GET GIFT' },
+      { emoji: '📃', text: 'GET PAPER' },
+      { emoji: '✂️', text: 'CUT' },
+      { emoji: '🎀', text: 'ADD BOW' },
     ],
-    wrong: [{ emoji: '🧊', text: 'Ice' }, { emoji: '🔔', text: 'Ring bell' }],
+    wrong: [{ emoji: '🧊', text: 'ICE' }, { emoji: '🔔', text: 'RING BELL' }],
   },
 ];
 
@@ -91,14 +91,14 @@ export default function StoryMachine({ stars, onAddStars, onHome }) {
 
   if (showComplete) {
     return (
-      <GameShell title="Story Machine" emoji="🤖" stars={stars} onBack={onHome}>
+      <GameShell title="STORY MACHINE" emoji="🤖" stars={stars} onBack={onHome}>
         <LevelComplete starsEarned={2} onNext={() => { setShowComplete(false); setPuzzleIndex(i => i + 1); }} onHome={onHome} />
       </GameShell>
     );
   }
 
   return (
-    <GameShell title="Story Machine" emoji="🤖" stars={stars} onBack={onHome} speakText={puzzle.hint}>
+    <GameShell title="STORY MACHINE" emoji="🤖" stars={stars} onBack={onHome} speakText={puzzle.hint}>
       <div style={{ fontSize: '4rem' }}>{puzzle.scene}</div>
 
       <div className="instruction-slots">

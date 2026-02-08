@@ -8,55 +8,55 @@ const PUZZLES = [
   {
     emoji: '🥪', hint: 'Make a sandwich!',
     steps: [
-      { emoji: '🍞', text: 'Get bread' },
-      { emoji: '🧈', text: 'Spread butter' },
-      { emoji: '🧀', text: 'Add cheese' },
-      { emoji: '🍞', text: 'Top bread' },
+      { emoji: '🍞', text: 'GET BREAD' },
+      { emoji: '🧈', text: 'SPREAD BUTTER' },
+      { emoji: '🧀', text: 'ADD CHEESE' },
+      { emoji: '🍞', text: 'TOP BREAD' },
     ],
   },
   {
     emoji: '🎨', hint: 'Paint a picture!',
     steps: [
-      { emoji: '📄', text: 'Get paper' },
-      { emoji: '🎨', text: 'Pick colors' },
-      { emoji: '🖌️', text: 'Paint' },
-      { emoji: '🖼️', text: 'Hang it' },
+      { emoji: '📄', text: 'GET PAPER' },
+      { emoji: '🎨', text: 'PICK COLORS' },
+      { emoji: '🖌️', text: 'PAINT' },
+      { emoji: '🖼️', text: 'HANG IT' },
     ],
   },
   {
     emoji: '🌱', hint: 'Plant a flower!',
     steps: [
-      { emoji: '🕳️', text: 'Dig hole' },
-      { emoji: '🌱', text: 'Put seed' },
-      { emoji: '🪣', text: 'Add dirt' },
-      { emoji: '💧', text: 'Water' },
+      { emoji: '🕳️', text: 'DIG HOLE' },
+      { emoji: '🌱', text: 'PUT SEED' },
+      { emoji: '🪣', text: 'ADD DIRT' },
+      { emoji: '💧', text: 'WATER' },
     ],
   },
   {
     emoji: '🦷', hint: 'Brush teeth!',
     steps: [
-      { emoji: '🪥', text: 'Get brush' },
-      { emoji: '🧴', text: 'Add paste' },
-      { emoji: '😬', text: 'Brush' },
-      { emoji: '💦', text: 'Rinse' },
+      { emoji: '🪥', text: 'GET BRUSH' },
+      { emoji: '🧴', text: 'ADD PASTE' },
+      { emoji: '😬', text: 'BRUSH' },
+      { emoji: '💦', text: 'RINSE' },
     ],
   },
   {
     emoji: '🎂', hint: 'Bake a cake!',
     steps: [
-      { emoji: '🥣', text: 'Mix' },
-      { emoji: '🍰', text: 'Pour in pan' },
-      { emoji: '🔥', text: 'Bake' },
-      { emoji: '🎂', text: 'Frosting' },
+      { emoji: '🥣', text: 'MIX' },
+      { emoji: '🍰', text: 'POUR IN PAN' },
+      { emoji: '🔥', text: 'BAKE' },
+      { emoji: '🎂', text: 'FROSTING' },
     ],
   },
   {
     emoji: '📬', hint: 'Send a letter!',
     steps: [
-      { emoji: '✏️', text: 'Write' },
-      { emoji: '📨', text: 'Envelope' },
-      { emoji: '📮', text: 'Stamp' },
-      { emoji: '📭', text: 'Mailbox' },
+      { emoji: '✏️', text: 'WRITE' },
+      { emoji: '📨', text: 'ENVELOPE' },
+      { emoji: '📮', text: 'STAMP' },
+      { emoji: '📭', text: 'MAILBOX' },
     ],
   },
 ];
@@ -104,14 +104,14 @@ export default function BossBrain({ stars, onAddStars, onHome }) {
 
   if (showComplete) {
     return (
-      <GameShell title="Boss Brain" emoji="👑" stars={stars} onBack={onHome}>
+      <GameShell title="BOSS BRAIN" emoji="👑" stars={stars} onBack={onHome}>
         <LevelComplete starsEarned={2} onNext={() => { setShowComplete(false); setPuzzleIndex(i => i + 1); }} onHome={onHome} />
       </GameShell>
     );
   }
 
   return (
-    <GameShell title="Boss Brain" emoji="👑" stars={stars} onBack={onHome} speakText={puzzle.hint}>
+    <GameShell title="BOSS BRAIN" emoji="👑" stars={stars} onBack={onHome} speakText={puzzle.hint}>
       <div style={{ fontSize: '3rem' }}>{puzzle.emoji}</div>
 
       <div className="steps-area">

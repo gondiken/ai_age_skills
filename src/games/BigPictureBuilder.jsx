@@ -6,32 +6,32 @@ import { playCorrect, playWrong, playTap } from '../sounds';
 
 const PUZZLES = [
   {
-    emoji: '🏠', hint: 'Pick what you need to build a house!',
+    emoji: '🏠', hint: 'PICK WHAT YOU NEED TO BUILD A HOUSE!',
     correct: ['🧱', '🪟', '🚪', '🔨'], wrong: ['🐟', '🎸'],
     labels: { '🧱': 'BRICKS', '🪟': 'WINDOW', '🚪': 'DOOR', '🔨': 'HAMMER', '🐟': 'FISH', '🎸': 'GUITAR' },
   },
   {
-    emoji: '🌳', hint: 'What does a tree need to grow?',
+    emoji: '🌳', hint: 'WHAT DOES A TREE NEED TO GROW?',
     correct: ['🌱', '☀️', '💧', '🪴'], wrong: ['🔑', '📺'],
     labels: { '🌱': 'SEED', '☀️': 'SUN', '💧': 'WATER', '🪴': 'SOIL', '🔑': 'KEY', '📺': 'TV' },
   },
   {
-    emoji: '🍕', hint: 'What do you need for pizza?',
+    emoji: '🍕', hint: 'WHAT DO YOU NEED FOR PIZZA?',
     correct: ['🫓', '🧀', '🍅', '🔥'], wrong: ['🧸', '📚'],
     labels: { '🫓': 'DOUGH', '🧀': 'CHEESE', '🍅': 'SAUCE', '🔥': 'OVEN', '🧸': 'TEDDY', '📚': 'BOOKS' },
   },
   {
-    emoji: '🚗', hint: 'What does a car need?',
+    emoji: '🚗', hint: 'WHAT DOES A CAR NEED?',
     correct: ['⛽', '🛞', '🔑', '🛣️'], wrong: ['🌂', '🎈'],
     labels: { '⛽': 'GAS', '🛞': 'WHEELS', '🔑': 'KEY', '🛣️': 'ROAD', '🌂': 'UMBRELLA', '🎈': 'BALLOON' },
   },
   {
-    emoji: '🎵', hint: 'What do you need to play music?',
+    emoji: '🎵', hint: 'WHAT DO YOU NEED TO PLAY MUSIC?',
     correct: ['🎸', '🎵', '🙌', '👂'], wrong: ['🧊', '🗑️'],
     labels: { '🎸': 'GUITAR', '🎵': 'NOTES', '🙌': 'HANDS', '👂': 'EARS', '🧊': 'ICE', '🗑️': 'TRASH' },
   },
   {
-    emoji: '📦', hint: 'What do you need to send a box?',
+    emoji: '📦', hint: 'WHAT DO YOU NEED TO SEND A BOX?',
     correct: ['📦', '📝', '📮', '🚚'], wrong: ['🧹', '🎲'],
     labels: { '📦': 'BOX', '📝': 'ADDRESS', '📮': 'MAILBOX', '🚚': 'TRUCK', '🧹': 'BROOM', '🎲': 'DICE' },
   },
@@ -82,14 +82,14 @@ export default function BigPictureBuilder({ stars, onAddStars, onHome }) {
 
   if (showComplete) {
     return (
-      <GameShell title="Big Picture" emoji="🧩" stars={stars} onBack={onHome}>
+      <GameShell title="BIG PICTURE" emoji="🧩" stars={stars} onBack={onHome}>
         <LevelComplete starsEarned={2} onNext={() => { setShowComplete(false); setPuzzleIndex(i => i + 1); }} onHome={onHome} />
       </GameShell>
     );
   }
 
   return (
-    <GameShell title="Big Picture" emoji="🧩" stars={stars} onBack={onHome} speakText={puzzle.hint}>
+    <GameShell title="BIG PICTURE" emoji="🧩" stars={stars} onBack={onHome} speakText={puzzle.hint}>
       <div className="system-board">
         <div className="system-scenario">
           <div style={{ fontSize: '3.5rem' }}>{puzzle.emoji}</div>
