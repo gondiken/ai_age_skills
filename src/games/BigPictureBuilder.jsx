@@ -93,6 +93,7 @@ export default function BigPictureBuilder({ stars, onAddStars, onHome }) {
       <div className="system-board">
         <div className="system-scenario">
           <div style={{ fontSize: '3.5rem' }}>{puzzle.emoji}</div>
+          <div className="question-text" style={{ fontSize: '0.95rem', marginTop: 6 }}>PICK THE RIGHT PARTS!</div>
         </div>
 
         <div className="progress-bar" style={{ margin: '0 auto' }}>

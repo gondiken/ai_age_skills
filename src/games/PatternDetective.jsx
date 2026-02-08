@@ -88,6 +88,8 @@ export default function PatternDetective({ stars, onAddStars, onHome }) {
         <div className="progress-fill" style={{ width: `${((puzzleIndex % roundSize) / roundSize) * 100}%` }} />
       </div>
 
+      <div className="question-text" style={{ fontSize: '1.1rem' }}>WHAT COMES NEXT?</div>
+
       <div className="sequence-row">
         {puzzle.seq.map((item, i) => (
           <div key={i} className="sequence-item pop-in" style={{ animationDelay: `${i * 0.08}s` }}>

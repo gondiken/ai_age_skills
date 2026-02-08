@@ -13,17 +13,17 @@ import StoryMachine from './games/StoryMachine';
 import IdeaMixer from './games/IdeaMixer';
 import CauseEffect from './games/CauseEffect';
 import SortItOut from './games/SortItOut';
-import MemoryMatch from './games/MemoryMatch';
+import CodeBot from './games/CodeBot';
 
 const GAMES = [
-  { id: 'pattern', title: 'Patterns', icon: '🔍', color: 'pink', Component: PatternDetective },
-  { id: 'systems', title: 'Big Picture', icon: '🧩', color: 'purple', Component: BigPictureBuilder },
-  { id: 'boss', title: 'Boss Brain', icon: '👑', color: 'green', Component: BossBrain },
-  { id: 'story', title: 'Story Machine', icon: '🤖', color: 'blue', Component: StoryMachine },
-  { id: 'mixer', title: 'Idea Mixer', icon: '💡', color: 'orange', Component: IdeaMixer },
-  { id: 'cause', title: 'What Happens?', icon: '⚡', color: 'yellow', Component: CauseEffect },
-  { id: 'sort', title: 'Sort It', icon: '📦', color: 'pink', Component: SortItOut },
-  { id: 'memory', title: 'Memory', icon: '🧠', color: 'purple', Component: MemoryMatch },
+  { id: 'pattern', title: 'PATTERNS', icon: '🔍', color: 'pink', Component: PatternDetective },
+  { id: 'systems', title: 'BIG PICTURE', icon: '🧩', color: 'purple', Component: BigPictureBuilder },
+  { id: 'boss', title: 'BOSS BRAIN', icon: '👑', color: 'green', Component: BossBrain },
+  { id: 'story', title: 'STORY MACHINE', icon: '🤖', color: 'blue', Component: StoryMachine },
+  { id: 'mixer', title: 'IDEA MIXER', icon: '💡', color: 'orange', Component: IdeaMixer },
+  { id: 'cause', title: 'WHAT HAPPENS?', icon: '⚡', color: 'yellow', Component: CauseEffect },
+  { id: 'sort', title: 'SORT IT', icon: '📦', color: 'pink', Component: SortItOut },
+  { id: 'codebot', title: 'CODE BOT', icon: '🤖', color: 'purple', Component: CodeBot },
 ];
 
 export default function App() {

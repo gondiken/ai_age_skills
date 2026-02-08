@@ -294,7 +294,7 @@ export default function CreatureGarden({ totalStars, creatures = {}, onSpendStar
       setShowConfetti(true);
       setJustHatched(nextCreature.id);
       onSpendStars(HATCH_COST, currentSet.id, nextCreature.id);
-      speak(`You hatched a ${nextCreature.name}!`);
+      speak(`You hatched a ${nextCreature.name.toLowerCase()}!`);
       setTimeout(() => {
         setHatching(null);
         setShowConfetti(false);

@@ -1,41 +1,44 @@
-// Text-to-speech helper — voice loading + user-gesture unlock + configurable voice
+// Text-to-speech helper — voice loading + user-gesture unlock + voice selection
 
-let cachedVoice = null;
+let selectedVoice = null;
 let userHasInteracted = false;
 
-function loadVoice() {
-  if (cachedVoice) return cachedVoice;
+function loadVoices() {
   const voices = window.speechSynthesis.getVoices();
-  if (voices.length === 0) return null;
-  cachedVoice =
-    voices.find(v => v.lang.startsWith('en') && /female/i.test(v.name)) ||
-    voices.find(v => v.lang.startsWith('en-US')) ||
-    voices.find(v => v.lang.startsWith('en')) ||
-    voices[0];
-  return cachedVoice;
+  if (voices.length === 0) return;
+
+  // Try to restore saved voice
+  try {
+    const savedURI = localStorage.getItem('brain_games_voice_uri');
+    if (savedURI) {
+      const found = voices.find(v => v.voiceURI === savedURI);
+      if (found) {
+        selectedVoice = found;
+        return;
+      }
+    }
+  } catch { /* ignore */ }
+
+  // Default: pick a good English voice
+  if (!selectedVoice) {
+    selectedVoice =
+      voices.find(v => v.lang.startsWith('en') && v.default) ||
+      voices.find(v => v.lang.startsWith('en-US')) ||
+      voices.find(v => v.lang.startsWith('en')) ||
+      voices[0];
+  }
+}
+
+export function setSelectedVoice(voice) {
+  selectedVoice = voice;
 }
 
 export function initSpeech() {
   if (!('speechSynthesis' in window)) return;
   if (window.speechSynthesis.onvoiceschanged !== undefined) {
-    window.speechSynthesis.onvoiceschanged = () => loadVoice();
+    window.speechSynthesis.onvoiceschanged = () => loadVoices();
   }
-  if (window.speechSynthesis.getVoices().length > 0) loadVoice();
-
-  // Load saved voice preset
-  try {
-    const saved = localStorage.getItem('brain_games_voice');
-    const presets = {
-      default: { rate: 0.85, pitch: 1.1 },
-      slow: { rate: 0.65, pitch: 0.9 },
-      fast: { rate: 1.1, pitch: 1.2 },
-      deep: { rate: 0.8, pitch: 0.6 },
-      high: { rate: 0.95, pitch: 1.8 },
-    };
-    const p = presets[saved] || presets.default;
-    window.__voiceRate = p.rate;
-    window.__voicePitch = p.pitch;
-  } catch { /* ignore */ }
+  if (window.speechSynthesis.getVoices().length > 0) loadVoices();
 }
 
 export function unlockAudio() {
@@ -57,15 +60,15 @@ export function speak(text) {
 
   setTimeout(() => {
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = window.__voiceRate || 0.85;
-    utterance.pitch = window.__voicePitch || 1.1;
+    utterance.rate = 0.9;
+    utterance.pitch = 1.0;
     utterance.volume = 1;
 
-    const voice = loadVoice();
-    if (voice) utterance.voice = voice;
+    if (selectedVoice) utterance.voice = selectedVoice;
 
     window.speechSynthesis.speak(utterance);
 
+    // Chrome bug workaround: keep-alive by pausing/resuming
     const keepAlive = setInterval(() => {
       if (!window.speechSynthesis.speaking) {
         clearInterval(keepAlive);

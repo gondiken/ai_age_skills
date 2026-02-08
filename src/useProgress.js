@@ -12,7 +12,7 @@ const defaultProgress = {
     mixer: { stars: 0, highLevel: 0 },
     cause: { stars: 0, highLevel: 0 },
     sort: { stars: 0, highLevel: 0 },
-    memory: { stars: 0, highLevel: 0 },
+    codebot: { stars: 0, highLevel: 0 },
   },
   creatures: {},
 };

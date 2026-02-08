@@ -79,6 +79,8 @@ export default function IdeaMixer({ stars, onAddStars, onHome }) {
 
   return (
     <GameShell title="Idea Mixer" emoji="💡" stars={stars} onBack={onHome} speakText={combo.hint}>
+      <div className="question-text" style={{ fontSize: '1rem' }}>WHAT DO YOU GET?</div>
+
       <div className="mixer-area">
         <div className="mix-item pop-in">{combo.a}</div>
         <div className="mix-plus">+</div>
