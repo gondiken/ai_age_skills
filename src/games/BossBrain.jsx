@@ -83,13 +83,13 @@ const EASY = [
 /* ─── MEDIUM (9-16): 5 steps each ─── */
 const MEDIUM = [
   {
-    emoji: '👕', hint: 'GET DRESSED!',
+    emoji: '🧼', hint: 'WASH YOUR HANDS!',
     steps: [
-      { emoji: '🩲', text: 'UNDERWEAR' },
-      { emoji: '👖', text: 'PUT ON PANTS' },
-      { emoji: '👕', text: 'PUT ON SHIRT' },
-      { emoji: '🧦', text: 'ADD SOCKS' },
-      { emoji: '👟', text: 'TIE SHOES' },
+      { emoji: '🚰', text: 'TURN ON WATER' },
+      { emoji: '💧', text: 'WET HANDS' },
+      { emoji: '🧴', text: 'ADD SOAP' },
+      { emoji: '🧼', text: 'SCRUB' },
+      { emoji: '🧻', text: 'DRY OFF' },
     ],
   },
   {
@@ -143,13 +143,13 @@ const MEDIUM = [
     ],
   },
   {
-    emoji: '🧳', hint: 'PACK FOR A TRIP!',
+    emoji: '📦', hint: 'MAIL A PACKAGE!',
     steps: [
-      { emoji: '🧳', text: 'GET SUITCASE' },
-      { emoji: '👕', text: 'PACK CLOTHES' },
-      { emoji: '🪥', text: 'PACK TOOTHBRUSH' },
-      { emoji: '🧸', text: 'PACK TEDDY' },
-      { emoji: '🔒', text: 'ZIP IT UP' },
+      { emoji: '📦', text: 'GET BOX' },
+      { emoji: '🎁', text: 'PUT GIFT IN' },
+      { emoji: '📦', text: 'CLOSE BOX' },
+      { emoji: '📋', text: 'TAPE IT' },
+      { emoji: '📮', text: 'TAKE TO POST' },
     ],
   },
   {
@@ -167,23 +167,23 @@ const MEDIUM = [
 /* ─── HARD (17-24): 6 steps each ─── */
 const HARD = [
   {
-    emoji: '🌅', hint: 'MORNING ROUTINE!',
+    emoji: '🏫', hint: 'GO TO SCHOOL!',
     steps: [
       { emoji: '⏰', text: 'WAKE UP' },
-      { emoji: '🛏️', text: 'MAKE BED' },
-      { emoji: '🪥', text: 'BRUSH TEETH' },
       { emoji: '👕', text: 'GET DRESSED' },
       { emoji: '🥣', text: 'EAT BREAKFAST' },
-      { emoji: '🎒', text: 'GRAB BAG' },
+      { emoji: '🎒', text: 'GRAB BACKPACK' },
+      { emoji: '🚶', text: 'WALK TO BUS' },
+      { emoji: '🚌', text: 'RIDE TO SCHOOL' },
     ],
   },
   {
     emoji: '🏖️', hint: 'BUILD A SANDCASTLE!',
     steps: [
-      { emoji: '🪣', text: 'GET BUCKET' },
+      { emoji: '🏖️', text: 'GO TO BEACH' },
       { emoji: '⛱️', text: 'FIND A SPOT' },
-      { emoji: '🏖️', text: 'DIG SAND' },
-      { emoji: '💧', text: 'ADD WATER' },
+      { emoji: '🪣', text: 'FILL BUCKET' },
+      { emoji: '🪣', text: 'FLIP BUCKET' },
       { emoji: '🏰', text: 'BUILD TOWER' },
       { emoji: '🚩', text: 'PUT FLAG ON TOP' },
     ],
@@ -200,14 +200,14 @@ const HARD = [
     ],
   },
   {
-    emoji: '🌻', hint: 'PLANT A GARDEN!',
+    emoji: '🪁', hint: 'FLY A KITE!',
     steps: [
-      { emoji: '📐', text: 'PLAN ROWS' },
-      { emoji: '🕳️', text: 'DIG HOLES' },
-      { emoji: '🌱', text: 'PLANT SEEDS' },
-      { emoji: '🪣', text: 'COVER DIRT' },
-      { emoji: '💧', text: 'WATER THEM' },
-      { emoji: '☀️', text: 'WAIT FOR SUN' },
+      { emoji: '🪁', text: 'GET KITE' },
+      { emoji: '🌳', text: 'GO TO PARK' },
+      { emoji: '🧵', text: 'UNROLL STRING' },
+      { emoji: '🏃', text: 'RUN WITH IT' },
+      { emoji: '🪁', text: 'LET IT FLY' },
+      { emoji: '🧵', text: 'REEL IT BACK' },
     ],
   },
   {
@@ -225,11 +225,11 @@ const HARD = [
     emoji: '🎉', hint: 'THROW A BIRTHDAY PARTY!',
     steps: [
       { emoji: '📨', text: 'SEND INVITES' },
-      { emoji: '🎈', text: 'BLOW BALLOONS' },
+      { emoji: '🛒', text: 'BUY DECORATIONS' },
+      { emoji: '🎈', text: 'DECORATE ROOM' },
       { emoji: '🎂', text: 'BAKE CAKE' },
-      { emoji: '🎁', text: 'WRAP GIFTS' },
-      { emoji: '🎶', text: 'PLAY MUSIC' },
-      { emoji: '🎉', text: 'PARTY TIME' },
+      { emoji: '👋', text: 'GREET FRIENDS' },
+      { emoji: '🎁', text: 'OPEN GIFTS' },
     ],
   },
   {
