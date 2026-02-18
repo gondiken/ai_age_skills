@@ -117,6 +117,22 @@ const CREATURE_SETS = [
       { id: 'mermaid', name: 'CORAL', color: '#4ADE80' },
     ],
   },
+  {
+    id: 'arctic',
+    name: 'ARCTIC PALS',
+    icon: '❄️',
+    creatures: [
+      { id: 'penguin', name: 'WADDLE', color: '#1E293B' },
+      { id: 'polarbear', name: 'SNOWBALL', color: '#E2E8F0' },
+      { id: 'seal', name: 'SLIPPY', color: '#94A3B8' },
+      { id: 'walrus', name: 'TUSK', color: '#D4A574' },
+      { id: 'arcticfox', name: 'FROSTY', color: '#E2E8F0' },
+      { id: 'snowyowl', name: 'BLIZZARD', color: '#F1F5F9' },
+      { id: 'narwhal', name: 'POINTY', color: '#60A5FA' },
+      { id: 'husky', name: 'MUSHER', color: '#94A3B8' },
+      { id: 'puffin', name: 'BEAKY', color: '#1E293B' },
+    ],
+  },
 ];
 
 const HATCH_COST = 10;
@@ -1029,6 +1045,153 @@ function CreatureSVG({ creatureId, color, size = 52 }) {
         <ellipse cx="16" cy="50" rx="4" ry="3" fill={color} opacity="0.6" />
         <ellipse cx="44" cy="50" rx="4" ry="3" fill={color} opacity="0.6" />
         <ellipse cx="30" cy="30" rx="5" ry="4" fill="rgba(255,255,255,0.2)" />
+      </svg>
+    ),
+    /* ─── ARCTIC PALS ─── */
+    penguin: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="36" rx="16" ry="18" fill={color} />
+        <ellipse cx="30" cy="38" rx="10" ry="14" fill="white" />
+        <circle cx="24" cy="28" r="3" fill="white" />
+        <circle cx="36" cy="28" r="3" fill="white" />
+        <circle cx="24" cy="28" r="1.5" fill="#1E1B4B" />
+        <circle cx="36" cy="28" r="1.5" fill="#1E1B4B" />
+        <polygon points="30,32 26,36 34,36" fill="#FB923C" />
+        <polygon points="12,36 6,48 16,42" fill={color} />
+        <polygon points="48,36 54,48 44,42" fill={color} />
+        <ellipse cx="24" cy="52" rx="4" ry="2" fill="#FB923C" />
+        <ellipse cx="36" cy="52" rx="4" ry="2" fill="#FB923C" />
+      </svg>
+    ),
+    polarbear: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <circle cx="30" cy="36" r="18" fill={color} />
+        <circle cx="16" cy="20" r="7" fill={color} />
+        <circle cx="44" cy="20" r="7" fill={color} />
+        <circle cx="16" cy="20" r="4" fill="rgba(200,200,255,0.3)" />
+        <circle cx="44" cy="20" r="4" fill="rgba(200,200,255,0.3)" />
+        <circle cx="24" cy="32" r="2.5" fill="#1E1B4B" />
+        <circle cx="36" cy="32" r="2.5" fill="#1E1B4B" />
+        <ellipse cx="30" cy="38" rx="4" ry="3" fill="#1E1B4B" />
+        <ellipse cx="30" cy="40" rx="8" ry="5" fill="rgba(255,255,255,0.3)" />
+        <circle cx="18" cy="50" r="4" fill={color} />
+        <circle cx="42" cy="50" r="4" fill={color} />
+      </svg>
+    ),
+    seal: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="36" rx="20" ry="14" fill={color} />
+        <ellipse cx="30" cy="26" rx="12" ry="10" fill={color} />
+        <circle cx="24" cy="24" r="3" fill="white" />
+        <circle cx="36" cy="24" r="3" fill="white" />
+        <circle cx="24" cy="24" r="1.5" fill="#1E1B4B" />
+        <circle cx="36" cy="24" r="1.5" fill="#1E1B4B" />
+        <ellipse cx="30" cy="28" rx="3" ry="2" fill="#1E1B4B" />
+        <line x1="22" y1="28" x2="14" y2="26" stroke={color} strokeWidth="1" />
+        <line x1="22" y1="30" x2="14" y2="30" stroke={color} strokeWidth="1" />
+        <line x1="38" y1="28" x2="46" y2="26" stroke={color} strokeWidth="1" />
+        <line x1="38" y1="30" x2="46" y2="30" stroke={color} strokeWidth="1" />
+        <polygon points="12,40 4,36 8,44" fill={color} />
+        <polygon points="48,40 56,36 52,44" fill={color} />
+        <path d="M28 48 Q30 54 32 48" fill={color} />
+      </svg>
+    ),
+    walrus: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="34" rx="20" ry="16" fill={color} />
+        <ellipse cx="30" cy="26" rx="14" ry="12" fill={color} />
+        <circle cx="22" cy="22" r="3" fill="white" />
+        <circle cx="38" cy="22" r="3" fill="white" />
+        <circle cx="22" cy="22" r="1.5" fill="#1E1B4B" />
+        <circle cx="38" cy="22" r="1.5" fill="#1E1B4B" />
+        <ellipse cx="30" cy="30" rx="8" ry="5" fill="rgba(255,255,255,0.25)" />
+        <circle cx="26" cy="30" r="1.5" fill="#1E1B4B" />
+        <circle cx="30" cy="29" r="1.5" fill="#1E1B4B" />
+        <circle cx="34" cy="30" r="1.5" fill="#1E1B4B" />
+        <line x1="24" y1="34" x2="22" y2="48" stroke="white" strokeWidth="3" strokeLinecap="round" />
+        <line x1="36" y1="34" x2="38" y2="48" stroke="white" strokeWidth="3" strokeLinecap="round" />
+        <polygon points="12,38 4,34 8,42" fill={color} />
+        <polygon points="48,38 56,34 52,42" fill={color} />
+      </svg>
+    ),
+    arcticfox: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="38" rx="16" ry="14" fill={color} />
+        <polygon points="16,28 8,8 22,22" fill={color} />
+        <polygon points="44,28 52,8 38,22" fill={color} />
+        <polygon points="16,28 12,14 20,22" fill="rgba(200,200,255,0.2)" />
+        <polygon points="44,28 48,14 40,22" fill="rgba(200,200,255,0.2)" />
+        <circle cx="24" cy="34" r="2.5" fill="#1E1B4B" />
+        <circle cx="36" cy="34" r="2.5" fill="#1E1B4B" />
+        <ellipse cx="30" cy="38" rx="3" ry="2" fill="#1E1B4B" />
+        <path d="M26 42 Q30 46 34 42" fill="none" stroke="#1E1B4B" strokeWidth="1.5" />
+        <ellipse cx="30" cy="39" rx="8" ry="5" fill="rgba(255,255,255,0.2)" />
+        <path d="M44 38 Q54 36 52 44 Q50 40 48 44" fill={color} />
+      </svg>
+    ),
+    snowyowl: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="36" rx="18" ry="18" fill={color} />
+        <circle cx="22" cy="30" r="8" fill="white" />
+        <circle cx="38" cy="30" r="8" fill="white" />
+        <circle cx="22" cy="30" r="4" fill="#FACC15" />
+        <circle cx="38" cy="30" r="4" fill="#FACC15" />
+        <circle cx="22" cy="30" r="2" fill="#1E1B4B" />
+        <circle cx="38" cy="30" r="2" fill="#1E1B4B" />
+        <polygon points="30,36 27,40 33,40" fill="#FACC15" />
+        <polygon points="14,22 10,12 22,22" fill={color} />
+        <polygon points="46,22 50,12 38,22" fill={color} />
+        <circle cx="20" cy="38" r="2" fill="rgba(0,0,0,0.08)" />
+        <circle cx="34" cy="42" r="1.5" fill="rgba(0,0,0,0.08)" />
+        <circle cx="40" cy="36" r="1.5" fill="rgba(0,0,0,0.08)" />
+      </svg>
+    ),
+    narwhal: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="34" rx="18" ry="12" fill={color} />
+        <circle cx="22" cy="30" r="2.5" fill="white" />
+        <circle cx="22" cy="30" r="1.2" fill="#1E1B4B" />
+        <path d="M26 38 Q30 42 34 38" fill="none" stroke="#1E1B4B" strokeWidth="1.5" />
+        <path d="M46 28 Q54 20 50 30 Q54 42 46 38" fill={color} />
+        <line x1="14" y1="28" x2="2" y2="14" stroke="#FACC15" strokeWidth="3" strokeLinecap="round" />
+        <line x1="2" y1="14" x2="0" y2="8" stroke="#FACC15" strokeWidth="2" strokeLinecap="round" />
+        <ellipse cx="30" cy="36" rx="12" ry="5" fill="rgba(255,255,255,0.2)" />
+      </svg>
+    ),
+    husky: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="40" rx="16" ry="12" fill={color} />
+        <ellipse cx="30" cy="26" rx="12" ry="10" fill={color} />
+        <polygon points="18,20 12,6 24,16" fill={color} />
+        <polygon points="42,20 48,6 36,16" fill={color} />
+        <polygon points="18,20 14,10 22,16" fill="rgba(255,255,255,0.3)" />
+        <polygon points="42,20 46,10 38,16" fill="rgba(255,255,255,0.3)" />
+        <circle cx="24" cy="24" r="3" fill="white" />
+        <circle cx="36" cy="24" r="3" fill="white" />
+        <circle cx="24" cy="24" r="2" fill="#60A5FA" />
+        <circle cx="36" cy="24" r="2" fill="#60A5FA" />
+        <circle cx="24" cy="24" r="1" fill="#1E1B4B" />
+        <circle cx="36" cy="24" r="1" fill="#1E1B4B" />
+        <ellipse cx="30" cy="30" rx="3" ry="2" fill="#1E1B4B" />
+        <path d="M30" y1="18" x2="30" y2="26" stroke="white" strokeWidth="2" />
+        <rect x="28" y="18" width="4" height="8" rx="2" fill="white" opacity="0.4" />
+        <path d="M44 40 Q52 38 50 46 Q48 42 46 46" fill={color} />
+      </svg>
+    ),
+    puffin: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="38" rx="14" ry="16" fill={color} />
+        <ellipse cx="30" cy="40" rx="8" ry="12" fill="white" />
+        <ellipse cx="30" cy="24" rx="10" ry="10" fill={color} />
+        <circle cx="24" cy="22" r="3" fill="white" />
+        <circle cx="36" cy="22" r="3" fill="white" />
+        <circle cx="24" cy="22" r="1.5" fill="#1E1B4B" />
+        <circle cx="36" cy="22" r="1.5" fill="#1E1B4B" />
+        <polygon points="30,26 24,32 36,32" fill="#FB923C" />
+        <path d="M26 28 L24 32" stroke="#F87171" strokeWidth="1.5" />
+        <path d="M34 28 L36 32" stroke="#F87171" strokeWidth="1.5" />
+        <ellipse cx="22" cy="52" rx="3" ry="1.5" fill="#FB923C" />
+        <ellipse cx="38" cy="52" rx="3" ry="1.5" fill="#FB923C" />
       </svg>
     ),
   };
