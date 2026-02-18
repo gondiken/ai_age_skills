@@ -346,7 +346,7 @@ export default function StoryMachine({ stars, onAddStars, onHome }) {
 
   if (allDone) {
     return (
-      <GameShell title="STORY MACHINE" emoji="🤖" stars={stars} onBack={onHome}>
+      <GameShell title="STORY MACHINE" emoji="📋" stars={stars} onBack={onHome}>
         <style>{`
           .sm-done { text-align:center; padding:2rem 1rem; }
           .sm-done-trophy { font-size:5rem; animation: pop 0.5s ease; }
@@ -356,7 +356,7 @@ export default function StoryMachine({ stars, onAddStars, onHome }) {
           .sm-done-sub { font-size:1.2rem; color:var(--text-muted); margin-bottom:1.5rem; }
         `}</style>
         <div className="sm-done">
-          <div className="sm-done-trophy">🤖</div>
+          <div className="sm-done-trophy">📋</div>
           <div className="sm-done-title">MASTER INSTRUCTOR!</div>
           <div className="sm-done-sub">ALL 24 LEVELS COMPLETE</div>
           <button className="game-btn" onClick={onHome}>🏠 HOME</button>
@@ -367,14 +367,14 @@ export default function StoryMachine({ stars, onAddStars, onHome }) {
 
   if (showComplete) {
     return (
-      <GameShell title="STORY MACHINE" emoji="🤖" stars={stars} onBack={onHome}>
+      <GameShell title="STORY MACHINE" emoji="📋" stars={stars} onBack={onHome}>
         <LevelComplete starsEarned={completedStars} onNext={() => { setShowComplete(false); setPuzzleIndex(i => i + 1); }} onHome={onHome} />
       </GameShell>
     );
   }
 
   return (
-    <GameShell title="STORY MACHINE" emoji="🤖" stars={stars} onBack={onHome} speakText={puzzle.hint}>
+    <GameShell title="STORY MACHINE" emoji="📋" stars={stars} onBack={onHome} speakText={puzzle.hint}>
       <style>{`
         .sm-badges { display:flex; justify-content:center; gap:0.5rem; margin-bottom:0.5rem; }
         .sm-level { background:rgba(255,255,255,0.15); padding:0.2rem 0.7rem; border-radius:1rem; font-size:0.85rem; font-weight:700; }

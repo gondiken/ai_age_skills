@@ -19,7 +19,7 @@ const GAMES = [
   { id: 'pattern', title: 'PATTERNS', icon: '🔍', color: 'pink', Component: PatternDetective },
   { id: 'systems', title: 'BIG PICTURE', icon: '🧩', color: 'purple', Component: BigPictureBuilder },
   { id: 'boss', title: 'BOSS BRAIN', icon: '👑', color: 'green', Component: BossBrain },
-  { id: 'story', title: 'STORY MACHINE', icon: '🤖', color: 'blue', Component: StoryMachine },
+  { id: 'story', title: 'STORY MACHINE', icon: '📋', color: 'blue', Component: StoryMachine },
   { id: 'mixer', title: 'IDEA MIXER', icon: '💡', color: 'orange', Component: IdeaMixer },
   { id: 'cause', title: 'WHAT HAPPENS?', icon: '⚡', color: 'yellow', Component: CauseEffect },
   { id: 'sort', title: 'SORT IT', icon: '📦', color: 'pink', Component: SortItOut },
