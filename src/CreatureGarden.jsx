@@ -70,6 +70,32 @@ const CREATURE_SETS = [
       { id: 'raptor', name: 'DASH', color: '#F87171' },
     ],
   },
+  {
+    id: 'farm',
+    name: 'FARM FRIENDS',
+    icon: '🐄',
+    creatures: [
+      { id: 'cow', name: 'DAISY', color: '#E2E8F0' },
+      { id: 'pig', name: 'OINK', color: '#F9A8D4' },
+      { id: 'chicken', name: 'CLUCKY', color: '#FACC15' },
+      { id: 'horse', name: 'GALLOP', color: '#92400E' },
+      { id: 'sheep', name: 'WOOLLY', color: '#E2E8F0' },
+      { id: 'duck', name: 'QUACK', color: '#FACC15' },
+    ],
+  },
+  {
+    id: 'mythical',
+    name: 'MYTHICAL BEASTS',
+    icon: '🐉',
+    creatures: [
+      { id: 'dragon', name: 'BLAZE', color: '#F87171' },
+      { id: 'phoenix', name: 'EMBER', color: '#FB923C' },
+      { id: 'griffin', name: 'TALON', color: '#FACC15' },
+      { id: 'pegasus', name: 'WINGS', color: '#60A5FA' },
+      { id: 'yeti', name: 'FROST', color: '#E2E8F0' },
+      { id: 'kraken', name: 'INKY', color: '#C084FC' },
+    ],
+  },
 ];
 
 const HATCH_COST = 10;
@@ -465,6 +491,188 @@ function CreatureSVG({ creatureId, color, size = 52 }) {
         <circle cx="36" cy="44" r="3.5" fill={color} />
         <path d="M24 44 L22 50 L26 48" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" />
         <path d="M36 44 L34 50 L38 48" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    ),
+    /* ─── FARM FRIENDS ─── */
+    cow: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="38" rx="18" ry="14" fill={color} />
+        <ellipse cx="30" cy="24" rx="12" ry="10" fill={color} />
+        <circle cx="24" cy="22" r="2.5" fill="#1E1B4B" />
+        <circle cx="36" cy="22" r="2.5" fill="#1E1B4B" />
+        <ellipse cx="30" cy="28" rx="6" ry="4" fill="#F9A8D4" />
+        <circle cx="28" cy="27" r="1" fill="#1E1B4B" />
+        <circle cx="32" cy="27" r="1" fill="#1E1B4B" />
+        <path d="M14 20 Q8 12 12 8" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" />
+        <path d="M46 20 Q52 12 48 8" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" />
+        <circle cx="22" cy="34" r="5" fill="rgba(0,0,0,0.15)" />
+        <circle cx="36" cy="40" r="4" fill="rgba(0,0,0,0.15)" />
+      </svg>
+    ),
+    pig: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="36" rx="18" ry="16" fill={color} />
+        <circle cx="22" cy="30" r="2.5" fill="#1E1B4B" />
+        <circle cx="38" cy="30" r="2.5" fill="#1E1B4B" />
+        <ellipse cx="30" cy="38" rx="8" ry="6" fill="rgba(255,150,180,0.5)" />
+        <circle cx="27" cy="38" r="2" fill="#1E1B4B" />
+        <circle cx="33" cy="38" r="2" fill="#1E1B4B" />
+        <polygon points="18,24 14,14 22,20" fill={color} />
+        <polygon points="42,24 46,14 38,20" fill={color} />
+        <path d="M44 44 Q50 42 48 48 Q46 46 44 48" fill={color} />
+      </svg>
+    ),
+    chicken: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="40" rx="16" ry="14" fill={color} />
+        <ellipse cx="30" cy="24" rx="10" ry="10" fill={color} />
+        <circle cx="26" cy="22" r="2" fill="#1E1B4B" />
+        <circle cx="34" cy="22" r="2" fill="#1E1B4B" />
+        <polygon points="30,26 26,32 34,32" fill="#FB923C" />
+        <path d="M28 14 Q30 6 32 14" fill="#F87171" />
+        <path d="M26 14 Q28 8 30 14" fill="#F87171" opacity="0.7" />
+        <path d="M30 14 Q32 8 34 14" fill="#F87171" opacity="0.7" />
+        <polygon points="14,44 8,50 16,48" fill={color} />
+        <polygon points="46,44 52,50 44,48" fill={color} />
+      </svg>
+    ),
+    horse: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="28" cy="40" rx="16" ry="12" fill={color} />
+        <path d="M38 36 Q44 28 42 18" fill="none" stroke={color} strokeWidth="7" strokeLinecap="round" />
+        <circle cx="42" cy="16" r="8" fill={color} />
+        <circle cx="44" cy="14" r="2" fill="#1E1B4B" />
+        <path d="M48 18 Q52 20 50 16" fill="none" stroke="#1E1B4B" strokeWidth="1.5" />
+        <path d="M38 8 Q36 2 34 8 Q36 4 38 8" fill="rgba(0,0,0,0.3)" />
+        <path d="M42 8 Q40 2 38 8" fill="rgba(0,0,0,0.3)" />
+        <circle cx="20" cy="50" r="3" fill={color} />
+        <circle cx="36" cy="50" r="3" fill={color} />
+        <path d="M12 40 Q6 38 4 44 Q8 42 10 44" fill={color} />
+      </svg>
+    ),
+    sheep: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <circle cx="18" cy="32" r="8" fill={color} />
+        <circle cx="30" cy="28" r="9" fill={color} />
+        <circle cx="42" cy="32" r="8" fill={color} />
+        <circle cx="22" cy="40" r="8" fill={color} />
+        <circle cx="38" cy="40" r="8" fill={color} />
+        <circle cx="30" cy="44" r="7" fill={color} />
+        <circle cx="30" cy="20" r="8" fill="#F9A8D4" opacity="0.6" />
+        <circle cx="26" cy="18" r="2" fill="#1E1B4B" />
+        <circle cx="34" cy="18" r="2" fill="#1E1B4B" />
+        <ellipse cx="30" cy="22" rx="2" ry="1.5" fill="#1E1B4B" />
+        <circle cx="18" cy="52" r="2.5" fill="#1E1B4B" />
+        <circle cx="42" cy="52" r="2.5" fill="#1E1B4B" />
+      </svg>
+    ),
+    duck: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="40" rx="18" ry="12" fill={color} />
+        <circle cx="34" cy="24" r="10" fill={color} />
+        <circle cx="38" cy="22" r="2.5" fill="#1E1B4B" />
+        <path d="M40 26 Q46 28 44 24 Q48 28 42 30" fill="#FB923C" />
+        <path d="M14 38 Q8 34 10 42 Q12 40 14 42" fill={color} opacity="0.7" />
+        <ellipse cx="30" cy="42" rx="12" ry="6" fill="rgba(255,255,255,0.2)" />
+      </svg>
+    ),
+    /* ─── MYTHICAL BEASTS ─── */
+    dragon: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="28" cy="38" rx="16" ry="12" fill={color} />
+        <ellipse cx="34" cy="24" rx="12" ry="10" fill={color} />
+        <circle cx="38" cy="20" r="3" fill="#FACC15" />
+        <circle cx="38" cy="20" r="1.5" fill="#1E1B4B" />
+        <path d="M28 28 L42 28" fill="none" stroke="#1E1B4B" strokeWidth="1.5" />
+        <path d="M30 26 L32 30 M34 26 L36 30 M38 26 L40 30" fill="none" stroke="white" strokeWidth="1" />
+        <polygon points="28,16 22,6 32,14" fill={color} opacity="0.8" />
+        <polygon points="36,14 40,4 42,16" fill={color} opacity="0.8" />
+        <path d="M42 36 Q50 34 54 38 Q50 36 48 40" fill={color} />
+        <polygon points="18,32 8,28 12,36" fill={color} opacity="0.5" />
+        <polygon points="16,36 6,34 10,40" fill={color} opacity="0.5" />
+        <ellipse cx="26" cy="48" rx="3" ry="2" fill="#FACC15" opacity="0.5" />
+        <ellipse cx="34" cy="50" rx="2" ry="1.5" fill="#FACC15" opacity="0.4" />
+      </svg>
+    ),
+    phoenix: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="36" rx="14" ry="12" fill={color} />
+        <ellipse cx="30" cy="24" rx="10" ry="8" fill={color} />
+        <circle cx="26" cy="22" r="2.5" fill="#FACC15" />
+        <circle cx="34" cy="22" r="2.5" fill="#FACC15" />
+        <circle cx="26" cy="22" r="1.2" fill="#1E1B4B" />
+        <circle cx="34" cy="22" r="1.2" fill="#1E1B4B" />
+        <polygon points="30,26 27,30 33,30" fill="#F87171" />
+        <polygon points="24,16 20,4 28,14" fill="#FACC15" opacity="0.8" />
+        <polygon points="30,16 28,2 32,16" fill="#F87171" opacity="0.7" />
+        <polygon points="36,16 40,4 32,14" fill="#FACC15" opacity="0.8" />
+        <polygon points="16,34 4,26 10,38" fill={color} opacity="0.6" />
+        <polygon points="44,34 56,26 50,38" fill={color} opacity="0.6" />
+        <polygon points="14,38 2,34 8,42" fill="#FACC15" opacity="0.4" />
+        <polygon points="46,38 58,34 52,42" fill="#FACC15" opacity="0.4" />
+        <path d="M24 48 Q20 56 26 52" fill={color} opacity="0.5" />
+        <path d="M36 48 Q40 56 34 52" fill={color} opacity="0.5" />
+      </svg>
+    ),
+    griffin: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="28" cy="40" rx="16" ry="12" fill={color} />
+        <ellipse cx="34" cy="26" rx="12" ry="10" fill={color} />
+        <circle cx="38" cy="22" r="2.5" fill="#1E1B4B" />
+        <polygon points="40,28 48,30 44,26" fill="#FB923C" />
+        <polygon points="30,16 26,8 34,16" fill={color} opacity="0.7" />
+        <polygon points="36,16 34,6 40,16" fill={color} opacity="0.7" />
+        <polygon points="14,34 2,24 10,38" fill={color} opacity="0.5" />
+        <polygon points="12,38 0,32 8,42" fill={color} opacity="0.4" />
+        <circle cx="20" cy="50" r="3.5" fill={color} />
+        <circle cx="36" cy="50" r="3.5" fill={color} />
+        <path d="M42 40 Q50 38 54 42 Q50 40 48 44" fill={color} />
+      </svg>
+    ),
+    pegasus: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="28" cy="40" rx="14" ry="10" fill={color} />
+        <path d="M38 36 Q42 28 40 20" fill="none" stroke={color} strokeWidth="6" strokeLinecap="round" />
+        <circle cx="40" cy="18" r="7" fill={color} />
+        <circle cx="42" cy="16" r="2" fill="#1E1B4B" />
+        <path d="M46 20 Q48 22 46 18" fill="none" stroke="#1E1B4B" strokeWidth="1" />
+        <polygon points="14,30 2,18 10,32" fill="white" opacity="0.6" />
+        <polygon points="12,34 0,24 8,36" fill="white" opacity="0.5" />
+        <polygon points="16,28 6,14 12,30" fill="white" opacity="0.4" />
+        <path d="M38 10 Q36 4 34 10 Q36 6 38 10" fill={color} opacity="0.6" />
+        <circle cx="20" cy="48" r="3" fill={color} />
+        <circle cx="36" cy="48" r="3" fill={color} />
+        <path d="M14 40 Q8 38 6 44 Q10 42 12 44" fill={color} />
+      </svg>
+    ),
+    yeti: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="36" rx="20" ry="18" fill={color} />
+        <circle cx="22" cy="28" r="5" fill="white" />
+        <circle cx="38" cy="28" r="5" fill="white" />
+        <circle cx="22" cy="28" r="2.5" fill="#60A5FA" />
+        <circle cx="38" cy="28" r="2.5" fill="#60A5FA" />
+        <circle cx="22" cy="28" r="1.2" fill="#1E1B4B" />
+        <circle cx="38" cy="28" r="1.2" fill="#1E1B4B" />
+        <ellipse cx="30" cy="38" rx="4" ry="2.5" fill="rgba(0,0,0,0.2)" />
+        <path d="M28 42 Q30 44 32 42" fill="none" stroke="rgba(0,0,0,0.2)" strokeWidth="1.5" />
+        <path d="M12 24 Q8 16 14 18" fill={color} />
+        <path d="M48 24 Q52 16 46 18" fill={color} />
+        <circle cx="16" cy="46" r="5" fill={color} />
+        <circle cx="44" cy="46" r="5" fill={color} />
+      </svg>
+    ),
+    kraken: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="20" rx="16" ry="14" fill={color} />
+        <circle cx="24" cy="16" r="4" fill="white" />
+        <circle cx="36" cy="16" r="4" fill="white" />
+        <circle cx="24" cy="16" r="2" fill="#1E1B4B" />
+        <circle cx="36" cy="16" r="2" fill="#1E1B4B" />
+        <path d="M27 24 Q30 28 33 24" fill="none" stroke="#1E1B4B" strokeWidth="1.5" />
+        {[0,1,2,3,4,5,6,7].map(i => (
+          <path key={i} d={`M${12+i*5} 32 Q${10+i*5} 44 ${14+i*5} 54`} fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" />
+        ))}
       </svg>
     ),
   };
