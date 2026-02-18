@@ -2,16 +2,56 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import GameShell from '../GameShell';
 import LevelComplete from '../LevelComplete';
 import { speak, unlockAudio } from '../speak';
-import { playCorrect, playWrong, playTap } from '../sounds';
+import { playCorrect, playWrong, playTap, playCelebrate } from '../sounds';
 
-const PUZZLES = [
-  { hint: 'SKY OR WATER?', bucketA: { emoji: '☁️', label: 'SKY', items: ['🦅', '✈️', '🎈', '🌙'] }, bucketB: { emoji: '🌊', label: 'WATER', items: ['🐟', '🐙', '🚢', '🐳'] } },
-  { hint: 'HOT OR COLD?', bucketA: { emoji: '🔥', label: 'HOT', items: ['☀️', '🌶️', '🍳', '🌋'] }, bucketB: { emoji: '❄️', label: 'COLD', items: ['🧊', '⛄', '🍦', '🐧'] } },
-  { hint: 'DAY OR NIGHT?', bucketA: { emoji: '🌞', label: 'DAY', items: ['🏫', '🦋', '🌻', '🏖️'] }, bucketB: { emoji: '🌙', label: 'NIGHT', items: ['⭐', '🦉', '🛏️', '🌌'] } },
-  { hint: 'FRUIT OR VEGGIE?', bucketA: { emoji: '🍎', label: 'FRUIT', items: ['🍌', '🍇', '🍊', '🍓'] }, bucketB: { emoji: '🥦', label: 'VEGGIE', items: ['🥕', '🌽', '🥬', '🍆'] } },
-  { hint: 'BIG OR SMALL?', bucketA: { emoji: '🐘', label: 'BIG', items: ['🏠', '🌳', '🚌', '🦕'] }, bucketB: { emoji: '🐜', label: 'SMALL', items: ['🐛', '🍒', '🔑', '🐝'] } },
-  { hint: 'FAST OR SLOW?', bucketA: { emoji: '🚀', label: 'FAST', items: ['⚡', '🏎️', '🦅', '🐆'] }, bucketB: { emoji: '🐌', label: 'SLOW', items: ['🐢', '🦥', '🐌', '🧊'] } },
+/* ─── EASY (1-8): 3 items per bucket = 6 total ─── */
+const EASY = [
+  { hint: 'SKY OR WATER?', bucketA: { emoji: '☁️', label: 'SKY', items: ['🦅', '✈️', '🌙'] }, bucketB: { emoji: '🌊', label: 'WATER', items: ['🐟', '🐙', '🐳'] } },
+  { hint: 'HOT OR COLD?', bucketA: { emoji: '🔥', label: 'HOT', items: ['☀️', '🌶️', '🌋'] }, bucketB: { emoji: '❄️', label: 'COLD', items: ['🧊', '⛄', '🐧'] } },
+  { hint: 'FRUIT OR VEGGIE?', bucketA: { emoji: '🍎', label: 'FRUIT', items: ['🍌', '🍊', '🍓'] }, bucketB: { emoji: '🥦', label: 'VEGGIE', items: ['🥕', '🌽', '🥬'] } },
+  { hint: 'DAY OR NIGHT?', bucketA: { emoji: '🌞', label: 'DAY', items: ['🦋', '🌻', '🏖️'] }, bucketB: { emoji: '🌙', label: 'NIGHT', items: ['⭐', '🦉', '🌌'] } },
+  { hint: 'LAND OR SEA?', bucketA: { emoji: '🌍', label: 'LAND', items: ['🐕', '🌳', '🏠'] }, bucketB: { emoji: '🌊', label: 'SEA', items: ['🐟', '🐚', '🦈'] } },
+  { hint: 'FOOD OR DRINK?', bucketA: { emoji: '🍕', label: 'FOOD', items: ['🍔', '🌮', '🍩'] }, bucketB: { emoji: '🥤', label: 'DRINK', items: ['🧃', '☕', '🥛'] } },
+  { hint: 'FLY OR SWIM?', bucketA: { emoji: '🦅', label: 'FLY', items: ['🐝', '🦇', '🦋'] }, bucketB: { emoji: '🐟', label: 'SWIM', items: ['🐙', '🐢', '🐬'] } },
+  { hint: 'SOFT OR HARD?', bucketA: { emoji: '🧸', label: 'SOFT', items: ['🛏️', '🧶', '☁️'] }, bucketB: { emoji: '🪨', label: 'HARD', items: ['💎', '🧱', '🪨'] } },
 ];
+
+/* ─── MEDIUM (9-16): 4 items per bucket = 8 total ─── */
+const MEDIUM = [
+  { hint: 'BIG OR SMALL?', bucketA: { emoji: '🐘', label: 'BIG', items: ['🏠', '🌳', '🚌', '🦕'] }, bucketB: { emoji: '🐜', label: 'SMALL', items: ['🐛', '🍒', '🔑', '🐝'] } },
+  { hint: 'FAST OR SLOW?', bucketA: { emoji: '🚀', label: 'FAST', items: ['⚡', '🏎️', '🦅', '🐆'] }, bucketB: { emoji: '🐌', label: 'SLOW', items: ['🐢', '🦥', '🐌', '🐛'] } },
+  { hint: 'SUMMER OR WINTER?', bucketA: { emoji: '☀️', label: 'SUMMER', items: ['🏖️', '🍦', '🌻', '🩱'] }, bucketB: { emoji: '❄️', label: 'WINTER', items: ['⛄', '🧣', '🎿', '🌨️'] } },
+  { hint: 'LOUD OR QUIET?', bucketA: { emoji: '📢', label: 'LOUD', items: ['🥁', '🎸', '🔔', '🦁'] }, bucketB: { emoji: '🤫', label: 'QUIET', items: ['🐱', '📖', '🌙', '🐟'] } },
+  { hint: 'OLD OR NEW?', bucketA: { emoji: '🏛️', label: 'OLD', items: ['🦕', '📜', '⚔️', '🏰'] }, bucketB: { emoji: '✨', label: 'NEW', items: ['📱', '🤖', '🚀', '💻'] } },
+  { hint: 'PLANT OR ANIMAL?', bucketA: { emoji: '🌿', label: 'PLANT', items: ['🌹', '🌵', '🌲', '🍄'] }, bucketB: { emoji: '🐾', label: 'ANIMAL', items: ['🐕', '🐱', '🐘', '🦁'] } },
+  { hint: 'WET OR DRY?', bucketA: { emoji: '💧', label: 'WET', items: ['🌧️', '🐟', '🏊', '🌊'] }, bucketB: { emoji: '🏜️', label: 'DRY', items: ['🏜️', '🌵', '☀️', '🐫'] } },
+  { hint: 'ABOVE OR BELOW?', bucketA: { emoji: '⬆️', label: 'ABOVE', items: ['☁️', '✈️', '🌙', '🦅'] }, bucketB: { emoji: '⬇️', label: 'BELOW', items: ['🐛', '🦀', '🐟', '🪱'] } },
+];
+
+/* ─── HARD (17-24): 5 items per bucket = 10 total ─── */
+const HARD = [
+  { hint: 'ALIVE OR NOT ALIVE?', bucketA: { emoji: '🌱', label: 'ALIVE', items: ['🐕', '🌹', '🐝', '🐟', '🌳'] }, bucketB: { emoji: '🪨', label: 'NOT ALIVE', items: ['🪨', '⭐', '💧', '🧱', '📱'] } },
+  { hint: 'SWEET OR SALTY?', bucketA: { emoji: '🍬', label: 'SWEET', items: ['🍪', '🍰', '🍯', '🍫', '🍩'] }, bucketB: { emoji: '🧂', label: 'SALTY', items: ['🍟', '🥨', '🧂', '🥜', '🍿'] } },
+  { hint: 'HAPPY OR SAD?', bucketA: { emoji: '😊', label: 'HAPPY', items: ['🎉', '🎁', '🎂', '🌈', '🎵'] }, bucketB: { emoji: '😢', label: 'SAD', items: ['🌧️', '😢', '💔', '🥀', '😿'] } },
+  { hint: 'INSIDE OR OUTSIDE?', bucketA: { emoji: '🏠', label: 'INSIDE', items: ['🛏️', '📺', '🛁', '🍳', '💡'] }, bucketB: { emoji: '🌳', label: 'OUTSIDE', items: ['🌳', '☀️', '🏔️', '🦋', '🏕️'] } },
+  { hint: 'HEALTHY OR JUNK?', bucketA: { emoji: '🥗', label: 'HEALTHY', items: ['🥕', '🍎', '🥦', '🥛', '🍇'] }, bucketB: { emoji: '🍔', label: 'JUNK', items: ['🍔', '🍕', '🍟', '🍩', '🍬'] } },
+  { hint: 'LIGHT OR HEAVY?', bucketA: { emoji: '🪶', label: 'LIGHT', items: ['🎈', '🪶', '☁️', '🫧', '🍃'] }, bucketB: { emoji: '🪨', label: 'HEAVY', items: ['🐘', '🪨', '🚗', '🏠', '⚓'] } },
+  { hint: 'WORK OR PLAY?', bucketA: { emoji: '💼', label: 'WORK', items: ['📝', '🏫', '📚', '💻', '🔧'] }, bucketB: { emoji: '🎮', label: 'PLAY', items: ['🎮', '⚽', '🎨', '🛝', '🎪'] } },
+  { hint: 'NATURE OR MADE?', bucketA: { emoji: '🌿', label: 'NATURE', items: ['🌸', '🌊', '⭐', '🐝', '🌋'] }, bucketB: { emoji: '🏭', label: 'MADE', items: ['📱', '🚗', '🏠', '✈️', '🤖'] } },
+];
+
+const PUZZLES = [...EASY, ...MEDIUM, ...HARD];
+
+function getDifficulty(idx) {
+  if (idx < 8) return 'EASY';
+  if (idx < 16) return 'MEDIUM';
+  return 'HARD';
+}
+function getDifficultyColor(idx) {
+  if (idx < 8) return '#4ADE80';
+  if (idx < 16) return '#FACC15';
+  return '#F87171';
+}
 
 function shuffle(arr) {
   const a = [...arr];
@@ -231,12 +271,19 @@ export default function SortItOut({ stars, onAddStars, onHome }) {
   const [sortedB, setSortedB] = useState([]);
   const [feedback, setFeedback] = useState(null); // 'a' | 'b' | 'wrong' | null
   const [showComplete, setShowComplete] = useState(false);
+  const [completedStars, setCompletedStars] = useState(0);
   const [itemAnimClass, setItemAnimClass] = useState('sort-falling');
   const busyRef = useRef(false);
 
-  const puzzle = PUZZLES[puzzleIndex % PUZZLES.length];
+  const allDone = puzzleIndex >= PUZZLES.length;
+  const puzzle = allDone ? null : PUZZLES[puzzleIndex];
 
   useEffect(() => {
+    if (allDone) {
+      playCelebrate();
+      speak('You sorted everything! You are a sorting superstar!');
+      return;
+    }
     const allItems = [
       ...puzzle.bucketA.items.map(e => ({ emoji: e, bucket: 'a' })),
       ...puzzle.bucketB.items.map(e => ({ emoji: e, bucket: 'b' })),
@@ -277,7 +324,9 @@ export default function SortItOut({ stars, onAddStars, onHome }) {
         busyRef.current = false;
 
         if (nextItem >= items.length) {
-          onAddStars('sort', 2);
+          const earned = 2;
+          setCompletedStars(earned);
+          onAddStars('sort', earned);
           setTimeout(() => setShowComplete(true), 400);
         }
       }, 500);
@@ -294,11 +343,33 @@ export default function SortItOut({ stars, onAddStars, onHome }) {
     }
   }, [currentItem, items, onAddStars]);
 
+  if (allDone) {
+    return (
+      <GameShell title="SORT IT" emoji="📦" stars={stars} onBack={onHome}>
+        <style>{SORT_STYLES}</style>
+        <style>{`
+          .si-done { text-align:center; padding:2rem 1rem; }
+          .si-done-trophy { font-size:5rem; animation: pop 0.5s ease; }
+          .si-done-title { font-size:1.8rem; font-weight:800; margin:1rem 0;
+            background:linear-gradient(135deg,#FFD700,#FF6B6B);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+          .si-done-sub { font-size:1.2rem; color:var(--text-muted); margin-bottom:1.5rem; }
+        `}</style>
+        <div className="si-done">
+          <div className="si-done-trophy">📦</div>
+          <div className="si-done-title">SORTING SUPERSTAR!</div>
+          <div className="si-done-sub">ALL 24 LEVELS COMPLETE</div>
+          <button className="game-btn" onClick={onHome}>🏠 HOME</button>
+        </div>
+      </GameShell>
+    );
+  }
+
   if (showComplete) {
     return (
       <GameShell title="SORT IT" emoji="📦" stars={stars} onBack={onHome}>
         <LevelComplete
-          starsEarned={2}
+          starsEarned={completedStars}
           onNext={() => { setShowComplete(false); setPuzzleIndex(i => i + 1); }}
           onHome={onHome}
         />
@@ -307,12 +378,21 @@ export default function SortItOut({ stars, onAddStars, onHome }) {
   }
 
   const done = currentItem >= items.length;
-  const binAState = feedback === 'a' ? 'sort-bin--correct' : feedback === 'wrong' ? '' : '';
-  const binBState = feedback === 'b' ? 'sort-bin--correct' : feedback === 'wrong' ? '' : '';
 
   return (
     <GameShell title="SORT IT" emoji="📦" stars={stars} onBack={onHome} speakText={puzzle.hint}>
       <style>{SORT_STYLES}</style>
+      <style>{`
+        .si-badges { display:flex; justify-content:center; gap:0.5rem; margin-bottom:0.5rem; }
+        .si-level { background:rgba(255,255,255,0.15); padding:0.2rem 0.7rem; border-radius:1rem; font-size:0.85rem; font-weight:700; }
+        .si-diff { padding:0.2rem 0.7rem; border-radius:1rem; font-size:0.85rem; font-weight:700; }
+      `}</style>
+      <div className="si-badges">
+        <span className="si-level">LEVEL {puzzleIndex + 1} / {PUZZLES.length}</span>
+        <span className="si-diff" style={{ background: getDifficultyColor(puzzleIndex), color: '#000' }}>
+          {getDifficulty(puzzleIndex)}
+        </span>
+      </div>
 
       {/* progress bar */}
       <div className="progress-bar">
