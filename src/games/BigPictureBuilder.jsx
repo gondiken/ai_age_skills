@@ -196,8 +196,8 @@ const BP_STYLES = `
   }
 `;
 
-export default function BigPictureBuilder({ stars, onAddStars, onHome }) {
-  const [puzzleIndex, setPuzzleIndex] = useState(0);
+export default function BigPictureBuilder({ stars, currentLevel, onAddStars, onSetLevel, onResetLevel, onHome }) {
+  const [puzzleIndex, setPuzzleIndex] = useState(Math.min(currentLevel || 0, PUZZLES.length));
   const [selectedParts, setSelectedParts] = useState([]);
   const [wrongPick, setWrongPick] = useState(null);
   const [showComplete, setShowComplete] = useState(false);
@@ -216,6 +216,8 @@ export default function BigPictureBuilder({ stars, onAddStars, onHome }) {
     setSelectedParts([]);
     speak(puzzle.hint);
   }, [puzzleIndex]);
+
+  useEffect(() => { onSetLevel(puzzleIndex); }, [puzzleIndex]);
 
   const handlePick = useCallback((part) => {
     if (selectedParts.includes(part)) return;
@@ -248,6 +250,9 @@ export default function BigPictureBuilder({ stars, onAddStars, onHome }) {
           <div style={{ fontSize: '2rem' }}>⭐ {stars} ⭐</div>
           <button className="action-btn" onClick={onHome} style={{ marginTop: 12 }}>
             🏠 HOME
+          </button>
+          <button className="action-btn" onClick={() => { onResetLevel(); setPuzzleIndex(0); }} style={{ marginTop: 8, background: 'rgba(255,255,255,0.15)' }}>
+            🔄 PLAY AGAIN
           </button>
         </div>
       </GameShell>

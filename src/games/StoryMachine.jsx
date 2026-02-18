@@ -302,8 +302,8 @@ function shuffle(arr) {
   return a;
 }
 
-export default function StoryMachine({ stars, onAddStars, onHome }) {
-  const [puzzleIndex, setPuzzleIndex] = useState(0);
+export default function StoryMachine({ stars, currentLevel, onAddStars, onSetLevel, onResetLevel, onHome }) {
+  const [puzzleIndex, setPuzzleIndex] = useState(Math.min(currentLevel || 0, PUZZLES.length));
   const [placed, setPlaced] = useState([]);
   const [allChoices, setAllChoices] = useState([]);
   const [showComplete, setShowComplete] = useState(false);
@@ -322,6 +322,8 @@ export default function StoryMachine({ stars, onAddStars, onHome }) {
     setPlaced([]);
     speak(puzzle.hint);
   }, [puzzleIndex]);
+
+  useEffect(() => { onSetLevel(puzzleIndex); }, [puzzleIndex]);
 
   const handlePick = useCallback((choice) => {
     const nextIndex = placed.length;
@@ -360,6 +362,7 @@ export default function StoryMachine({ stars, onAddStars, onHome }) {
           <div className="sm-done-title">MASTER INSTRUCTOR!</div>
           <div className="sm-done-sub">ALL 24 LEVELS COMPLETE</div>
           <button className="game-btn" onClick={onHome}>🏠 HOME</button>
+          <button className="game-btn" onClick={() => { onResetLevel(); setPuzzleIndex(0); }} style={{ marginTop: 8, background: 'rgba(255,255,255,0.15)' }}>🔄 PLAY AGAIN</button>
         </div>
       </GameShell>
     );

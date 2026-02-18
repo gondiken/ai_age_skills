@@ -107,8 +107,8 @@ const BADGE_STYLES = `
   }
 `;
 
-export default function PatternDetective({ stars, onAddStars, onHome }) {
-  const [puzzleIndex, setPuzzleIndex] = useState(0);
+export default function PatternDetective({ stars, currentLevel, onAddStars, onSetLevel, onResetLevel, onHome }) {
+  const [puzzleIndex, setPuzzleIndex] = useState(Math.min(currentLevel || 0, PUZZLES.length));
   const [selected, setSelected] = useState(null);
   const [isCorrect, setIsCorrect] = useState(null);
   const [roundStars, setRoundStars] = useState(0);
@@ -129,6 +129,8 @@ export default function PatternDetective({ stars, onAddStars, onHome }) {
     setShuffledChoices(shuffle(puzzle.choices));
     speak(puzzle.hint + ' what comes next?');
   }, [puzzleIndex]);
+
+  useEffect(() => { onSetLevel(puzzleIndex); }, [puzzleIndex]);
 
   const handleChoice = useCallback((choice) => {
     if (selected !== null) return;
@@ -171,6 +173,9 @@ export default function PatternDetective({ stars, onAddStars, onHome }) {
           <div style={{ fontSize: '2rem' }}>⭐ {stars} ⭐</div>
           <button className="action-btn" onClick={onHome} style={{ marginTop: 12 }}>
             🏠 HOME
+          </button>
+          <button className="action-btn" onClick={() => { onResetLevel(); setPuzzleIndex(0); }} style={{ marginTop: 8, background: 'rgba(255,255,255,0.15)' }}>
+            🔄 PLAY AGAIN
           </button>
         </div>
       </GameShell>

@@ -361,8 +361,8 @@ const STYLES = `
   }
 `;
 
-export default function CodeBot({ stars, onAddStars, onHome }) {
-  const [levelIndex, setLevelIndex] = useState(0);
+export default function CodeBot({ stars, currentLevel, onAddStars, onSetLevel, onResetLevel, onHome }) {
+  const [levelIndex, setLevelIndex] = useState(Math.min(currentLevel || 0, LEVELS.length));
   const [commands, setCommands] = useState([]);
   const [executing, setExecuting] = useState(false);
   const [execStep, setExecStep] = useState(-1);
@@ -397,6 +397,8 @@ export default function CodeBot({ stars, onAddStars, onHome }) {
     execRef.current = false;
     speak(level.hint);
   }, [levelIndex]);
+
+  useEffect(() => { onSetLevel(levelIndex); }, [levelIndex]);
 
   const addCommand = (dir) => {
     if (executing) return;
@@ -525,6 +527,9 @@ export default function CodeBot({ stars, onAddStars, onHome }) {
           <div style={{ fontSize: '2rem' }}>⭐ {stars} ⭐</div>
           <button className="action-btn" onClick={onHome} style={{ marginTop: 12 }}>
             🏠 HOME
+          </button>
+          <button className="action-btn" onClick={() => { onResetLevel(); setLevelIndex(0); }} style={{ marginTop: 8, background: 'rgba(255,255,255,0.15)' }}>
+            🔄 PLAY AGAIN
           </button>
         </div>
       </GameShell>

@@ -278,8 +278,8 @@ function shuffle(arr) {
   return a;
 }
 
-export default function BossBrain({ stars, onAddStars, onHome }) {
-  const [puzzleIndex, setPuzzleIndex] = useState(0);
+export default function BossBrain({ stars, currentLevel, onAddStars, onSetLevel, onResetLevel, onHome }) {
+  const [puzzleIndex, setPuzzleIndex] = useState(Math.min(currentLevel || 0, PUZZLES.length));
   const [placed, setPlaced] = useState([]);
   const [shuffledSteps, setShuffledSteps] = useState([]);
   const [showComplete, setShowComplete] = useState(false);
@@ -298,6 +298,8 @@ export default function BossBrain({ stars, onAddStars, onHome }) {
     setPlaced([]);
     speak(puzzle.hint);
   }, [puzzleIndex]);
+
+  useEffect(() => { onSetLevel(puzzleIndex); }, [puzzleIndex]);
 
   const handlePick = useCallback((step) => {
     unlockAudio();
@@ -335,6 +337,7 @@ export default function BossBrain({ stars, onAddStars, onHome }) {
           <div className="bb-done-title">YOU ARE THE BOSS!</div>
           <div className="bb-done-sub">ALL 24 LEVELS COMPLETE</div>
           <button className="game-btn" onClick={onHome}>🏠 HOME</button>
+          <button className="game-btn" onClick={() => { onResetLevel(); setPuzzleIndex(0); }} style={{ marginTop: 8, background: 'rgba(255,255,255,0.15)' }}>🔄 PLAY AGAIN</button>
         </div>
       </GameShell>
     );

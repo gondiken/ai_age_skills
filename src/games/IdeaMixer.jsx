@@ -79,11 +79,11 @@ function shuffle(arr) {
   return a;
 }
 
-export default function IdeaMixer({ stars, onAddStars, onHome }) {
-  const [comboIndex, setComboIndex] = useState(0);
+export default function IdeaMixer({ stars, currentLevel, onAddStars, onSetLevel, onResetLevel, onHome }) {
+  const [comboIndex, setComboIndex] = useState(Math.min(currentLevel || 0, COMBOS.length));
   const [mixed, setMixed] = useState(false);
   const [showComplete, setShowComplete] = useState(false);
-  const [roundCount, setRoundCount] = useState(0);
+  const [roundCount, setRoundCount] = useState(currentLevel || 0);
   const [options, setOptions] = useState([]);
   const [completedStars, setCompletedStars] = useState(0);
 
@@ -105,6 +105,8 @@ export default function IdeaMixer({ stars, onAddStars, onHome }) {
     setOptions(shuffle([combo.result, ...wrongOptions]));
     speak(combo.hint);
   }, [comboIndex]);
+
+  useEffect(() => { onSetLevel(comboIndex); }, [comboIndex]);
 
   const handleGuess = (choice) => {
     if (mixed) return;
@@ -144,6 +146,7 @@ export default function IdeaMixer({ stars, onAddStars, onHome }) {
           <div className="im-done-title">CREATIVE GENIUS!</div>
           <div className="im-done-sub">ALL 36 COMBOS MIXED</div>
           <button className="game-btn" onClick={onHome}>🏠 HOME</button>
+          <button className="game-btn" onClick={() => { onResetLevel(); setComboIndex(0); setRoundCount(0); }} style={{ marginTop: 8, background: 'rgba(255,255,255,0.15)' }}>🔄 PLAY AGAIN</button>
         </div>
       </GameShell>
     );

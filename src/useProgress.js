@@ -5,14 +5,14 @@ const STORAGE_KEY = 'brain_games_progress';
 const defaultProgress = {
   totalStars: 0,
   games: {
-    pattern: { stars: 0, highLevel: 0 },
-    systems: { stars: 0, highLevel: 0 },
-    boss: { stars: 0, highLevel: 0 },
-    story: { stars: 0, highLevel: 0 },
-    mixer: { stars: 0, highLevel: 0 },
-    cause: { stars: 0, highLevel: 0 },
-    sort: { stars: 0, highLevel: 0 },
-    codebot: { stars: 0, highLevel: 0 },
+    pattern: { stars: 0, highLevel: 0, currentLevel: 0 },
+    systems: { stars: 0, highLevel: 0, currentLevel: 0 },
+    boss: { stars: 0, highLevel: 0, currentLevel: 0 },
+    story: { stars: 0, highLevel: 0, currentLevel: 0 },
+    mixer: { stars: 0, highLevel: 0, currentLevel: 0 },
+    cause: { stars: 0, highLevel: 0, currentLevel: 0 },
+    sort: { stars: 0, highLevel: 0, currentLevel: 0 },
+    codebot: { stars: 0, highLevel: 0, currentLevel: 0 },
   },
   creatures: {},
 };
@@ -54,6 +54,32 @@ export function useProgress() {
     }));
   };
 
+  const setGameLevel = (gameId, level) => {
+    setProgress(prev => ({
+      ...prev,
+      games: {
+        ...prev.games,
+        [gameId]: {
+          ...prev.games[gameId],
+          currentLevel: level,
+        },
+      },
+    }));
+  };
+
+  const resetGameLevel = (gameId) => {
+    setProgress(prev => ({
+      ...prev,
+      games: {
+        ...prev.games,
+        [gameId]: {
+          ...prev.games[gameId],
+          currentLevel: 0,
+        },
+      },
+    }));
+  };
+
   const spendStarsForCreature = (cost, setId, creatureId) => {
     setProgress(prev => {
       const currentCreatures = prev.creatures[setId] || [];
@@ -69,5 +95,5 @@ export function useProgress() {
     });
   };
 
-  return { progress, addStars, spendStarsForCreature };
+  return { progress, addStars, setGameLevel, resetGameLevel, spendStarsForCreature };
 }

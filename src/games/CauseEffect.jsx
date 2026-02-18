@@ -158,8 +158,8 @@ function shuffle(arr) {
   return a;
 }
 
-export default function CauseEffect({ stars, onAddStars, onHome }) {
-  const [puzzleIndex, setPuzzleIndex] = useState(0);
+export default function CauseEffect({ stars, currentLevel, onAddStars, onSetLevel, onResetLevel, onHome }) {
+  const [puzzleIndex, setPuzzleIndex] = useState(Math.min(currentLevel || 0, PUZZLES.length));
   const [selected, setSelected] = useState(null);
   const [isCorrect, setIsCorrect] = useState(null);
   const [roundStars, setRoundStars] = useState(0);
@@ -180,6 +180,8 @@ export default function CauseEffect({ stars, onAddStars, onHome }) {
     setShuffledChoices(shuffle(puzzle.choices));
     speak(puzzle.hint + ' What happens?');
   }, [puzzleIndex]);
+
+  useEffect(() => { onSetLevel(puzzleIndex); }, [puzzleIndex]);
 
   const handleChoice = useCallback((choice) => {
     if (selected !== null) return;
@@ -226,6 +228,7 @@ export default function CauseEffect({ stars, onAddStars, onHome }) {
           <div className="ce-done-title">CAUSE AND EFFECT MASTER!</div>
           <div className="ce-done-sub">ALL 30 PUZZLES SOLVED</div>
           <button className="game-btn" onClick={onHome}>🏠 HOME</button>
+          <button className="game-btn" onClick={() => { onResetLevel(); setPuzzleIndex(0); }} style={{ marginTop: 8, background: 'rgba(255,255,255,0.15)' }}>🔄 PLAY AGAIN</button>
         </div>
       </GameShell>
     );

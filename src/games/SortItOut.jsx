@@ -263,8 +263,8 @@ function BucketSVG({ colorTop, colorBody }) {
   );
 }
 
-export default function SortItOut({ stars, onAddStars, onHome }) {
-  const [puzzleIndex, setPuzzleIndex] = useState(0);
+export default function SortItOut({ stars, currentLevel, onAddStars, onSetLevel, onResetLevel, onHome }) {
+  const [puzzleIndex, setPuzzleIndex] = useState(Math.min(currentLevel || 0, PUZZLES.length));
   const [items, setItems] = useState([]);
   const [currentItem, setCurrentItem] = useState(0);
   const [sortedA, setSortedA] = useState([]);
@@ -297,6 +297,8 @@ export default function SortItOut({ stars, onAddStars, onHome }) {
     busyRef.current = false;
     speak(puzzle.hint);
   }, [puzzleIndex]);
+
+  useEffect(() => { onSetLevel(puzzleIndex); }, [puzzleIndex]);
 
   const handleSort = useCallback((toBucket) => {
     if (busyRef.current) return;
@@ -360,6 +362,7 @@ export default function SortItOut({ stars, onAddStars, onHome }) {
           <div className="si-done-title">SORTING SUPERSTAR!</div>
           <div className="si-done-sub">ALL 24 LEVELS COMPLETE</div>
           <button className="game-btn" onClick={onHome}>🏠 HOME</button>
+          <button className="game-btn" onClick={() => { onResetLevel(); setPuzzleIndex(0); }} style={{ marginTop: 8, background: 'rgba(255,255,255,0.15)' }}>🔄 PLAY AGAIN</button>
         </div>
       </GameShell>
     );

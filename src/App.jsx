@@ -31,7 +31,7 @@ export default function App() {
   const [started, setStarted] = useState(false);
   const [showVoicePicker, setShowVoicePicker] = useState(false);
   const [showCreatures, setShowCreatures] = useState(false);
-  const { progress, addStars, spendStarsForCreature } = useProgress();
+  const { progress, addStars, setGameLevel, resetGameLevel, spendStarsForCreature } = useProgress();
 
   useEffect(() => {
     initSpeech();
@@ -100,7 +100,10 @@ export default function App() {
       <div className="app">
         <Component
           stars={progress.games[id]?.stars || 0}
+          currentLevel={progress.games[id]?.currentLevel || 0}
           onAddStars={addStars}
+          onSetLevel={(level) => setGameLevel(id, level)}
+          onResetLevel={() => resetGameLevel(id)}
           onHome={handleGoHome}
         />
       </div>
