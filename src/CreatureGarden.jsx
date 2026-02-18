@@ -3,7 +3,7 @@ import { speak } from './speak';
 import { playCelebrate, playTap } from './sounds';
 import Confetti from './Confetti';
 
-// Creature sets — each set has 8 creatures to collect
+// Creature sets — each set has 9 creatures to collect
 const CREATURE_SETS = [
   {
     id: 'forest',
@@ -18,6 +18,7 @@ const CREATURE_SETS = [
       { id: 'squirrel', name: 'SQUIRREL', color: '#FB923C' },
       { id: 'hedgehog', name: 'HEDGIE', color: '#D4A574' },
       { id: 'raccoon', name: 'BANDIT', color: '#94A3B8' },
+      { id: 'badger', name: 'DIGGER', color: '#64748B' },
     ],
   },
   {
@@ -33,6 +34,7 @@ const CREATURE_SETS = [
       { id: 'turtle', name: 'TURTLE', color: '#4ADE80' },
       { id: 'dolphin', name: 'FLIPPER', color: '#60A5FA' },
       { id: 'starfish', name: 'TWINKLE', color: '#FACC15' },
+      { id: 'pufferfish', name: 'PUFF', color: '#FACC15' },
     ],
   },
   {
@@ -48,6 +50,7 @@ const CREATURE_SETS = [
       { id: 'rocket', name: 'ZIPPY', color: '#F87171' },
       { id: 'ufo', name: 'ZOOMER', color: '#4ADE80' },
       { id: 'planet', name: 'RINGY', color: '#FB923C' },
+      { id: 'satellite', name: 'BLINKY', color: '#94A3B8' },
     ],
   },
   {
@@ -63,6 +66,7 @@ const CREATURE_SETS = [
       { id: 'ant', name: 'TINY', color: '#C084FC' },
       { id: 'snail', name: 'SHELLY', color: '#FB923C' },
       { id: 'firefly', name: 'SPARKY', color: '#FACC15' },
+      { id: 'beetle', name: 'SHINY', color: '#4ADE80' },
     ],
   },
   {
@@ -78,6 +82,7 @@ const CREATURE_SETS = [
       { id: 'raptor', name: 'DASH', color: '#F87171' },
       { id: 'ankylo', name: 'TANK', color: '#94A3B8' },
       { id: 'spino', name: 'FINBACK', color: '#C084FC' },
+      { id: 'parasaur', name: 'HONKER', color: '#4ADE80' },
     ],
   },
   {
@@ -93,6 +98,7 @@ const CREATURE_SETS = [
       { id: 'duck', name: 'QUACK', color: '#FACC15' },
       { id: 'goat', name: 'BILLY', color: '#E2E8F0' },
       { id: 'rooster', name: 'STRUT', color: '#F87171' },
+      { id: 'donkey', name: 'HEEHA', color: '#94A3B8' },
     ],
   },
   {
@@ -108,6 +114,7 @@ const CREATURE_SETS = [
       { id: 'kraken', name: 'INKY', color: '#C084FC' },
       { id: 'unicorn', name: 'SPARKLE', color: '#F9A8D4' },
       { id: 'fairy', name: 'TINK', color: '#A78BFA' },
+      { id: 'mermaid', name: 'CORAL', color: '#4ADE80' },
     ],
   },
 ];
@@ -902,6 +909,126 @@ function CreatureSVG({ creatureId, color, size = 52 }) {
         <circle cx="50" cy="34" r="1" fill="#FACC15" opacity="0.4" />
         <line x1="30" y1="10" x2="30" y2="4" stroke="#FACC15" strokeWidth="1.5" strokeLinecap="round" />
         <circle cx="30" cy="3" r="2" fill="#FACC15" opacity="0.7" />
+      </svg>
+    ),
+    /* ─── 9TH CREATURES ─── */
+    badger: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="38" rx="18" ry="14" fill={color} />
+        <ellipse cx="30" cy="24" rx="12" ry="10" fill={color} />
+        <rect x="28" y="14" width="4" height="20" rx="2" fill="white" opacity="0.5" />
+        <ellipse cx="22" cy="22" rx="5" ry="3.5" fill="#1E1B4B" />
+        <ellipse cx="38" cy="22" rx="5" ry="3.5" fill="#1E1B4B" />
+        <circle cx="22" cy="22" r="2" fill="white" />
+        <circle cx="38" cy="22" r="2" fill="white" />
+        <circle cx="22" cy="22" r="1" fill="#1E1B4B" />
+        <circle cx="38" cy="22" r="1" fill="#1E1B4B" />
+        <ellipse cx="30" cy="28" rx="2.5" ry="2" fill="#1E1B4B" />
+        <polygon points="20,16 16,8 24,14" fill={color} />
+        <polygon points="40,16 44,8 36,14" fill={color} />
+        <circle cx="20" cy="50" r="3.5" fill={color} />
+        <circle cx="40" cy="50" r="3.5" fill={color} />
+      </svg>
+    ),
+    pufferfish: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <circle cx="30" cy="30" r="18" fill={color} />
+        <circle cx="24" cy="26" r="3" fill="white" />
+        <circle cx="36" cy="26" r="3" fill="white" />
+        <circle cx="24" cy="26" r="1.5" fill="#1E1B4B" />
+        <circle cx="36" cy="26" r="1.5" fill="#1E1B4B" />
+        <ellipse cx="30" cy="34" rx="4" ry="3" fill="#1E1B4B" opacity="0.3" />
+        {[0,1,2,3,4,5,6,7,8,9,10,11].map(i => {
+          const angle = (i * 30) * Math.PI / 180;
+          const x1 = 30 + 18 * Math.cos(angle);
+          const y1 = 30 + 18 * Math.sin(angle);
+          const x2 = 30 + 23 * Math.cos(angle);
+          const y2 = 30 + 23 * Math.sin(angle);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={color} strokeWidth="2" strokeLinecap="round" />;
+        })}
+        <path d="M48 30 Q54 28 52 34" fill={color} opacity="0.6" />
+      </svg>
+    ),
+    satellite: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <rect x="24" y="24" width="12" height="12" rx="2" fill={color} />
+        <rect x="26" y="26" width="8" height="8" rx="1" fill="rgba(96,165,250,0.5)" />
+        <rect x="4" y="26" width="20" height="8" rx="1" fill="#60A5FA" opacity="0.5" />
+        <rect x="36" y="26" width="20" height="8" rx="1" fill="#60A5FA" opacity="0.5" />
+        <line x1="8" y1="26" x2="8" y2="34" stroke={color} strokeWidth="1" opacity="0.4" />
+        <line x1="14" y1="26" x2="14" y2="34" stroke={color} strokeWidth="1" opacity="0.4" />
+        <line x1="46" y1="26" x2="46" y2="34" stroke={color} strokeWidth="1" opacity="0.4" />
+        <line x1="52" y1="26" x2="52" y2="34" stroke={color} strokeWidth="1" opacity="0.4" />
+        <circle cx="28" cy="28" r="1.5" fill="#1E1B4B" />
+        <circle cx="32" cy="28" r="1.5" fill="#1E1B4B" />
+        <path d="M28 33 Q30 35 32 33" fill="none" stroke="#1E1B4B" strokeWidth="1" />
+        <line x1="30" y1="24" x2="30" y2="16" stroke={color} strokeWidth="2" strokeLinecap="round" />
+        <circle cx="30" cy="14" r="3" fill="#F87171" opacity="0.7" />
+      </svg>
+    ),
+    beetle: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="36" rx="16" ry="16" fill={color} />
+        <line x1="30" y1="20" x2="30" y2="52" stroke="#1E1B4B" strokeWidth="1.5" />
+        <ellipse cx="30" cy="36" rx="12" ry="12" fill="rgba(255,255,255,0.1)" />
+        <circle cx="30" cy="20" r="8" fill="#1E1B4B" />
+        <circle cx="26" cy="18" r="2.5" fill={color} opacity="0.8" />
+        <circle cx="34" cy="18" r="2.5" fill={color} opacity="0.8" />
+        <line x1="24" y1="12" x2="18" y2="4" stroke="#1E1B4B" strokeWidth="2" strokeLinecap="round" />
+        <line x1="36" y1="12" x2="42" y2="4" stroke="#1E1B4B" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="18" cy="3" r="2.5" fill="#1E1B4B" />
+        <circle cx="42" cy="3" r="2.5" fill="#1E1B4B" />
+        <line x1="16" y1="32" x2="8" y2="28" stroke={color} strokeWidth="2" strokeLinecap="round" />
+        <line x1="44" y1="32" x2="52" y2="28" stroke={color} strokeWidth="2" strokeLinecap="round" />
+        <line x1="16" y1="40" x2="8" y2="44" stroke={color} strokeWidth="2" strokeLinecap="round" />
+        <line x1="44" y1="40" x2="52" y2="44" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    ),
+    parasaur: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="26" cy="40" rx="16" ry="12" fill={color} />
+        <path d="M36 36 Q42 28 40 20" fill="none" stroke={color} strokeWidth="6" strokeLinecap="round" />
+        <circle cx="40" cy="18" r="7" fill={color} />
+        <circle cx="42" cy="16" r="2.5" fill="white" />
+        <circle cx="42" cy="16" r="1.2" fill="#1E1B4B" />
+        <path d="M46 20 Q48 22 46 18" fill="none" stroke="#1E1B4B" strokeWidth="1" />
+        <path d="M36 12 Q32 4 28 8 Q30 2 34 6" fill={color} opacity="0.7" />
+        <circle cx="18" cy="50" r="3.5" fill={color} />
+        <circle cx="34" cy="50" r="3.5" fill={color} />
+        <path d="M10 40 Q4 38 2 44 Q6 42 8 44" fill={color} />
+      </svg>
+    ),
+    donkey: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="28" cy="40" rx="16" ry="12" fill={color} />
+        <path d="M38 36 Q42 28 40 20" fill="none" stroke={color} strokeWidth="6" strokeLinecap="round" />
+        <circle cx="40" cy="18" r="7" fill={color} />
+        <circle cx="42" cy="16" r="2" fill="#1E1B4B" />
+        <path d="M46 20 Q48 22 46 18" fill="none" stroke="#1E1B4B" strokeWidth="1" />
+        <ellipse cx="46" cy="22" rx="3" ry="2" fill="#F9A8D4" opacity="0.5" />
+        <polygon points="34,10 30,0 36,8" fill={color} />
+        <polygon points="44,10 48,0 42,8" fill={color} />
+        <circle cx="20" cy="50" r="3" fill={color} />
+        <circle cx="36" cy="50" r="3" fill={color} />
+        <path d="M12 40 Q4 38 2 44 Q6 42 8 44 Q4 46 6 50" fill={color} />
+      </svg>
+    ),
+    mermaid: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <circle cx="30" cy="16" r="8" fill="#F9A8D4" />
+        <circle cx="27" cy="14" r="2" fill="white" />
+        <circle cx="33" cy="14" r="2" fill="white" />
+        <circle cx="27" cy="14" r="1" fill="#1E1B4B" />
+        <circle cx="33" cy="14" r="1" fill="#1E1B4B" />
+        <path d="M28 19 Q30 21 32 19" fill="none" stroke="#1E1B4B" strokeWidth="1" />
+        <path d="M24 10 Q22 4 26 8 Q24 2 28 6" fill="#F9A8D4" opacity="0.5" />
+        <path d="M36 10 Q38 4 34 8 Q36 2 32 6" fill="#F9A8D4" opacity="0.5" />
+        <ellipse cx="30" cy="32" rx="8" ry="10" fill={color} />
+        <path d="M26 42 Q22 52 18 50" fill="none" stroke={color} strokeWidth="4" strokeLinecap="round" />
+        <path d="M34 42 Q38 52 42 50" fill="none" stroke={color} strokeWidth="4" strokeLinecap="round" />
+        <ellipse cx="16" cy="50" rx="4" ry="3" fill={color} opacity="0.6" />
+        <ellipse cx="44" cy="50" rx="4" ry="3" fill={color} opacity="0.6" />
+        <ellipse cx="30" cy="30" rx="5" ry="4" fill="rgba(255,255,255,0.2)" />
       </svg>
     ),
   };
