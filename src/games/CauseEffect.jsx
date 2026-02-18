@@ -2,9 +2,10 @@ import { useState, useEffect, useCallback } from 'react';
 import GameShell from '../GameShell';
 import LevelComplete from '../LevelComplete';
 import { speak, unlockAudio } from '../speak';
-import { playCorrect, playWrong, playTap } from '../sounds';
+import { playCorrect, playWrong, playTap, playCelebrate } from '../sounds';
 
-const PUZZLES = [
+/* ─── EASY (1-10): 4 choices, obvious cause-effect ─── */
+const EASY = [
   {
     cause: '🌧️', hint: 'IT RAINS A LOT...', answer: '🌊', answerLabel: 'PUDDLES!',
     choices: [{ emoji: '🌊', label: 'PUDDLES' }, { emoji: '🔥', label: 'FIRE' }, { emoji: '❄️', label: 'SNOW' }, { emoji: '🌵', label: 'DESERT' }],
@@ -19,7 +20,7 @@ const PUZZLES = [
   },
   {
     cause: '💨', hint: 'STRONG WIND BLOWS...', answer: '🍂', answerLabel: 'LEAVES FALL!',
-    choices: [{ emoji: '🍂', label: 'LEAVES' }, { emoji: '🐟', label: 'FISH' }, { emoji: '📚', label: 'BOOKS' }, { emoji: '🎸', label: 'GUITAR' }],
+    choices: [{ emoji: '🍂', label: 'LEAVES FALL' }, { emoji: '🐟', label: 'FISH' }, { emoji: '📚', label: 'BOOKS' }, { emoji: '🎸', label: 'GUITAR' }],
   },
   {
     cause: '🥶', hint: 'IT GETS VERY COLD...', answer: '❄️', answerLabel: 'ICE!',
@@ -37,7 +38,116 @@ const PUZZLES = [
     cause: '🔋', hint: 'BATTERY RUNS OUT...', answer: '📵', answerLabel: 'OFF!',
     choices: [{ emoji: '📵', label: 'OFF' }, { emoji: '🚀', label: 'FLIES' }, { emoji: '🎉', label: 'PARTY' }, { emoji: '🌈', label: 'RAINBOW' }],
   },
+  {
+    cause: '🎈', hint: 'YOU LET GO OF A BALLOON...', answer: '☁️', answerLabel: 'FLIES UP!',
+    choices: [{ emoji: '☁️', label: 'FLIES UP' }, { emoji: '🐟', label: 'SWIMS' }, { emoji: '🪨', label: 'SINKS' }, { emoji: '🎵', label: 'SINGS' }],
+  },
+  {
+    cause: '🌞', hint: 'THE SUN GOES DOWN...', answer: '🌙', answerLabel: 'DARK!',
+    choices: [{ emoji: '🌙', label: 'DARK' }, { emoji: '🌈', label: 'RAINBOW' }, { emoji: '🌸', label: 'FLOWERS' }, { emoji: '🏖️', label: 'BEACH' }],
+  },
 ];
+
+/* ─── MEDIUM (11-20): 5 choices, trickier distractors ─── */
+const MEDIUM = [
+  {
+    cause: '🎈', hint: 'BLOW UP BALLOON TOO MUCH...', answer: '💥', answerLabel: 'POP!',
+    choices: [{ emoji: '💥', label: 'POP' }, { emoji: '🎵', label: 'SINGS' }, { emoji: '🧊', label: 'FREEZES' }, { emoji: '🌱', label: 'GROWS' }, { emoji: '🐟', label: 'SWIMS' }],
+  },
+  {
+    cause: '🐛', hint: 'CATERPILLAR MAKES A COCOON...', answer: '🦋', answerLabel: 'BUTTERFLY!',
+    choices: [{ emoji: '🦋', label: 'BUTTERFLY' }, { emoji: '🐟', label: 'FISH' }, { emoji: '🐸', label: 'FROG' }, { emoji: '🐌', label: 'SNAIL' }, { emoji: '🦀', label: 'CRAB' }],
+  },
+  {
+    cause: '🧊', hint: 'LEAVE ICE IN THE SUN...', answer: '💧', answerLabel: 'WATER!',
+    choices: [{ emoji: '💧', label: 'WATER' }, { emoji: '🔥', label: 'FIRE' }, { emoji: '🌈', label: 'RAINBOW' }, { emoji: '🪨', label: 'ROCK' }, { emoji: '🎵', label: 'MUSIC' }],
+  },
+  {
+    cause: '🌵', hint: 'DON\'T WATER THE PLANT...', answer: '🥀', answerLabel: 'IT WILTS!',
+    choices: [{ emoji: '🥀', label: 'WILTS' }, { emoji: '🌻', label: 'BLOOMS' }, { emoji: '🌳', label: 'GROWS' }, { emoji: '🍎', label: 'FRUIT' }, { emoji: '🌈', label: 'RAINBOW' }],
+  },
+  {
+    cause: '🐕', hint: 'DOG SEES A SQUIRREL...', answer: '🏃', answerLabel: 'CHASES IT!',
+    choices: [{ emoji: '🏃', label: 'CHASES' }, { emoji: '😴', label: 'SLEEPS' }, { emoji: '🎵', label: 'SINGS' }, { emoji: '🏊', label: 'SWIMS' }, { emoji: '📚', label: 'READS' }],
+  },
+  {
+    cause: '🍬', hint: 'EAT TOO MUCH CANDY...', answer: '🤢', answerLabel: 'TUMMY ACHE!',
+    choices: [{ emoji: '🤢', label: 'TUMMY ACHE' }, { emoji: '💪', label: 'STRONG' }, { emoji: '🧠', label: 'SMART' }, { emoji: '🏃', label: 'FAST' }, { emoji: '😴', label: 'SLEEPY' }],
+  },
+  {
+    cause: '🥛', hint: 'DROP A GLASS ON THE FLOOR...', answer: '💔', answerLabel: 'IT BREAKS!',
+    choices: [{ emoji: '💔', label: 'BREAKS' }, { emoji: '🎵', label: 'SINGS' }, { emoji: '🌈', label: 'RAINBOW' }, { emoji: '💨', label: 'FLIES' }, { emoji: '🔥', label: 'FIRE' }],
+  },
+  {
+    cause: '⏰', hint: 'ALARM CLOCK GOES OFF...', answer: '😳', answerLabel: 'WAKE UP!',
+    choices: [{ emoji: '😳', label: 'WAKE UP' }, { emoji: '🍕', label: 'PIZZA' }, { emoji: '🌈', label: 'RAINBOW' }, { emoji: '🐟', label: 'FISH' }, { emoji: '💃', label: 'DANCE' }],
+  },
+  {
+    cause: '🏋️', hint: 'EXERCISE EVERY DAY...', answer: '💪', answerLabel: 'STRONGER!',
+    choices: [{ emoji: '💪', label: 'STRONGER' }, { emoji: '🧊', label: 'FROZEN' }, { emoji: '🎈', label: 'FLOAT' }, { emoji: '🐟', label: 'FISH' }, { emoji: '🎵', label: 'MUSIC' }],
+  },
+  {
+    cause: '🧲', hint: 'MAGNET NEAR METAL...', answer: '📎', answerLabel: 'STICKS!',
+    choices: [{ emoji: '📎', label: 'STICKS' }, { emoji: '🔥', label: 'BURNS' }, { emoji: '💨', label: 'BLOWS' }, { emoji: '🎵', label: 'SINGS' }, { emoji: '🌊', label: 'SPLASHES' }],
+  },
+];
+
+/* ─── HARD (21-30): 6 choices, subtler relationships ─── */
+const HARD = [
+  {
+    cause: '🌋', hint: 'A VOLCANO ERUPTS...', answer: '🔥', answerLabel: 'LAVA FLOWS!',
+    choices: [{ emoji: '🔥', label: 'LAVA' }, { emoji: '❄️', label: 'SNOW' }, { emoji: '🌈', label: 'RAINBOW' }, { emoji: '🎵', label: 'MUSIC' }, { emoji: '🐟', label: 'FISH' }, { emoji: '🌺', label: 'FLOWERS' }],
+  },
+  {
+    cause: '🌺', hint: 'BEES VISIT FLOWERS ALL DAY...', answer: '🍯', answerLabel: 'HONEY!',
+    choices: [{ emoji: '🍯', label: 'HONEY' }, { emoji: '🧊', label: 'ICE' }, { emoji: '🔥', label: 'FIRE' }, { emoji: '🌊', label: 'WATER' }, { emoji: '🪨', label: 'ROCK' }, { emoji: '💨', label: 'WIND' }],
+  },
+  {
+    cause: '🪨', hint: 'DROP A BIG ROCK IN WATER...', answer: '💦', answerLabel: 'SPLASH!',
+    choices: [{ emoji: '💦', label: 'SPLASH' }, { emoji: '🎵', label: 'MUSIC' }, { emoji: '🔥', label: 'FIRE' }, { emoji: '❄️', label: 'ICE' }, { emoji: '🌈', label: 'RAINBOW' }, { emoji: '💨', label: 'FLOATS' }],
+  },
+  {
+    cause: '🌬️', hint: 'YOU BLOW ON HOT SOUP...', answer: '🥣', answerLabel: 'COOLS DOWN!',
+    choices: [{ emoji: '🥣', label: 'COOLS DOWN' }, { emoji: '🔥', label: 'HOTTER' }, { emoji: '💥', label: 'EXPLODES' }, { emoji: '🧊', label: 'FREEZES' }, { emoji: '🎵', label: 'SINGS' }, { emoji: '🌈', label: 'RAINBOW' }],
+  },
+  {
+    cause: '🥤', hint: 'SHAKE A SODA CAN AND OPEN IT...', answer: '💥', answerLabel: 'FIZZ EXPLODES!',
+    choices: [{ emoji: '💥', label: 'FIZZ BURST' }, { emoji: '🧊', label: 'FREEZES' }, { emoji: '🎵', label: 'SINGS' }, { emoji: '😴', label: 'SLEEPS' }, { emoji: '🌈', label: 'RAINBOW' }, { emoji: '🌊', label: 'WAVES' }],
+  },
+  {
+    cause: '🐻', hint: 'BEAR EATS A LOT IN FALL...', answer: '😴', answerLabel: 'HIBERNATES!',
+    choices: [{ emoji: '😴', label: 'HIBERNATES' }, { emoji: '🏃', label: 'RUNS' }, { emoji: '🏊', label: 'SWIMS' }, { emoji: '🎵', label: 'SINGS' }, { emoji: '🔥', label: 'FIRE' }, { emoji: '🌺', label: 'FLOWERS' }],
+  },
+  {
+    cause: '🎃', hint: 'LEAVE A PUMPKIN OUT TOO LONG...', answer: '🤢', answerLabel: 'IT ROTS!',
+    choices: [{ emoji: '🤢', label: 'ROTS' }, { emoji: '🌻', label: 'GROWS' }, { emoji: '❄️', label: 'FREEZES' }, { emoji: '🎵', label: 'SINGS' }, { emoji: '🔥', label: 'BURNS' }, { emoji: '🌈', label: 'RAINBOW' }],
+  },
+  {
+    cause: '🔔', hint: 'YOU RING THE DOORBELL...', answer: '🚪', answerLabel: 'DOOR OPENS!',
+    choices: [{ emoji: '🚪', label: 'DOOR OPENS' }, { emoji: '💧', label: 'RAIN' }, { emoji: '🔥', label: 'FIRE' }, { emoji: '❄️', label: 'SNOW' }, { emoji: '🎵', label: 'MUSIC' }, { emoji: '💥', label: 'BOOM' }],
+  },
+  {
+    cause: '🌊', hint: 'BIG WAVE HITS THE SANDCASTLE...', answer: '💔', answerLabel: 'FALLS APART!',
+    choices: [{ emoji: '💔', label: 'FALLS APART' }, { emoji: '🏰', label: 'GROWS' }, { emoji: '🎵', label: 'SINGS' }, { emoji: '🔥', label: 'BURNS' }, { emoji: '❄️', label: 'FREEZES' }, { emoji: '🌈', label: 'RAINBOW' }],
+  },
+  {
+    cause: '🐓', hint: 'THE ROOSTER CROWS...', answer: '🌅', answerLabel: 'MORNING!',
+    choices: [{ emoji: '🌅', label: 'MORNING' }, { emoji: '🌙', label: 'NIGHT' }, { emoji: '🌈', label: 'RAINBOW' }, { emoji: '❄️', label: 'SNOW' }, { emoji: '🔥', label: 'FIRE' }, { emoji: '🎵', label: 'MUSIC' }],
+  },
+];
+
+const PUZZLES = [...EASY, ...MEDIUM, ...HARD];
+
+function getDifficulty(idx) {
+  if (idx < 10) return 'EASY';
+  if (idx < 20) return 'MEDIUM';
+  return 'HARD';
+}
+function getDifficultyColor(idx) {
+  if (idx < 10) return '#4ADE80';
+  if (idx < 20) return '#FACC15';
+  return '#F87171';
+}
 
 function shuffle(arr) {
   const a = [...arr];
@@ -57,10 +167,16 @@ export default function CauseEffect({ stars, onAddStars, onHome }) {
   const [completedStars, setCompletedStars] = useState(0);
   const [shuffledChoices, setShuffledChoices] = useState([]);
 
-  const puzzle = PUZZLES[puzzleIndex % PUZZLES.length];
+  const allDone = puzzleIndex >= PUZZLES.length;
+  const puzzle = allDone ? null : PUZZLES[puzzleIndex];
   const roundSize = 3;
 
   useEffect(() => {
+    if (allDone) {
+      playCelebrate();
+      speak('You figured out every cause and effect! Amazing thinking!');
+      return;
+    }
     setShuffledChoices(shuffle(puzzle.choices));
     speak(puzzle.hint + ' What happens?');
   }, [puzzleIndex]);
@@ -94,6 +210,27 @@ export default function CauseEffect({ stars, onAddStars, onHome }) {
     }, 900);
   }, [selected, puzzle, puzzleIndex, roundStars, onAddStars]);
 
+  if (allDone) {
+    return (
+      <GameShell title="WHAT HAPPENS?" emoji="⚡" stars={stars} onBack={onHome}>
+        <style>{`
+          .ce-done { text-align:center; padding:2rem 1rem; }
+          .ce-done-trophy { font-size:5rem; animation: pop 0.5s ease; }
+          .ce-done-title { font-size:1.8rem; font-weight:800; margin:1rem 0;
+            background:linear-gradient(135deg,#FFD700,#FF6B6B);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+          .ce-done-sub { font-size:1.2rem; color:var(--text-muted); margin-bottom:1.5rem; }
+        `}</style>
+        <div className="ce-done">
+          <div className="ce-done-trophy">⚡</div>
+          <div className="ce-done-title">CAUSE AND EFFECT MASTER!</div>
+          <div className="ce-done-sub">ALL 30 PUZZLES SOLVED</div>
+          <button className="game-btn" onClick={onHome}>🏠 HOME</button>
+        </div>
+      </GameShell>
+    );
+  }
+
   if (showComplete) {
     return (
       <GameShell title="WHAT HAPPENS?" emoji="⚡" stars={stars} onBack={onHome}>
@@ -104,6 +241,18 @@ export default function CauseEffect({ stars, onAddStars, onHome }) {
 
   return (
     <GameShell title="WHAT HAPPENS?" emoji="⚡" stars={stars} onBack={onHome} speakText={puzzle.hint + ' What happens?'}>
+      <style>{`
+        .ce-badges { display:flex; justify-content:center; gap:0.5rem; margin-bottom:0.5rem; }
+        .ce-level { background:rgba(255,255,255,0.15); padding:0.2rem 0.7rem; border-radius:1rem; font-size:0.85rem; font-weight:700; }
+        .ce-diff { padding:0.2rem 0.7rem; border-radius:1rem; font-size:0.85rem; font-weight:700; }
+      `}</style>
+      <div className="ce-badges">
+        <span className="ce-level">PUZZLE {puzzleIndex + 1} / {PUZZLES.length}</span>
+        <span className="ce-diff" style={{ background: getDifficultyColor(puzzleIndex), color: '#000' }}>
+          {getDifficulty(puzzleIndex)}
+        </span>
+      </div>
+
       <div className="cause-card">
         <div className="cause-emoji">{puzzle.cause}</div>
         <div className="cause-text">{puzzle.hint}</div>
