@@ -44,6 +44,32 @@ const CREATURE_SETS = [
       { id: 'rocket', name: 'ZIPPY', color: '#F87171' },
     ],
   },
+  {
+    id: 'bugs',
+    name: 'BUG BUDDIES',
+    icon: '🐛',
+    creatures: [
+      { id: 'ladybug', name: 'LADYBUG', color: '#F87171' },
+      { id: 'bee', name: 'BUMBLE', color: '#FACC15' },
+      { id: 'butterfly', name: 'FLUTTER', color: '#F9A8D4' },
+      { id: 'caterpillar', name: 'WIGGLES', color: '#4ADE80' },
+      { id: 'dragonfly', name: 'ZIPWING', color: '#60A5FA' },
+      { id: 'ant', name: 'TINY', color: '#C084FC' },
+    ],
+  },
+  {
+    id: 'dinos',
+    name: 'DINO SQUAD',
+    icon: '🦕',
+    creatures: [
+      { id: 'trex', name: 'REXY', color: '#4ADE80' },
+      { id: 'trike', name: 'SPIKE', color: '#60A5FA' },
+      { id: 'stego', name: 'STEGO', color: '#FB923C' },
+      { id: 'bronto', name: 'LONGNECK', color: '#A78BFA' },
+      { id: 'ptera', name: 'FLAPPY', color: '#FACC15' },
+      { id: 'raptor', name: 'DASH', color: '#F87171' },
+    ],
+  },
 ];
 
 const HATCH_COST = 10;
@@ -246,6 +272,199 @@ function CreatureSVG({ creatureId, color, size = 52 }) {
         <polygon points="20,40 14,52 24,42" fill="#FB923C" />
         <polygon points="40,40 46,52 36,42" fill="#FB923C" />
         <ellipse cx="30" cy="50" rx="6" ry="4" fill="#FACC15" opacity="0.7" />
+      </svg>
+    ),
+    /* ─── BUG BUDDIES ─── */
+    ladybug: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="36" rx="18" ry="16" fill={color} />
+        <line x1="30" y1="20" x2="30" y2="52" stroke="#1E1B4B" strokeWidth="1.5" />
+        <circle cx="22" cy="32" r="3" fill="#1E1B4B" />
+        <circle cx="38" cy="32" r="3" fill="#1E1B4B" />
+        <circle cx="24" cy="44" r="2.5" fill="#1E1B4B" />
+        <circle cx="36" cy="44" r="2.5" fill="#1E1B4B" />
+        <circle cx="30" cy="20" r="8" fill="#1E1B4B" />
+        <circle cx="26" cy="18" r="2" fill="white" />
+        <circle cx="34" cy="18" r="2" fill="white" />
+        <line x1="26" y1="12" x2="22" y2="6" stroke="#1E1B4B" strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="34" y1="12" x2="38" y2="6" stroke="#1E1B4B" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="22" cy="5" r="2" fill="#1E1B4B" />
+        <circle cx="38" cy="5" r="2" fill="#1E1B4B" />
+      </svg>
+    ),
+    bee: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="36" rx="16" ry="14" fill={color} />
+        <rect x="14" y="30" width="32" height="4" rx="1" fill="#1E1B4B" opacity="0.6" />
+        <rect x="14" y="38" width="32" height="4" rx="1" fill="#1E1B4B" opacity="0.6" />
+        <ellipse cx="20" cy="24" rx="8" ry="10" fill="rgba(255,255,255,0.5)" transform="rotate(-20 20 24)" />
+        <ellipse cx="40" cy="24" rx="8" ry="10" fill="rgba(255,255,255,0.5)" transform="rotate(20 40 24)" />
+        <circle cx="24" cy="32" r="2.5" fill="#1E1B4B" />
+        <circle cx="36" cy="32" r="2.5" fill="#1E1B4B" />
+        <path d="M27 38 Q30 41 33 38" fill="none" stroke="#1E1B4B" strokeWidth="1.5" />
+        <line x1="26" y1="22" x2="22" y2="14" stroke="#1E1B4B" strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="34" y1="22" x2="38" y2="14" stroke="#1E1B4B" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    ),
+    butterfly: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="14" cy="22" rx="10" ry="12" fill={color} opacity="0.8" />
+        <ellipse cx="46" cy="22" rx="10" ry="12" fill={color} opacity="0.8" />
+        <ellipse cx="18" cy="42" rx="8" ry="10" fill={color} opacity="0.6" />
+        <ellipse cx="42" cy="42" rx="8" ry="10" fill={color} opacity="0.6" />
+        <ellipse cx="14" cy="22" rx="5" ry="6" fill="rgba(255,255,255,0.3)" />
+        <ellipse cx="46" cy="22" rx="5" ry="6" fill="rgba(255,255,255,0.3)" />
+        <rect x="28" y="14" width="4" height="32" rx="2" fill="#1E1B4B" />
+        <circle cx="30" cy="14" r="4" fill="#1E1B4B" />
+        <circle cx="28" cy="12" r="1.5" fill="white" />
+        <circle cx="32" cy="12" r="1.5" fill="white" />
+        <line x1="28" y1="10" x2="22" y2="4" stroke="#1E1B4B" strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="32" y1="10" x2="38" y2="4" stroke="#1E1B4B" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="22" cy="3" r="1.5" fill={color} />
+        <circle cx="38" cy="3" r="1.5" fill={color} />
+      </svg>
+    ),
+    caterpillar: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <circle cx="10" cy="40" r="7" fill={color} opacity="0.7" />
+        <circle cx="22" cy="36" r="7" fill={color} opacity="0.8" />
+        <circle cx="34" cy="38" r="7" fill={color} opacity="0.7" />
+        <circle cx="46" cy="34" r="7" fill={color} opacity="0.8" />
+        <circle cx="52" cy="24" r="8" fill={color} />
+        <circle cx="49" cy="22" r="2" fill="white" />
+        <circle cx="55" cy="22" r="2" fill="white" />
+        <circle cx="49" cy="22" r="1" fill="#1E1B4B" />
+        <circle cx="55" cy="22" r="1" fill="#1E1B4B" />
+        <path d="M50 28 Q52 30 54 28" fill="none" stroke="#1E1B4B" strokeWidth="1" />
+        <line x1="49" y1="16" x2="46" y2="8" stroke="#1E1B4B" strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="55" y1="16" x2="58" y2="8" stroke="#1E1B4B" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="46" cy="7" r="2" fill={color} />
+        <circle cx="58" cy="7" r="2" fill={color} />
+      </svg>
+    ),
+    dragonfly: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="20" rx="8" ry="6" fill={color} />
+        <circle cx="27" cy="18" r="3" fill="white" />
+        <circle cx="33" cy="18" r="3" fill="white" />
+        <circle cx="27" cy="18" r="1.5" fill="#1E1B4B" />
+        <circle cx="33" cy="18" r="1.5" fill="#1E1B4B" />
+        <rect x="28" y="26" width="4" height="26" rx="2" fill={color} />
+        <ellipse cx="16" cy="28" rx="12" ry="5" fill={color} opacity="0.4" />
+        <ellipse cx="44" cy="28" rx="12" ry="5" fill={color} opacity="0.4" />
+        <ellipse cx="18" cy="36" rx="10" ry="4" fill={color} opacity="0.3" />
+        <ellipse cx="42" cy="36" rx="10" ry="4" fill={color} opacity="0.3" />
+      </svg>
+    ),
+    ant: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <circle cx="30" cy="16" r="8" fill={color} />
+        <circle cx="27" cy="14" r="2" fill="white" />
+        <circle cx="33" cy="14" r="2" fill="white" />
+        <circle cx="27" cy="14" r="1" fill="#1E1B4B" />
+        <circle cx="33" cy="14" r="1" fill="#1E1B4B" />
+        <line x1="26" y1="9" x2="20" y2="3" stroke="#1E1B4B" strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="34" y1="9" x2="40" y2="3" stroke="#1E1B4B" strokeWidth="1.5" strokeLinecap="round" />
+        <ellipse cx="30" cy="30" rx="7" ry="6" fill={color} />
+        <ellipse cx="30" cy="46" rx="10" ry="8" fill={color} />
+        <line x1="24" y1="28" x2="14" y2="22" stroke={color} strokeWidth="2" strokeLinecap="round" />
+        <line x1="36" y1="28" x2="46" y2="22" stroke={color} strokeWidth="2" strokeLinecap="round" />
+        <line x1="24" y1="32" x2="14" y2="36" stroke={color} strokeWidth="2" strokeLinecap="round" />
+        <line x1="36" y1="32" x2="46" y2="36" stroke={color} strokeWidth="2" strokeLinecap="round" />
+        <line x1="24" y1="44" x2="14" y2="50" stroke={color} strokeWidth="2" strokeLinecap="round" />
+        <line x1="36" y1="44" x2="46" y2="50" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    ),
+    /* ─── DINO SQUAD ─── */
+    trex: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="28" cy="38" rx="16" ry="14" fill={color} />
+        <ellipse cx="32" cy="22" rx="14" ry="12" fill={color} />
+        <circle cx="36" cy="18" r="3" fill="white" />
+        <circle cx="36" cy="18" r="1.5" fill="#1E1B4B" />
+        <path d="M22 26 L22 30 L26 30" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" />
+        <path d="M38 26 Q44 28 42 32" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" />
+        <path d="M24 28 L46 28" fill="none" stroke="#1E1B4B" strokeWidth="1.5" />
+        <path d="M26 26 L28 30 M30 26 L32 30 M34 26 L36 30 M38 26 L40 30 M42 26 L44 30" fill="none" stroke="white" strokeWidth="1" />
+        <circle cx="20" cy="50" r="4" fill={color} />
+        <circle cx="36" cy="50" r="4" fill={color} />
+        <path d="M42 38 Q50 36 52 42 Q48 40 44 42" fill={color} />
+      </svg>
+    ),
+    trike: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="28" cy="40" rx="18" ry="14" fill={color} />
+        <ellipse cx="38" cy="26" rx="14" ry="12" fill={color} />
+        <path d="M44 14 Q56 10 54 22 Q48 18 44 20" fill={color} opacity="0.6" />
+        <circle cx="40" cy="24" r="3" fill="white" />
+        <circle cx="40" cy="24" r="1.5" fill="#1E1B4B" />
+        <line x1="48" y1="22" x2="56" y2="18" stroke={color} strokeWidth="3" strokeLinecap="round" />
+        <line x1="42" y1="16" x2="46" y2="8" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+        <line x1="36" y1="16" x2="34" y2="8" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M34 30 Q38 34 42 30" fill="none" stroke="#1E1B4B" strokeWidth="1.5" />
+        <circle cx="18" cy="52" r="4" fill={color} />
+        <circle cx="38" cy="52" r="4" fill={color} />
+      </svg>
+    ),
+    stego: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="28" cy="38" rx="20" ry="12" fill={color} />
+        <ellipse cx="46" cy="32" rx="8" ry="7" fill={color} />
+        <circle cx="48" cy="30" r="2" fill="white" />
+        <circle cx="48" cy="30" r="1" fill="#1E1B4B" />
+        <path d="M50 34 Q52 36 54 34" fill="none" stroke="#1E1B4B" strokeWidth="1" />
+        <polygon points="14,28 18,16 22,28" fill={color} opacity="0.7" />
+        <polygon points="20,26 24,12 28,26" fill={color} opacity="0.8" />
+        <polygon points="26,26 30,14 34,26" fill={color} opacity="0.7" />
+        <polygon points="32,26 36,16 40,28" fill={color} opacity="0.8" />
+        <path d="M8 38 Q4 34 2 40 Q4 38 6 40" fill={color} />
+        <path d="M6 40 Q2 38 0 44" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" />
+        <circle cx="18" cy="48" r="3.5" fill={color} />
+        <circle cx="36" cy="48" r="3.5" fill={color} />
+      </svg>
+    ),
+    bronto: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="40" rx="18" ry="12" fill={color} />
+        <path d="M44 36 Q52 30 54 40 Q50 38 48 40" fill={color} />
+        <path d="M16 36 Q12 28 8 20 Q6 16 10 14" fill="none" stroke={color} strokeWidth="6" strokeLinecap="round" />
+        <circle cx="10" cy="12" r="6" fill={color} />
+        <circle cx="12" cy="10" r="2" fill="white" />
+        <circle cx="12" cy="10" r="1" fill="#1E1B4B" />
+        <path d="M7 16 Q10 18 13 16" fill="none" stroke="#1E1B4B" strokeWidth="1" />
+        <circle cx="20" cy="50" r="4" fill={color} />
+        <circle cx="40" cy="50" r="4" fill={color} />
+      </svg>
+    ),
+    ptera: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <polygon points="2,24 20,30 14,18" fill={color} opacity="0.7" />
+        <polygon points="58,24 40,30 46,18" fill={color} opacity="0.7" />
+        <polygon points="6,28 22,34 16,22" fill={color} opacity="0.5" />
+        <polygon points="54,28 38,34 44,22" fill={color} opacity="0.5" />
+        <ellipse cx="30" cy="32" rx="10" ry="8" fill={color} />
+        <ellipse cx="30" cy="24" rx="7" ry="6" fill={color} />
+        <circle cx="27" cy="22" r="2.5" fill="white" />
+        <circle cx="33" cy="22" r="2.5" fill="white" />
+        <circle cx="27" cy="22" r="1.2" fill="#1E1B4B" />
+        <circle cx="33" cy="22" r="1.2" fill="#1E1B4B" />
+        <polygon points="30,26 27,32 33,32" fill="#FB923C" />
+      </svg>
+    ),
+    raptor: (
+      <svg viewBox="0 0 60 60" width={s} height={s}>
+        <ellipse cx="30" cy="36" rx="12" ry="10" fill={color} />
+        <ellipse cx="36" cy="22" rx="10" ry="10" fill={color} />
+        <circle cx="40" cy="19" r="3" fill="white" />
+        <circle cx="40" cy="19" r="1.5" fill="#1E1B4B" />
+        <path d="M32 26 L46 26" fill="none" stroke="#1E1B4B" strokeWidth="1.5" />
+        <path d="M34 24 L36 28 M38 24 L40 28 M42 24 L44 28" fill="none" stroke="white" strokeWidth="1" />
+        <path d="M26 26 Q22 28 22 32" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M18 36 Q10 34 8 40 Q12 38 14 40" fill={color} />
+        <circle cx="24" cy="44" r="3.5" fill={color} />
+        <circle cx="36" cy="44" r="3.5" fill={color} />
+        <path d="M24 44 L22 50 L26 48" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" />
+        <path d="M36 44 L34 50 L38 48" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" />
       </svg>
     ),
   };
